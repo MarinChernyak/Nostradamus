@@ -1,0 +1,29 @@
+﻿<Window x:Class="Nostradamus.Views.CreateMapByLastName"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Nostradamus.ViewModels.VMUserControls"
+             mc:Ignorable="d" 
+             Height="500" Width="330">
+    <Window.Resources>
+        <vm:vmCreateMapByLastName x:Key="createMap"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Mode="OneWay" Source="{StaticResource createMap }"/>
+    </Window.DataContext>
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="LastName" Style="{Binding Mode=OneWay, Source={StaticResource LabelHoryzontal}}"/>
+                <ComboBox x:Name="cmbOptions"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Width="240" Height="30" Text="{Binding LastName, Mode=TwoWay}" Style="{StaticResource TextBoxHorisontal}"/>
+                <Button Height="30" Name="btnStart" Content=" xx"
+             Style="{Binding Mode=OneWay, Source={StaticResource ButtonStyleReg}}"
+               />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

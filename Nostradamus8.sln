@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NostraDAL", "NostraDAL\NostraDAL.csproj", "{D213A7CA-283E-4A01-8015-0233C328B1FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NostraTester", "NostraTester\NostraTester.csproj", "{2031EF20-BB34-42F9-B8F8-7EB92A83CC25}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B7D16066-61EC-49B8-8F8B-00B552970750} = {B7D16066-61EC-49B8-8F8B-00B552970750}
+		{D213A7CA-283E-4A01-8015-0233C328B1FF} = {D213A7CA-283E-4A01-8015-0233C328B1FF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NostraPlanetarium", "NostraPlanetarium\NostraPlanetarium.csproj", "{B7D16066-61EC-49B8-8F8B-00B552970750}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nostradamus", "Nostradamus\Nostradamus.csproj", "{C84E45A6-CF72-432C-8FFA-9E9A824204DF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B7D16066-61EC-49B8-8F8B-00B552970750} = {B7D16066-61EC-49B8-8F8B-00B552970750}
+		{D213A7CA-283E-4A01-8015-0233C328B1FF} = {D213A7CA-283E-4A01-8015-0233C328B1FF}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D213A7CA-283E-4A01-8015-0233C328B1FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D213A7CA-283E-4A01-8015-0233C328B1FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D213A7CA-283E-4A01-8015-0233C328B1FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D213A7CA-283E-4A01-8015-0233C328B1FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2031EF20-BB34-42F9-B8F8-7EB92A83CC25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2031EF20-BB34-42F9-B8F8-7EB92A83CC25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2031EF20-BB34-42F9-B8F8-7EB92A83CC25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2031EF20-BB34-42F9-B8F8-7EB92A83CC25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7D16066-61EC-49B8-8F8B-00B552970750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7D16066-61EC-49B8-8F8B-00B552970750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7D16066-61EC-49B8-8F8B-00B552970750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7D16066-61EC-49B8-8F8B-00B552970750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C84E45A6-CF72-432C-8FFA-9E9A824204DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C84E45A6-CF72-432C-8FFA-9E9A824204DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C84E45A6-CF72-432C-8FFA-9E9A824204DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C84E45A6-CF72-432C-8FFA-9E9A824204DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,14 @@
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraPlanetarium\bin\Debug\NostraPlanetarium.dll
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraPlanetarium\bin\Debug\NostraPlanetarium.pdb
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraPlanetarium\obj\Debug\NostraPlanetarium.dll
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraPlanetarium\obj\Debug\NostraPlanetarium.pdb
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraPlanetarium\bin\Debug\SwissEphNet.dll
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraPlanetarium\obj\Debug\NostraPlanetarium.csprojResolveAssemblyReference.cache
+C:\Users\MCh\Documents\Visual Studio 2019\Projects\Nostradamus8\NostraPlanetarium\bin\Debug\NostraPlanetarium.dll
+C:\Users\MCh\Documents\Visual Studio 2019\Projects\Nostradamus8\NostraPlanetarium\bin\Debug\NostraPlanetarium.pdb
+C:\Users\MCh\Documents\Visual Studio 2019\Projects\Nostradamus8\NostraPlanetarium\bin\Debug\SwissEphNet.dll
+C:\Users\MCh\Documents\Visual Studio 2019\Projects\Nostradamus8\NostraPlanetarium\obj\Debug\NostraPlanetarium.csprojAssemblyReference.cache
+C:\Users\MCh\Documents\Visual Studio 2019\Projects\Nostradamus8\NostraPlanetarium\obj\Debug\NostraPlanetarium.csproj.CoreCompileInputs.cache
+C:\Users\MCh\Documents\Visual Studio 2019\Projects\Nostradamus8\NostraPlanetarium\obj\Debug\NostraPlanetarium.csproj.CopyComplete
+C:\Users\MCh\Documents\Visual Studio 2019\Projects\Nostradamus8\NostraPlanetarium\obj\Debug\NostraPlanetarium.dll
+C:\Users\MCh\Documents\Visual Studio 2019\Projects\Nostradamus8\NostraPlanetarium\obj\Debug\NostraPlanetarium.pdb

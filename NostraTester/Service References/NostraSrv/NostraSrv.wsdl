@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="NostraSrv" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:7080/NostradamusSrv.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:7080/NostradamusSrv.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:7080/NostradamusSrv.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/NostraDataContracts" />
+      <xsd:import schemaLocation="http://localhost:7080/NostradamusSrv.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SMGeoDataContracts" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="INostraSrv_IsAlive_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsAlive" />
+  </wsdl:message>
+  <wsdl:message name="INostraSrv_IsAlive_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsAliveResponse" />
+  </wsdl:message>
+  <wsdl:message name="INostraSrv_GetCompletePersonalDataById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCompletePersonalDataById" />
+  </wsdl:message>
+  <wsdl:message name="INostraSrv_GetCompletePersonalDataById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCompletePersonalDataByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="INostraSrv_GetDisplayPersonalRecordById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDisplayPersonalRecordById" />
+  </wsdl:message>
+  <wsdl:message name="INostraSrv_GetDisplayPersonalRecordById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDisplayPersonalRecordByIdResponse" />
+  </wsdl:message>
+  <wsdl:portType name="INostraSrv">
+    <wsdl:operation name="IsAlive">
+      <wsdl:input wsaw:Action="http://tempuri.org/INostraSrv/IsAlive" message="tns:INostraSrv_IsAlive_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INostraSrv/IsAliveResponse" message="tns:INostraSrv_IsAlive_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCompletePersonalDataById">
+      <wsdl:input wsaw:Action="http://tempuri.org/INostraSrv/GetCompletePersonalDataById" message="tns:INostraSrv_GetCompletePersonalDataById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INostraSrv/GetCompletePersonalDataByIdResponse" message="tns:INostraSrv_GetCompletePersonalDataById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDisplayPersonalRecordById">
+      <wsdl:input wsaw:Action="http://tempuri.org/INostraSrv/GetDisplayPersonalRecordById" message="tns:INostraSrv_GetDisplayPersonalRecordById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INostraSrv/GetDisplayPersonalRecordByIdResponse" message="tns:INostraSrv_GetDisplayPersonalRecordById_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_INostraSrv" type="tns:INostraSrv">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IsAlive">
+      <soap:operation soapAction="http://tempuri.org/INostraSrv/IsAlive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompletePersonalDataById">
+      <soap:operation soapAction="http://tempuri.org/INostraSrv/GetCompletePersonalDataById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDisplayPersonalRecordById">
+      <soap:operation soapAction="http://tempuri.org/INostraSrv/GetDisplayPersonalRecordById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NostraSrv">
+    <wsdl:port name="BasicHttpBinding_INostraSrv" binding="tns:BasicHttpBinding_INostraSrv">
+      <soap:address location="http://localhost:7080/NostradamusSrv.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

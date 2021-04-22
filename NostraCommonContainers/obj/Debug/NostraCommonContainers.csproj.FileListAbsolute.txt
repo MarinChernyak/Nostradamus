@@ -1,0 +1,5 @@
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraCommonContainers\bin\Debug\NostraCommonContainers.dll
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraCommonContainers\bin\Debug\NostraCommonContainers.pdb
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraCommonContainers\obj\Debug\NostraCommonContainers.dll
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraCommonContainers\obj\Debug\NostraCommonContainers.pdb
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\NostraCommonContainers\obj\Debug\NostraCommonContainers.csprojResolveAssemblyReference.cache

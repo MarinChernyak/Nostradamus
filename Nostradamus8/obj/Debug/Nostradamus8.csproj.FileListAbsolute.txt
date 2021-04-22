@@ -1,0 +1,9 @@
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\bin\Debug\Nostradamus8.exe.config
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\bin\Debug\Nostradamus8.exe
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\bin\Debug\Nostradamus8.pdb
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\obj\Debug\Nostradamus8.Properties.Resources.resources
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\obj\Debug\Nostradamus8.csproj.GenerateResource.Cache
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\obj\Debug\Nostradamus8.exe
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\obj\Debug\Nostradamus8.pdb
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\obj\Debug\Nostradamus8.MainForm.resources
+C:\Users\MCh\Documents\Visual Studio 2012\Projects\Nostradamus8\Nostradamus8\obj\Debug\Nostradamus8.csprojResolveAssemblyReference.cache

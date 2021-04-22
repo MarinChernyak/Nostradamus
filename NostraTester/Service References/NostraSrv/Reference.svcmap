@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="d81facbd-59ce-404d-91bd-70f3c78e7e5e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:7080" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="NostraSrv.wsdl" MetadataType="Wsdl" ID="e90715fa-3ca7-4a80-9c74-8334001dbf47" SourceId="1" SourceUrl="http://localhost:7080/NostradamusSrv.svc?wsdl" />
+    <MetadataFile FileName="NostradamusSrv.xsd" MetadataType="Schema" ID="547ab884-08b7-40b0-87d7-1fd6b26e0489" SourceId="1" SourceUrl="http://localhost:7080/NostradamusSrv.svc?xsd=xsd2" />
+    <MetadataFile FileName="NostradamusSrv1.xsd" MetadataType="Schema" ID="e7e2c38a-6927-4645-88e0-a2b777bb6ce0" SourceId="1" SourceUrl="http://localhost:7080/NostradamusSrv.svc?xsd=xsd3" />
+    <MetadataFile FileName="NostradamusSrv2.xsd" MetadataType="Schema" ID="70482d1c-3dcf-4068-aecf-8211e53032ec" SourceId="1" SourceUrl="http://localhost:7080/NostradamusSrv.svc?xsd=xsd0" />
+    <MetadataFile FileName="NostradamusSrv3.xsd" MetadataType="Schema" ID="93589445-e3be-4ae4-ba77-fcb0d3cc922f" SourceId="1" SourceUrl="http://localhost:7080/NostradamusSrv.svc?xsd=xsd1" />
+    <MetadataFile FileName="NostradamusSrv.disco" MetadataType="Disco" ID="d2a00b37-33f0-4dbb-962e-a21151590964" SourceId="1" SourceUrl="http://localhost:7080/NostradamusSrv.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
