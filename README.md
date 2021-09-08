@@ -1,0 +1,2 @@
+# Nostradamus
+Astrologic project
