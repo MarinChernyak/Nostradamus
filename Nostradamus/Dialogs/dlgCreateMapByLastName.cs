@@ -50,6 +50,13 @@ namespace Nostradamus.Dialogs
                 txtLastName.Text = InvitationLastName;
                 btnSearch.Enabled = false;
             }
+            else if(txtLastName.Text == InvitationLastName)
+            {
+                txtLastName.Text = "";
+                txtLastName.BackColor = SystemColors.Control;
+                txtLastName.ForeColor = SystemColors.ControlText;
+
+            }
             else
             {
                 btnSearch.Enabled = true;
@@ -69,20 +76,26 @@ namespace Nostradamus.Dialogs
 
         private void OnLstPeopleSelectedValueChanged(object sender, EventArgs e)
         {
-            Type t = lstResult.SelectedValue.GetType();
-            if (t != typeof(MPersonBase))
+            if (lstResult.SelectedValue != null)
             {
-                string text = lstResult.GetItemText(lstResult.SelectedItem);
-                int Id = Convert.ToInt32(lstResult.SelectedValue);
-                txtSelectedItem.Text = $"{text}, <{Id}>";
+                Type t = lstResult.SelectedValue.GetType();
+                if (t != typeof(MPersonBase))
+                {
+                    string text = lstResult.GetItemText(lstResult.SelectedItem);
+                    int Id = Convert.ToInt32(lstResult.SelectedValue);
+                    txtSelectedItem.Text = $"{text}, <{Id}>";
+                }
             }
         }
 
         private void OnCreateMap(object sender, EventArgs e)
         {
-            int Id = Convert.ToInt32(lstResult.SelectedValue);
-            SelectedPerson = PeopleCollection.Where(x => x.Id == Id).FirstOrDefault();
-            this.DialogResult = DialogResult.OK;
+            if (lstResult.SelectedValue != null)
+            {
+                int Id = Convert.ToInt32(lstResult.SelectedValue);
+                SelectedPerson = PeopleCollection.Where(x => x.Id == Id).FirstOrDefault();
+                this.DialogResult = DialogResult.OK;
+            }
         }
     }
 }

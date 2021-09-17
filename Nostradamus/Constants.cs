@@ -6,10 +6,10 @@ namespace Nostradamus
 {
     public class Constants
     {
-        public const string ConnectionRemote = "NostradamusRemote";
+        //public const string ConnectionRemote = "NostradamusRemote";
         public const string ConnectionLocal = "NostradamusLocal";
-        public const string ConnectionGeoRemote = "NostraGeneralRemote";
-        public const string ConnectionGeoLocal = "NostraGeneralLocal";
+        //public const string ConnectionGeoRemote = "NostraGeneralRemote";
+        public const string ConnectionGeoLocal = "NostraGeo";
 
     }
 }

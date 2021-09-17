@@ -8,9 +8,9 @@ namespace Nostradamus.Models
 {
     public class ContextCreator
     {
-        private static Nostradamus2Context _context;
+        private static NostradamusTestContext _context;
         public static string Connection { get; set; }
-        public static Nostradamus2Context Context
+        public static NostradamusTestContext Context
         {
             get
             {

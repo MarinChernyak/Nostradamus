@@ -33,6 +33,7 @@ namespace Nostradamus
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.createMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.byLastNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panMain = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -40,10 +41,11 @@ namespace Nostradamus
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createMapToolStripMenuItem});
+            this.createMapToolStripMenuItem,
+            this.testMapToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(884, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1098, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -62,6 +64,13 @@ namespace Nostradamus
             this.byLastNameToolStripMenuItem.Text = "By LastName";
             this.byLastNameToolStripMenuItem.Click += new System.EventHandler(this.OnCreateMapByLastName);
             // 
+            // testMapToolStripMenuItem
+            // 
+            this.testMapToolStripMenuItem.Name = "testMapToolStripMenuItem";
+            this.testMapToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.testMapToolStripMenuItem.Text = "TestMap";
+            this.testMapToolStripMenuItem.Click += new System.EventHandler(this.testMapToolStripMenuItem_Click);
+            // 
             // panMain
             // 
             this.panMain.BackColor = System.Drawing.SystemColors.HighlightText;
@@ -69,20 +78,21 @@ namespace Nostradamus
             this.panMain.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panMain.Location = new System.Drawing.Point(12, 28);
             this.panMain.Name = "panMain";
-            this.panMain.Size = new System.Drawing.Size(860, 546);
+            this.panMain.Size = new System.Drawing.Size(1074, 671);
             this.panMain.TabIndex = 1;
             // 
             // NostradamusMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 611);
+            this.ClientSize = new System.Drawing.Size(1098, 711);
             this.Controls.Add(this.panMain);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "NostradamusMain";
             this.Text = "Nostradamus 8.5";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NostradamusMain_FormClosing);
             this.Load += new System.EventHandler(this.NostradamusMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -97,6 +107,7 @@ namespace Nostradamus
         private System.Windows.Forms.ToolStripMenuItem createMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem byLastNameToolStripMenuItem;
         private System.Windows.Forms.Panel panMain;
+        private System.Windows.Forms.ToolStripMenuItem testMapToolStripMenuItem;
     }
 }
 

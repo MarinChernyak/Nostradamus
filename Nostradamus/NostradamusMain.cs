@@ -19,10 +19,11 @@ namespace Nostradamus
         {
             InitializeComponent();
         }
-
+        protected UserPreferenses _userpref;
         private void NostradamusMain_Load(object sender, EventArgs e)
         {
-
+            _userpref = new UserPreferenses();
+            _userpref.GetPrefernces();
         }
 
         private void OnCreateMapByLastName(object sender, EventArgs e)
@@ -36,11 +37,39 @@ namespace Nostradamus
 
                     AstroMapPerson map = new AstroMapPerson(person);
                     Graphics g = System.Drawing.Graphics.FromHwnd(panMain.Handle);
-                    g.DrawEllipse(Pens.Navy, 100, 100, 400, 400);
-                    g.DrawEllipse(Pens.Green, 200, 200, 600, 600);
+                    map.DrawMap(g);
+                    
                 }
             }
 
+        }
+
+        private void testMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MPersonBase person = new MPersonBase()
+            {
+                BirthDay = 1,
+                BirthHourFrom = 1,
+                AdditionalHours = 1,
+                BirthHourTo = 2,
+                BirthMinFrom = 1,
+                BirthMinTo = 2,
+                BirthMonth = 1,
+                BirthSecFrom = 0,
+                BirthSecTo = 0,
+                BirthYear = 2000,
+                FirstName = "Vasya",
+                SecondName = "Pupkind",
+                Place = 2
+            };
+            AstroMapPerson map = new AstroMapPerson(person);
+            Graphics g = System.Drawing.Graphics.FromHwnd(panMain.Handle);
+            map.DrawMap(g);
+        }
+
+        private void NostradamusMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _userpref.SavePreferenses();
         }
     }
 }

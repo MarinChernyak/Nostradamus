@@ -7,9 +7,10 @@ using NostraPlanetarium;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows.Media;
+//using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace Nostradamus.AstroMaps
@@ -20,6 +21,7 @@ namespace Nostradamus.AstroMaps
         protected List<Aspect> _aspects { get; set; }
         protected List<SpaceObject> _planets;
         protected Houses _houses;
+        protected AstromapGeometry _geometry { get; set; }
 
         public List<Shape> ImgShapes;
 
@@ -29,6 +31,7 @@ namespace Nostradamus.AstroMaps
             _aspects = new List<Aspect>();
             _planets = new List<SpaceObject>();
             ImgShapes = new List<Shape>();
+
 
         }
         protected abstract void CreatePlanetsCollection();
@@ -63,8 +66,8 @@ namespace Nostradamus.AstroMaps
             GetBirthPlace();
             CreateHouses();
             CreatePlanetsCollection();
-
             CreateShapesCollection();
+            _geometry = new AstromapGeometry();
         }
 
         protected void GetPersonalData()
@@ -77,13 +80,23 @@ namespace Nostradamus.AstroMaps
             NostradamusGeoContextFactory factory = new NostradamusGeoContextFactory();
             using (var context = factory.CreateDbContext(new string[] { Constants.ConnectionGeoLocal }))
             {
-                var data = context.Cities.Where(x => x.Id == IDCity).FirstOrDefault();
-                var state = context.StateRegions.Where(x => x.Id == data.RegionState).FirstOrDefault();
-                var country = context.Countries.Where(x => x.Id == data.Country).FirstOrDefault();
+                try
+                {
+                    var data = context.Cities.Where(x => x.Id == IDCity).FirstOrDefault();
+                    var state = context.StateRegions.Where(x => x.Id == data.RegionState).FirstOrDefault();
+                    var country = context.Countries.Where(x => x.Id == data.Country).FirstOrDefault();
+                    var TZ = context.TimeZoneLists.Where(x => x.Idtzone == data.TimeZone).FirstOrDefault();
 
-                BirthPlace = ModelsTransformer.TransferModel<City, MCityData>(data);
-                BirthPlace.StateRegionData = ModelsTransformer.TransferModel<StateRegion, MStateRegionData>(state);
-                BirthPlace.CountryData = ModelsTransformer.TransferModel<Country, MCountryData>(country);
+
+                    BirthPlace = ModelsTransformer.TransferModel<City, MCityData>(data);
+                    BirthPlace.StateRegionData = ModelsTransformer.TransferModel<StateRegion, MStateRegionData>(state);
+                    BirthPlace.CountryData = ModelsTransformer.TransferModel<Country, MCountryData>(country);
+                    BirthPlace.TimeZoneData = ModelsTransformer.TransferModel<TimeZoneList, MTimeZoneData>(TZ);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
 
             }
 
@@ -92,7 +105,7 @@ namespace Nostradamus.AstroMaps
         {
             int h, m, s;
             GetMidleValue(Person, out h, out m, out s);
-            JulianDay jd = new JulianDay(Person.BirthDay, Person.BirthMonth, Person.BirthYear, h, m, s, BirthPlace.DiffTime, Person.AdditionalHours);
+            JulianDay jd = new JulianDay(Person.BirthDay, Person.BirthMonth, Person.BirthYear, h, m, s, BirthPlace.TimeZoneData.TimeOffset, Person.AdditionalHours);
             JD = jd.JD;
             for (int t = (int)NPTypes.tPlanetType.PT_SUN; t < (int)NPTypes.tPlanetType.PT_TRUE_NODE; ++t)
             {
@@ -111,24 +124,30 @@ namespace Nostradamus.AstroMaps
         }
         protected void CreateCircles()
         {
-            Ellipse e = new Ellipse()
-            {
-                Width = 200,
-                Height = 200,
-                Fill = Brushes.White,
-                Stroke = Brushes.Navy,
-                StrokeThickness = 2,
 
-            };
-            ImgShapes.Add(e);
-            ImgShapes.Add(new Ellipse()
-            {
-                Width = 150,
-                Height = 150,
-                Fill = Brushes.White,
-                Stroke = Brushes.Navy,
-                StrokeThickness = 2
-            });
+        }
+        public void DrawMap(Graphics g)
+        {
+            DrawHouses(g);
+            DrawCircles(g);
+        }
+        protected void DrawHouses(Graphics g)
+        {
+
+        }
+        protected void DrawCircles(Graphics g)
+        {
+            Pen p = new Pen(Color.Navy, 2);
+
+            g.DrawEllipse(p, _geometry.ExtCirclePoint.X, _geometry.ExtCirclePoint.Y, _geometry.ExternalCircle.Width, _geometry.ExternalCircle.Height);
+            g.FillEllipse(Brushes.White, _geometry.ExtCirclePoint.X + 1, _geometry.ExtCirclePoint.Y + 1, _geometry.ExternalCircle.Width - 2, _geometry.ExternalCircle.Height - 2);
+
+            g.DrawEllipse(p, _geometry.IntCirclePoint.X, _geometry.IntCirclePoint.Y, _geometry.InternalCircle.Width, _geometry.InternalCircle.Height);
+            g.FillEllipse(Brushes.White, _geometry.IntCirclePoint.X + 1, _geometry.IntCirclePoint.Y + 1, _geometry.InternalCircle.Width - 2, _geometry.InternalCircle.Height - 2);
+
+            g.DrawEllipse(p, _geometry.LimbCirclePoint.X, _geometry.LimbCirclePoint.Y, _geometry.LimbCircle.Width, _geometry.LimbCircle.Height);
+            g.FillEllipse(Brushes.White, _geometry.LimbCirclePoint.X + 1, _geometry.LimbCirclePoint.Y + 1, _geometry.LimbCircle.Width - 2, _geometry.LimbCircle.Height - 2);
+
         }
     }
 }
