@@ -20,19 +20,19 @@ namespace Nostradamus.AstroMaps
         protected MCityData BirthPlace { get; set; }
         protected List<Aspect> _aspects { get; set; }
         protected List<SpaceObject> _planets;
-        protected Houses _houses;
+        protected AMHouses _houses;
+        
+
+        #region graph
+
+
+        #endregion
         protected AstromapGeometry _geometry { get; set; }
-
-        public List<Shape> ImgShapes;
-
         protected double JD;
         public AstroMapBase()
         {
             _aspects = new List<Aspect>();
             _planets = new List<SpaceObject>();
-            ImgShapes = new List<Shape>();
-
-
         }
         protected abstract void CreatePlanetsCollection();
         protected void GetMidleValue(MPersonBase person, out int h, out int m, out int s)
@@ -60,14 +60,12 @@ namespace Nostradamus.AstroMaps
         }
         public AstroMapPerson(MPersonBase person)
         {
-
-            Person = new MPersonBase();
+            _geometry = new AstromapGeometry();
             Person = person;
             GetBirthPlace();
             CreateHouses();
             CreatePlanetsCollection();
-            CreateShapesCollection();
-            _geometry = new AstromapGeometry();
+        
         }
 
         protected void GetPersonalData()
@@ -115,37 +113,24 @@ namespace Nostradamus.AstroMaps
 
         protected void CreateHouses()
         {
-            _houses = new Houses(JD, BirthPlace.Longitude, BirthPlace.Latitude, 'K');
-        }
-        protected void CreateShapesCollection()
-        {
-            ImgShapes = new List<Shape>();
-            CreateCircles();
-        }
-        protected void CreateCircles()
-        {
-
+            _houses = new AMHouses(JD, BirthPlace.Longitude, BirthPlace.Latitude, 'K', _geometry);
         }
         public void DrawMap(Graphics g)
         {
-            DrawHouses(g);
+            _houses.DrawHouses(g);
             DrawCircles(g);
         }
-        protected void DrawHouses(Graphics g)
-        {
+ 
 
-        }
         protected void DrawCircles(Graphics g)
         {
-            Pen p = new Pen(Color.Navy, 2);
-
-            g.DrawEllipse(p, _geometry.ExtCirclePoint.X, _geometry.ExtCirclePoint.Y, _geometry.ExternalCircle.Width, _geometry.ExternalCircle.Height);
+            g.DrawEllipse(_houses.PenHouses, _geometry.ExtCirclePoint.X, _geometry.ExtCirclePoint.Y, _geometry.ExternalCircle.Width, _geometry.ExternalCircle.Height);
             g.FillEllipse(Brushes.White, _geometry.ExtCirclePoint.X + 1, _geometry.ExtCirclePoint.Y + 1, _geometry.ExternalCircle.Width - 2, _geometry.ExternalCircle.Height - 2);
 
-            g.DrawEllipse(p, _geometry.IntCirclePoint.X, _geometry.IntCirclePoint.Y, _geometry.InternalCircle.Width, _geometry.InternalCircle.Height);
+            g.DrawEllipse(_houses.PenHouses, _geometry.IntCirclePoint.X, _geometry.IntCirclePoint.Y, _geometry.InternalCircle.Width, _geometry.InternalCircle.Height);
             g.FillEllipse(Brushes.White, _geometry.IntCirclePoint.X + 1, _geometry.IntCirclePoint.Y + 1, _geometry.InternalCircle.Width - 2, _geometry.InternalCircle.Height - 2);
 
-            g.DrawEllipse(p, _geometry.LimbCirclePoint.X, _geometry.LimbCirclePoint.Y, _geometry.LimbCircle.Width, _geometry.LimbCircle.Height);
+            g.DrawEllipse(_houses.PenHouses, _geometry.LimbCirclePoint.X, _geometry.LimbCirclePoint.Y, _geometry.LimbCircle.Width, _geometry.LimbCircle.Height);
             g.FillEllipse(Brushes.White, _geometry.LimbCirclePoint.X + 1, _geometry.LimbCirclePoint.Y + 1, _geometry.LimbCircle.Width - 2, _geometry.LimbCircle.Height - 2);
 
         }
