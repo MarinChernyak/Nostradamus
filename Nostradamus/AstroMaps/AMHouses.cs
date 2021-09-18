@@ -12,6 +12,8 @@ namespace Nostradamus.AstroMaps
         protected char SystemAcronym;
         protected double[] _houses_draw;
         private Pen _pforHouses;
+        public double GelAlfa() { return _houses.GetCusp(1) - 360;  }
+        private Dictionary<int, string> _notations;
         public Pen PenHouses
         {
             get
@@ -40,6 +42,24 @@ namespace Nostradamus.AstroMaps
             SystemAcronym = system;
             _geometry = geometry;
             CreateHouses(jd, longitude, latitude, system);
+            CreateNotations();
+        }
+        private void CreateNotations()
+        {
+            _notations = new Dictionary<int, string>();
+            _notations[1] = "Asc";
+            _notations[2] = "II";
+            _notations[3] = "III";
+            _notations[4] = "IC";
+            _notations[5] = "V";
+            _notations[6] = "VI";
+            _notations[7] = "Dsc";
+            _notations[8] = "VIII";
+            _notations[9] = "IX";
+            _notations[10] = "MC";
+            _notations[11] = "XI";
+            _notations[12] = "XII";
+
         }
         protected void CreateHouses(double jd, double longitude, double latitude, char system)
         {
@@ -82,6 +102,7 @@ namespace Nostradamus.AstroMaps
                 }
 
                 g.DrawLine(p, ptb, pte);
+                DrawNotations(g, ptb, pte, i);
             }
             ptb.X = (float)(_geometry.Center.X - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[10] * Math.PI / 180));
             ptb.Y = (float)(_geometry.Center.Y + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[10] * Math.PI / 180)); 
@@ -117,5 +138,53 @@ namespace Nostradamus.AstroMaps
 
             return angle;
         }
+
+        protected void DrawNotations(Graphics g, PointF ptb, PointF pte, int house)
+        {
+            Font drawFont = new Font("Algerian", 12, FontStyle.Bold);
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+
+            PointF pt = GetPoint(ptb, house);
+            g.DrawString(_notations[house], drawFont, drawBrush, pt.X, pt.Y);
+            pt = GetPoint(pte, house+6);
+            g.DrawString(_notations[house+6], drawFont, drawBrush, pt.X, pt.Y);
+        }
+        private PointF GetPoint(PointF pt, int house)
+        {
+            float X = 0;
+            float Y = 0;
+            PointF ptf = new Point();
+            if (house == 1)
+            {
+                X = pt.X-10 ;
+                Y = pt.Y + 8;
+            }
+            else if (house > 1 && house < 7)
+            {
+                X = pt.X + 10;
+                Y = pt.Y;
+            }
+            else if(house ==7)
+            {
+                X = pt.X-25;
+                Y = pt.Y + 8;
+            }
+            else if (house == 10)
+            {
+                X = pt.X - 10;
+                Y = pt.Y -18;
+            }
+            else
+            {
+                X = pt.X -30;
+                Y = pt.Y-10;
+            }
+
+            ptf.X = X;
+            ptf.Y = Y;
+            
+            return ptf;
+        }
+
     }
 }

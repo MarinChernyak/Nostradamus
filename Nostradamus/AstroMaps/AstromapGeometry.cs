@@ -25,10 +25,10 @@ namespace Nostradamus.AstroMaps
         public double ArrowsAngle { get; set; }
         public AstromapGeometry()
         {
-            Center = new Point(710, 335);
-            RExtCircle = 300;            
-            RIntCircle = 220;
-            RLimbCircle = 212;
+            Center = new Point(810, 400);
+            RExtCircle = 320;            
+            RIntCircle = 240;
+            RLimbCircle = 232;
             HouseShift = 30;
             ArrowsLength = 15;
             ArrowsAngle = 25;

@@ -45,7 +45,7 @@ namespace Nostradamus
             this.testMapToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1098, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1298, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -78,14 +78,14 @@ namespace Nostradamus
             this.panMain.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panMain.Location = new System.Drawing.Point(12, 28);
             this.panMain.Name = "panMain";
-            this.panMain.Size = new System.Drawing.Size(1074, 671);
+            this.panMain.Size = new System.Drawing.Size(1274, 871);
             this.panMain.TabIndex = 1;
             // 
             // NostradamusMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1098, 711);
+            this.ClientSize = new System.Drawing.Size(1298, 911);
             this.Controls.Add(this.panMain);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
