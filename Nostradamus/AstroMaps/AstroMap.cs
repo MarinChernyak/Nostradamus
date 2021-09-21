@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 //using System.Windows.Media;
@@ -23,7 +24,6 @@ namespace Nostradamus.AstroMaps
         protected List<SpaceObject> _planets;
         protected AMHouses _houses;
 
-
         #region graph
         protected Dictionary<int, string> _mapSigns;
 
@@ -35,6 +35,7 @@ namespace Nostradamus.AstroMaps
             _aspects = new List<Aspect>();
             _planets = new List<SpaceObject>();
             CreateMapSigns();
+
         }
         protected abstract void CreatePlanetsCollection();
         protected void GetMidleValue(MPersonBase person, out int h, out int m, out int s)
@@ -48,6 +49,8 @@ namespace Nostradamus.AstroMaps
             m = (int)((t1 - h) * 60);
             s = (int)((t1 - h - m / 60) * 3600);
         }
+
+
         protected  void CreateMapSigns()
         {
             _mapSigns = new Dictionary<int, string>();
@@ -81,9 +84,9 @@ namespace Nostradamus.AstroMaps
             _geometry = new AstromapGeometry();
             Person = person;
             GetBirthPlace();
-            CreateHouses();
             CreatePlanetsCollection();
-        
+            CreateHouses();
+
         }
 
         protected void GetPersonalData()
@@ -138,9 +141,111 @@ namespace Nostradamus.AstroMaps
             _houses.DrawHouses(g);
             DrawCircles(g);
             DrawSigns(g);
+            DrawPlanets(g);
         }
- 
+        protected void DrawPlanets(Graphics g)
+        {
+            string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1","Resources\\icons\\");
 
+            double alfa = _houses.GelAlfa();
+            Icon bbicon = new Icon($"{path}BuletBlue.ico");
+            int planetShift = (_geometry.RExtCircle - _geometry.RIntCircle) / 3 + _geometry.RIntCircle;
+            const int iNumIntervals = 90;
+            int[] iZuz1 = new int[iNumIntervals];
+            int[] iZuz2 = new int[iNumIntervals];
+            int[] iZuz3 = new int[iNumIntervals];
+
+            foreach (SpaceObject so in _planets)
+            {
+                //New
+
+                int intWidth = 360/ iNumIntervals;
+                int index1 = (int)so.Lambda/ intWidth;
+                double dl = so.Lambda - intWidth / 2;
+                if (dl < 0)
+                    dl += 360;
+                int index2 = (int)(dl / intWidth);
+                int index3 = (int)((so.Lambda + intWidth / 2) / intWidth);
+
+                float dX = 0;
+                float dY = 0;
+                string pt = so.PlanetType.ToString();
+                GetDeltaPlanets(so, out dX, out dY);
+                int iZuz = Math.Max(iZuz1[index1], iZuz2[index2]);
+                iZuz = Math.Max(iZuz, iZuz3[index3]);
+
+                string r = so.SpeedLong < 0 ? "R" : "";
+                Icon icon = new Icon($"{path}{pt}{r}.ico");
+
+                double bbx = _geometry.Center.X - _geometry.RLimbCircle * Math.Cos((so.Lambda - alfa) * Math.PI / 180) - 8;
+                double bby = _geometry.Center.Y + _geometry.RLimbCircle * Math.Sin((so.Lambda - alfa) * Math.PI / 180) - 8;
+                g.DrawIcon(bbicon, (int)bbx, (int)bby);
+
+                double px = _geometry.Center.X - planetShift * (1+0.09*iZuz)*Math.Cos((so.Lambda - alfa) * Math.PI / 180) - 4+dX;
+                double py = _geometry.Center.Y + planetShift * (1 + 0.09 * iZuz)*Math.Sin((so.Lambda - alfa) * Math.PI / 180) - 4+dY;
+                g.DrawIcon(icon, (int)px, (int)py);
+
+                iZuz1[index1]++;
+                iZuz2[index2]++;
+                iZuz3[index3]++;
+            }
+
+        }
+        protected void GetConjunctionMove(SpaceObject so, out float dX, out float dY)
+        {
+            dX = 0;
+            dY = 0;
+
+        }
+        protected void GetDeltaPlanets(SpaceObject so, out float dX, out float dY)
+        {
+            double alfa = _houses.GelAlfa();
+            dX = 0;
+            dY = 0;
+            double signdelta = so.Lambda % 30;
+            double L1 = so.Lambda - alfa <0 ? so.Lambda - alfa+360: so.Lambda - alfa;
+           
+            if (signdelta > 0 && signdelta < 5)
+            {
+                if (L1 > 0 && L1 < 90)
+                {
+                    dY = 8;
+                }
+                else if (L1 >= 90 && L1 < 180)
+                {
+                    dX = 8;
+                }
+                else if (L1 >= 180 && L1 < 270)
+                {
+                    dX = 8;
+                    dY = -8;
+                }
+                else if (L1 >= 270 && L1 < 360)
+                {
+                    dY = 8;
+                }
+            }
+            else if (signdelta > 25 && signdelta < 30)
+            {
+                if (L1 > 0 && L1 < 90)
+                {
+                    dX = -8;
+                    dY = 8;
+                }
+                else if (L1 >= 90 && L1 < 180)
+                {
+                    dY = 8;
+                }
+                else if (L1 >= 180 && L1 < 270)
+                {
+                    dX = 8;
+                }
+                else if (L1 >= 270 && L1 < 360)
+                {
+                    dY = 8;
+                }
+            }
+        }
         protected void DrawCircles(Graphics g)
         {
             g.DrawEllipse(_houses.PenHouses, _geometry.ExtCirclePoint.X, _geometry.ExtCirclePoint.Y, _geometry.ExternalCircle.Width, _geometry.ExternalCircle.Height);
@@ -156,27 +261,31 @@ namespace Nostradamus.AstroMaps
         }
         protected void DrawSigns(Graphics g)
         {
+
             double alfa = _houses.GelAlfa();
+            if (alfa > 360)
+                alfa -= 360;
+            if(alfa<0)
+                alfa += 360;
+
             //drow ari
-            for(int i=0; i<12; ++i)
+            for (int i=0; i<12; ++i)
             {
-                double X0 = _geometry.Center.X - _geometry.RExtCircle * Math.Cos((alfa + 30*i) * Math.PI / 180);
-                double Y0 = _geometry.Center.Y;
 
-                double X1 = X0;
-                double Y1 = Y0 + _geometry.RExtCircle * Math.Sin((alfa + 30 * i) * Math.PI / 180);
+                double X1 = _geometry.Center.X - _geometry.RExtCircle * Math.Cos((30 * i - alfa) * Math.PI / 180);
+                double Y1 = _geometry.Center.Y + _geometry.RExtCircle * Math.Sin(( 30 * i- alfa ) * Math.PI / 180);
 
-                double X2 = _geometry.Center.X - _geometry.RIntCircle * Math.Cos((alfa + 30 * i) * Math.PI / 180);
-                double Y2 = Y0+ _geometry.RIntCircle * Math.Sin((alfa + 30 * i) * Math.PI / 180);
+                double X2 = _geometry.Center.X - _geometry.RIntCircle * Math.Cos(( 30 * i-alfa) * Math.PI / 180);
+                double Y2 = _geometry.Center.Y + _geometry.RIntCircle * Math.Sin((30 * i-alfa) * Math.PI / 180);
 
                 g.DrawLine(_houses.PenHouses, new PointF((float)X1, (float)Y1), new PointF((float)X2, (float)Y2));
                 DrawTerms(g, alfa, i);
 
 
-                double beta = alfa + 15 + 30 * i;
+                double beta =  30 * i+18 - alfa;
                 double R = _geometry.RIntCircle + (_geometry.RExtCircle - _geometry.RIntCircle)*0.6;
-                double X3 = _geometry.Center.X- R* Math.Cos(beta * Math.PI / 180)-3;
-                double Y3 = _geometry.Center.Y+R * Math.Sin(beta * Math.PI / 180)-3;
+                double X3 = _geometry.Center.X- (R-5)* Math.Cos(beta * Math.PI / 180);
+                double Y3 = _geometry.Center.Y+(R-5) * Math.Sin(beta * Math.PI / 180);
                 DrawSignsNotations(g, X3, Y3, beta, i);
             }
         }
@@ -201,14 +310,14 @@ namespace Nostradamus.AstroMaps
             int aggleshift = 5;
             for(int i=0; i<6; ++i)
             {
-                double X0 = _geometry.Center.X - _geometry.RIntCircle * Math.Cos((alfa + 30 * sign+ aggleshift * i) * Math.PI / 180);
+                double X0 = _geometry.Center.X - _geometry.RIntCircle * Math.Cos(( 30 * sign+ aggleshift * i -alfa) * Math.PI / 180);
                 double Y0 = _geometry.Center.Y;
 
                 double X1 = X0;
-                double Y1 = Y0 + _geometry.RIntCircle * Math.Sin((alfa + 30 * sign + aggleshift * i) * Math.PI / 180);
+                double Y1 = Y0 + _geometry.RIntCircle * Math.Sin((30 * sign + aggleshift * i - alfa) * Math.PI / 180);
 
-                double X2 = _geometry.Center.X - _geometry.RLimbCircle * Math.Cos((alfa + 30 * sign + aggleshift * i) * Math.PI / 180);
-                double Y2 = Y0 + _geometry.RLimbCircle * Math.Sin((alfa + 30 * sign + aggleshift * i) * Math.PI / 180);
+                double X2 = _geometry.Center.X - _geometry.RLimbCircle * Math.Cos(( 30 * sign + aggleshift * i - alfa) * Math.PI / 180);
+                double Y2 = Y0 + _geometry.RLimbCircle * Math.Sin(( 30 * sign + aggleshift * i - alfa) * Math.PI / 180);
 
                 Pen pr = i % 2 == 0 ? p : p2;
                 g.DrawLine(pr, new PointF((float)X1, (float)Y1), new PointF((float)X2, (float)Y2));

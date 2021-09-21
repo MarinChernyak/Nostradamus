@@ -34,14 +34,20 @@ namespace Nostradamus
                 {
                     MPersonBase person = dlg.SelectedPerson;
                     dlg.Close();
-
+                    ClearPanel();
                     AstroMapPerson map = new AstroMapPerson(person);
                     Graphics g = System.Drawing.Graphics.FromHwnd(panMain.Handle);
                     map.DrawMap(g);
-                    
+
                 }
             }
 
+        }
+        private void ClearPanel()
+        {
+            SolidBrush white = new SolidBrush(Color.White);
+            Graphics g = System.Drawing.Graphics.FromHwnd(panMain.Handle);
+            g.FillRectangle(white, panMain.Location.X, panMain.Location.Y, panMain.Width, panMain.Height);
         }
 
         private void testMapToolStripMenuItem_Click(object sender, EventArgs e)

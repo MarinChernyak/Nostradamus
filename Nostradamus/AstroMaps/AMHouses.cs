@@ -12,7 +12,7 @@ namespace Nostradamus.AstroMaps
         protected char SystemAcronym;
         protected double[] _houses_draw;
         private Pen _pforHouses;
-        public double GelAlfa() { return _houses.GetCusp(1) - 360;  }
+        public double GelAlfa() { return _houses.GetCusp(1);  }
         private Dictionary<int, string> _notations;
         public Pen PenHouses
         {
@@ -67,21 +67,21 @@ namespace Nostradamus.AstroMaps
         }
         public void DrawHouses(Graphics g)
         {
-            double alfa = _houses.GetCusp(1) - 360;
-            _houses_draw = new double[13];
-            _houses_draw[1] = NormaliseAngle(_houses.GetCusp(1) - alfa);
-            _houses_draw[2] = NormaliseAngle(_houses.GetCusp(2) - alfa);
-            _houses_draw[3] = NormaliseAngle(_houses.GetCusp(3) - alfa);
-            _houses_draw[4] = NormaliseAngle(_houses.GetCusp(4) - alfa);
-            _houses_draw[5] = NormaliseAngle(_houses.GetCusp(5) - alfa);
-            _houses_draw[6] = NormaliseAngle(_houses.GetCusp(6) - alfa);
-            _houses_draw[7] = NormaliseAngle(_houses.GetCusp(7) - alfa);
-            _houses_draw[8] = NormaliseAngle(_houses.GetCusp(8) - alfa);
-            _houses_draw[9] = NormaliseAngle(_houses.GetCusp(9) - alfa);
+            double alfa = _houses.GetCusp(1);
+            _houses_draw = new double[8];
+            _houses_draw[1] = _houses.GetCusp(1) - alfa;
+            _houses_draw[2] = _houses.GetCusp(2) - alfa;
+            _houses_draw[3] =_houses.GetCusp(3) - alfa;
+            _houses_draw[4] =_houses.GetCusp(4) - alfa;
+            _houses_draw[5] = _houses.GetCusp(5) - alfa;
+            _houses_draw[6] = _houses.GetCusp(6) - alfa;
+            //_houses_draw[7] = _houses.GetCusp(7) - alfa;
+            //_houses_draw[8] = _houses.GetCusp(8) - alfa;
+            //_houses_draw[9] = _houses.GetCusp(9) - alfa;
 
-            _houses_draw[10] = NormaliseAngle(_houses.GetCusp(10) - alfa);
-            _houses_draw[11] = NormaliseAngle(_houses.GetCusp(11) - alfa);
-            _houses_draw[12] = NormaliseAngle(_houses.GetCusp(12) - alfa);
+            _houses_draw[7] = _houses.GetCusp(10) - alfa;
+            //_houses_draw[11] = _houses.GetCusp(11) - alfa;
+            //_houses_draw[12] = _houses.GetCusp(12) - alfa;
 
             PointF ptb = new Point();
             PointF pte = new Point();
@@ -94,34 +94,61 @@ namespace Nostradamus.AstroMaps
                 pte.Y = (float)(_geometry.Center.Y - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[i] * Math.PI / 180));
 
                 Pen p = PenHouses;
-                if (i == 1 || i==4)
+                if (i == 1)
                 {
                     p = PenASC;
-                    if(i==1)
-                        DrawArrows(g, ptb, pte, i);
+                    DrawArrowsAC(g, ptb, pte, i);
                 }
 
                 g.DrawLine(p, ptb, pte);
                 DrawNotations(g, ptb, pte, i);
             }
-            ptb.X = (float)(_geometry.Center.X - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[10] * Math.PI / 180));
-            ptb.Y = (float)(_geometry.Center.Y + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[10] * Math.PI / 180)); 
-            pte.X = (float)(_geometry.Center.X + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[10] * Math.PI / 180));
-            pte.Y = (float)(_geometry.Center.Y - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[10] * Math.PI / 180));
+            ptb.X = (float)(_geometry.Center.X - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[7] * Math.PI / 180));
+            ptb.Y = (float)(_geometry.Center.Y + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[7] * Math.PI / 180));
+            pte.X = (float)(_geometry.Center.X + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[7] * Math.PI / 180));
+            pte.Y = (float)(_geometry.Center.Y - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[7] * Math.PI / 180));
 
-            DrawArrows(g, ptb, pte, 10);
+            DrawArrowsMC(g, ptb, pte, 7);
 
         }
-        protected void DrawArrows(Graphics g, PointF ptb, PointF pte, int house)
+        protected void DrawArrowsMC(Graphics g, PointF ptb, PointF pte, int house)
         {
-            double beta = house == 10 ? 180 : 0;
+
+            double fi = 90 - _houses_draw[house];
+
+            PointF pte2 = new Point();
+            pte2.X = (float)(ptb.X + _geometry.ArrowsLength * Math.Sin((fi + _geometry.ArrowsAngle) * Math.PI / 180));
+            pte2.Y = (float)(ptb.Y -  _geometry.ArrowsLength * Math.Cos((fi + _geometry.ArrowsAngle) * Math.PI / 180));
+            g.DrawLine(PenASC, ptb, pte2);
+
+            pte2.X = (float)(ptb.X + _geometry.ArrowsLength * Math.Sin((fi - _geometry.ArrowsAngle) * Math.PI / 180));
+            pte2.Y = (float)(ptb.Y -  _geometry.ArrowsLength * Math.Cos((fi - _geometry.ArrowsAngle) * Math.PI / 180));
+            g.DrawLine(PenASC, ptb, pte2);
+
+            float width = 10.5F;
+            float height = 10.5F;
+            float x = (float)(pte.X - 5.25);
+            float y = (float)(pte.Y - 5.25);
+            g.FillEllipse(Brushes.Green, x, y, width, height);
+
+        }
+        protected void DrawArrowsAC(Graphics g, PointF ptb, PointF pte, int house)
+        {
+            double shift = house == 4 ? 180 : 0;
+            //int isign1 = house == 1 ? 1 : -1;
+            //int isign2 = house == 1 ? -1 : 1;
+
+            double fi = 90- _houses_draw[house];
+            
             PointF pte1 = new Point();
-            pte1.X = (float)(ptb.X+_geometry.ArrowsLength*Math.Sin((beta+90 - _houses_draw[house]- _geometry.ArrowsAngle) * Math.PI / 180));
-            pte1.Y = (float)(ptb.Y+_geometry.ArrowsLength*Math.Cos((beta+90 - _houses_draw[house] - _geometry.ArrowsAngle) * Math.PI / 180));
+            pte1.X = (float)(ptb.X + _geometry.ArrowsLength*Math.Sin((fi - _geometry.ArrowsAngle) * Math.PI / 180));
+            pte1.Y = (float)(ptb.Y- _geometry.ArrowsLength*Math.Cos((fi - _geometry.ArrowsAngle) * Math.PI / 180));
             g.DrawLine(PenASC, ptb, pte1);
-            pte1.X = (float)(ptb.X + _geometry.ArrowsLength * Math.Cos((beta+_houses_draw[house] - _geometry.ArrowsAngle) * Math.PI / 180));
-            pte1.Y = (float)(ptb.Y + _geometry.ArrowsLength * Math.Sin((beta+ _houses_draw[house] - _geometry.ArrowsAngle) * Math.PI / 180));
+
+            pte1.X = (float)(ptb.X + _geometry.ArrowsLength * Math.Sin((fi - _geometry.ArrowsAngle) * Math.PI / 180));
+            pte1.Y = (float)(ptb.Y + _geometry.ArrowsLength * Math.Cos((fi - _geometry.ArrowsAngle) * Math.PI / 180));
             g.DrawLine(PenASC, ptb, pte1);
+
             float width =10.5F;
             float height = 10.5F;
             float x = (float)(pte.X - 5.25);
