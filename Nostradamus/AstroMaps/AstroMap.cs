@@ -12,6 +12,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 //using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -20,8 +21,8 @@ namespace Nostradamus.AstroMaps
     public abstract class AstroMapBase
     {
         protected MCityData BirthPlace { get; set; }
-        protected List<Aspect> _aspects { get; set; }
-        protected List<SpaceObject> _planets;
+        protected AspectsCollection _aspects { get; set; }
+        protected List<SpaceObjectData> _planets;
         protected AMHouses _houses;
 
         #region graph
@@ -32,8 +33,8 @@ namespace Nostradamus.AstroMaps
         protected double JD;
         public AstroMapBase()
         {
-            _aspects = new List<Aspect>();
-            _planets = new List<SpaceObject>();
+            //_aspects = new AspectsCollection();
+            //_planets = new List<SpaceObject>();
             CreateMapSigns();
 
         }
@@ -41,16 +42,17 @@ namespace Nostradamus.AstroMaps
         protected void GetMidleValue(MPersonBase person, out int h, out int m, out int s)
         {
             h = m = s = 0;
-            double t1 = person.BirthHourFrom + person.BirthMinFrom / 60 + person.BirthSecFrom / 3600;
-            double t2 = person.BirthHourTo + person.BirthMinTo / 60 + person.BirthSecTo / 3600;
+            if (person != null)
+            {
+                double t1 = person.BirthHourFrom + person.BirthMinFrom / 60 + person.BirthSecFrom / 3600;
+                double t2 = person.BirthHourTo + person.BirthMinTo / 60 + person.BirthSecTo / 3600;
 
-            t1 = t1 + (t2 - t1) / 2;
-            h = (int)t1;
-            m = (int)((t1 - h) * 60);
-            s = (int)((t1 - h - m / 60) * 3600);
+                t1 = t1 + (t2 - t1) / 2;
+                h = (int)t1;
+                m = (int)((t1 - h) * 60);
+                s = (int)((t1 - h - m / 60) * 3600);
+            }
         }
-
-
         protected  void CreateMapSigns()
         {
             _mapSigns = new Dictionary<int, string>();
@@ -70,9 +72,11 @@ namespace Nostradamus.AstroMaps
     }
     public class AstroMapPerson : AstroMapBase
     {
+        protected const int BULET_SHIFT = 8;
         protected MPersonBase Person { get; }
         public AstroMapPerson(int id)
         {
+            _aspects = new AspectsCollection();
             Person = new MPersonBase();
             Person.Id = id;
             GetPersonalData();
@@ -81,14 +85,32 @@ namespace Nostradamus.AstroMaps
         }
         public AstroMapPerson(MPersonBase person)
         {
-            _geometry = new AstromapGeometry();
-            Person = person;
-            GetBirthPlace();
-            CreatePlanetsCollection();
-            CreateHouses();
+            if (person != null)
+            {
+                _aspects = new AspectsCollection();
+                _geometry = new AstromapGeometry();
+                Person = person;
+
+                GetBirthPlace();
+                GetJD();                
+                CreateHouses();
+                CreatePlanetsCollection();
+                _aspects.CreateAspectsCollection(_planets);
+            }
+            else
+            {
+                MessageBox.Show("Unknown error!");
+            }
+
 
         }
+        protected void GetJD()
+        {
+            int h, m, s;
+            GetMidleValue(Person, out h, out m, out s);
+            JD = new JulianDay(Person.BirthDay, Person.BirthMonth, Person.BirthYear, h, m, s, BirthPlace.TimeZoneData.TimeOffset, Person.AdditionalHours).JD;
 
+        }
         protected void GetPersonalData()
         {
             //GetData byID
@@ -122,13 +144,15 @@ namespace Nostradamus.AstroMaps
         }
         protected override void CreatePlanetsCollection()
         {
-            int h, m, s;
-            GetMidleValue(Person, out h, out m, out s);
-            JulianDay jd = new JulianDay(Person.BirthDay, Person.BirthMonth, Person.BirthYear, h, m, s, BirthPlace.TimeZoneData.TimeOffset, Person.AdditionalHours);
-            JD = jd.JD;
+
+            _planets = new List<SpaceObjectData>();
             for (int t = (int)NPTypes.tPlanetType.PT_SUN; t < (int)NPTypes.tPlanetType.PT_TRUE_NODE; ++t)
             {
-                _planets.Add(new BigObject(JD, (NPTypes.tPlanetType)t));
+                SpaceObject so = new BigObject(JD, (NPTypes.tPlanetType)t);
+                _planets.Add(new SpaceObjectData()
+                {
+                    _so = so
+                });
             }
         }
 
@@ -142,6 +166,30 @@ namespace Nostradamus.AstroMaps
             DrawCircles(g);
             DrawSigns(g);
             DrawPlanets(g);
+            DrawAspects(g);
+        }
+        protected void DrawAspects(Graphics g)
+        {
+            foreach (Aspect at in _aspects.Aspects)
+            {
+                NPTypes.tPlanetType p1 = at.PlanetType1;
+                NPTypes.tPlanetType p2 = at.PlanetType2;
+
+                SpaceObjectData sod1 = _planets.Where(x => x._so.PlanetType == p1).FirstOrDefault();
+                SpaceObjectData sod2 = _planets.Where(x => x._so.PlanetType == p2).FirstOrDefault();
+
+                if (sod1 != null && sod2 != null)
+                {
+
+                    if (at._aspect_data.PenToDraw != null)
+                    {
+                        PointF bulet1 = new PointF(sod1._bullet.X + BULET_SHIFT, sod1._bullet.Y + BULET_SHIFT);
+                        PointF bulet2 = new PointF(sod2._bullet.X + BULET_SHIFT, sod2._bullet.Y + BULET_SHIFT);
+
+                        g.DrawLine(at._aspect_data.PenToDraw, bulet1, bulet2);
+                    }
+                }
+            }
         }
         protected void DrawPlanets(Graphics g)
         {
@@ -149,40 +197,42 @@ namespace Nostradamus.AstroMaps
 
             double alfa = _houses.GelAlfa();
             Icon bbicon = new Icon($"{path}BuletBlue.ico");
-            int planetShift = (_geometry.RExtCircle - _geometry.RIntCircle) / 3 + _geometry.RIntCircle;
+            Icon bricon = new Icon($"{path}BuletRed.ico");
+
+            int planetShift = (_geometry.RExtCircle - _geometry.RIntCircle) / 4 + _geometry.RIntCircle;
             const int iNumIntervals = 90;
             int[] iZuz1 = new int[iNumIntervals];
             int[] iZuz2 = new int[iNumIntervals];
             int[] iZuz3 = new int[iNumIntervals];
 
-            foreach (SpaceObject so in _planets)
+            foreach (SpaceObjectData sod in _planets)
             {
                 //New
-
                 int intWidth = 360/ iNumIntervals;
-                int index1 = (int)so.Lambda/ intWidth;
-                double dl = so.Lambda - intWidth / 2;
+                int index1 = (int)sod._so.Lambda/ intWidth;
+                double dl = sod._so.Lambda - intWidth / 2;
                 if (dl < 0)
                     dl += 360;
                 int index2 = (int)(dl / intWidth);
-                int index3 = (int)((so.Lambda + intWidth / 2) / intWidth);
+                int index3 = (int)((sod._so.Lambda + intWidth / 2) / intWidth);
 
-                float dX = 0;
-                float dY = 0;
-                string pt = so.PlanetType.ToString();
-                GetDeltaPlanets(so, out dX, out dY);
+                string pt = sod._so.PlanetType.ToString();
+                
                 int iZuz = Math.Max(iZuz1[index1], iZuz2[index2]);
                 iZuz = Math.Max(iZuz, iZuz3[index3]);
 
-                string r = so.SpeedLong < 0 ? "R" : "";
+                string r = sod._so.SpeedLong < 0 ? "R" : "";
                 Icon icon = new Icon($"{path}{pt}{r}.ico");
 
-                double bbx = _geometry.Center.X - _geometry.RLimbCircle * Math.Cos((so.Lambda - alfa) * Math.PI / 180) - 8;
-                double bby = _geometry.Center.Y + _geometry.RLimbCircle * Math.Sin((so.Lambda - alfa) * Math.PI / 180) - 8;
-                g.DrawIcon(bbicon, (int)bbx, (int)bby);
+                double bbx = _geometry.Center.X - _geometry.RLimbCircle * Math.Cos((sod._so.Lambda - alfa) * Math.PI / 180) - BULET_SHIFT;
+                double bby = _geometry.Center.Y + _geometry.RLimbCircle * Math.Sin((sod._so.Lambda - alfa) * Math.PI / 180) - BULET_SHIFT;
+                sod._bullet = new PointF((float)bbx,(float) bby);                
 
-                double px = _geometry.Center.X - planetShift * (1+0.09*iZuz)*Math.Cos((so.Lambda - alfa) * Math.PI / 180) - 4+dX;
-                double py = _geometry.Center.Y + planetShift * (1 + 0.09 * iZuz)*Math.Sin((so.Lambda - alfa) * Math.PI / 180) - 4+dY;
+                Icon bb = sod.IsRed ? bricon : bbicon;
+                g.DrawIcon(bb, (int)bbx, (int)bby);
+
+                double px = _geometry.Center.X - planetShift * (1+0.09*iZuz)*Math.Cos((sod._so.Lambda - alfa) * Math.PI / 180);
+                double py = _geometry.Center.Y + planetShift * (1 + 0.09 * iZuz)*Math.Sin((sod._so.Lambda - alfa) * Math.PI / 180);
                 g.DrawIcon(icon, (int)px, (int)py);
 
                 iZuz1[index1]++;
@@ -191,62 +241,7 @@ namespace Nostradamus.AstroMaps
             }
 
         }
-        protected void GetConjunctionMove(SpaceObject so, out float dX, out float dY)
-        {
-            dX = 0;
-            dY = 0;
-
-        }
-        protected void GetDeltaPlanets(SpaceObject so, out float dX, out float dY)
-        {
-            double alfa = _houses.GelAlfa();
-            dX = 0;
-            dY = 0;
-            double signdelta = so.Lambda % 30;
-            double L1 = so.Lambda - alfa <0 ? so.Lambda - alfa+360: so.Lambda - alfa;
-           
-            if (signdelta > 0 && signdelta < 5)
-            {
-                if (L1 > 0 && L1 < 90)
-                {
-                    dY = 8;
-                }
-                else if (L1 >= 90 && L1 < 180)
-                {
-                    dX = 8;
-                }
-                else if (L1 >= 180 && L1 < 270)
-                {
-                    dX = 8;
-                    dY = -8;
-                }
-                else if (L1 >= 270 && L1 < 360)
-                {
-                    dY = 8;
-                }
-            }
-            else if (signdelta > 25 && signdelta < 30)
-            {
-                if (L1 > 0 && L1 < 90)
-                {
-                    dX = -8;
-                    dY = 8;
-                }
-                else if (L1 >= 90 && L1 < 180)
-                {
-                    dY = 8;
-                }
-                else if (L1 >= 180 && L1 < 270)
-                {
-                    dX = 8;
-                }
-                else if (L1 >= 270 && L1 < 360)
-                {
-                    dY = 8;
-                }
-            }
-        }
-        protected void DrawCircles(Graphics g)
+       protected void DrawCircles(Graphics g)
         {
             g.DrawEllipse(_houses.PenHouses, _geometry.ExtCirclePoint.X, _geometry.ExtCirclePoint.Y, _geometry.ExternalCircle.Width, _geometry.ExternalCircle.Height);
             g.FillEllipse(Brushes.White, _geometry.ExtCirclePoint.X + 1, _geometry.ExtCirclePoint.Y + 1, _geometry.ExternalCircle.Width - 2, _geometry.ExternalCircle.Height - 2);
@@ -292,7 +287,7 @@ namespace Nostradamus.AstroMaps
         protected void DrawSignsNotations(Graphics g, double X, double Y, double  beta, int sign)
         {
             
-            Font drawFont = new Font("Wingdings", 12, FontStyle.Bold);
+            Font drawFont = new Font("Wingdings", 12, System.Drawing.FontStyle.Bold);
             SolidBrush drawBrush = new SolidBrush(Color.Black);
             GraphicsState state = g.Save();
             g.ResetTransform();

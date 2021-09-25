@@ -60,7 +60,7 @@ namespace Nostradamus
             // byLastNameToolStripMenuItem
             // 
             this.byLastNameToolStripMenuItem.Name = "byLastNameToolStripMenuItem";
-            this.byLastNameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.byLastNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.byLastNameToolStripMenuItem.Text = "By LastName";
             this.byLastNameToolStripMenuItem.Click += new System.EventHandler(this.OnCreateMapByLastName);
             // 
@@ -76,7 +76,7 @@ namespace Nostradamus
             this.panMain.BackColor = System.Drawing.SystemColors.HighlightText;
             this.panMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panMain.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.panMain.Location = new System.Drawing.Point(12, 28);
+            this.panMain.Location = new System.Drawing.Point(12, 78);
             this.panMain.Name = "panMain";
             this.panMain.Size = new System.Drawing.Size(1274, 871);
             this.panMain.TabIndex = 1;
@@ -85,7 +85,7 @@ namespace Nostradamus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1298, 911);
+            this.ClientSize = new System.Drawing.Size(1298, 961);
             this.Controls.Add(this.panMain);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -108,6 +108,9 @@ namespace Nostradamus
         private System.Windows.Forms.ToolStripMenuItem byLastNameToolStripMenuItem;
         private System.Windows.Forms.Panel panMain;
         private System.Windows.Forms.ToolStripMenuItem testMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
     }
 }
 

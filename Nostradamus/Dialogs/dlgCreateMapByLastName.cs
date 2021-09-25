@@ -97,5 +97,27 @@ namespace Nostradamus.Dialogs
                 this.DialogResult = DialogResult.OK;
             }
         }
+
+        private void OnLastNameKeyDown(object sender, KeyEventArgs e)
+        {
+            if (txtLastName.Text == "")
+            {
+                txtLastName.BackColor = BGEmptyLastName;
+                txtLastName.ForeColor = FGEmptyLastName;
+                txtLastName.Text = InvitationLastName;
+                btnSearch.Enabled = false;
+            }
+            else if (txtLastName.Text == InvitationLastName)
+            {
+                txtLastName.Text = "";
+                txtLastName.BackColor = SystemColors.Control;
+                txtLastName.ForeColor = SystemColors.ControlText;
+                btnSearch.Enabled = false;
+            }
+            else
+            {
+                btnSearch.Enabled = true;
+            }
+        }
     }
 }

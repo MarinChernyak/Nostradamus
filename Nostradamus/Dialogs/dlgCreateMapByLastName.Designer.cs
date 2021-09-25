@@ -51,6 +51,7 @@ namespace Nostradamus.Dialogs
             this.txtLastName.TabIndex = 0;
             this.txtLastName.Text = "Enter a  last name...";
             this.txtLastName.Click += new System.EventHandler(this.OnTxtLastNameClicked);
+            this.txtLastName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnLastNameKeyDown);
             this.txtLastName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnLastNameKeyUp);
             // 
             // lblLastName
