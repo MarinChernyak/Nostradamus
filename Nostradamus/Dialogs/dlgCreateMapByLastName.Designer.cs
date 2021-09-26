@@ -30,7 +30,7 @@ namespace Nostradamus.Dialogs
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dlgCreateMapByLastName));
-            this.txtLastName = new System.Windows.Forms.TextBox();
+            this.txtInputCtrl = new System.Windows.Forms.TextBox();
             this.lblLastName = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.lstResult = new System.Windows.Forms.ListBox();
@@ -40,19 +40,19 @@ namespace Nostradamus.Dialogs
             this.btnCreateMap = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // txtLastName
+            // txtInputCtrl
             // 
-            this.txtLastName.BackColor = System.Drawing.SystemColors.Info;
-            this.txtLastName.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtLastName.Location = new System.Drawing.Point(13, 25);
-            this.txtLastName.MaxLength = 50;
-            this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(239, 23);
-            this.txtLastName.TabIndex = 0;
-            this.txtLastName.Text = "Enter a  last name...";
-            this.txtLastName.Click += new System.EventHandler(this.OnTxtLastNameClicked);
-            this.txtLastName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnLastNameKeyDown);
-            this.txtLastName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnLastNameKeyUp);
+            this.txtInputCtrl.BackColor = System.Drawing.SystemColors.Info;
+            this.txtInputCtrl.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtInputCtrl.Location = new System.Drawing.Point(13, 25);
+            this.txtInputCtrl.MaxLength = 50;
+            this.txtInputCtrl.Name = "txtInputCtrl";
+            this.txtInputCtrl.Size = new System.Drawing.Size(239, 23);
+            this.txtInputCtrl.TabIndex = 0;
+            this.txtInputCtrl.Text = "Enter a  last name...";
+            this.txtInputCtrl.Click += new System.EventHandler(this.OnTxtLastNameClicked);
+            this.txtInputCtrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnLastNameKeyDown);
+            this.txtInputCtrl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnLastNameKeyUp);
             // 
             // lblLastName
             // 
@@ -137,7 +137,7 @@ namespace Nostradamus.Dialogs
             this.Controls.Add(this.lstResult);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.lblLastName);
-            this.Controls.Add(this.txtLastName);
+            this.Controls.Add(this.txtInputCtrl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "dlgCreateMapByLastName";
             this.Text = "Create Map By Last Name";
@@ -148,7 +148,7 @@ namespace Nostradamus.Dialogs
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtLastName;
+        private System.Windows.Forms.TextBox txtInputCtrl;
         private System.Windows.Forms.Label lblLastName;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.ListBox lstResult;

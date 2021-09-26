@@ -20,6 +20,7 @@ namespace Nostradamus.AstroMaps
 {
     public abstract class AstroMapBase
     {
+        public int ID { get; protected set; }
         protected MCityData BirthPlace { get; set; }
         protected AspectsCollection _aspects { get; set; }
         protected List<SpaceObjectData> _planets;
@@ -39,6 +40,7 @@ namespace Nostradamus.AstroMaps
 
         }
         protected abstract void CreatePlanetsCollection();
+        public abstract void DrawMap(Graphics g);
         protected void GetMidleValue(MPersonBase person, out int h, out int m, out int s)
         {
             h = m = s = 0;
@@ -87,6 +89,7 @@ namespace Nostradamus.AstroMaps
         {
             if (person != null)
             {
+                ID = person.Id;
                 _aspects = new AspectsCollection();
                 _geometry = new AstromapGeometry();
                 Person = person;
@@ -160,7 +163,7 @@ namespace Nostradamus.AstroMaps
         {
             _houses = new AMHouses(JD, BirthPlace.Longitude, BirthPlace.Latitude, 'K', _geometry);
         }
-        public void DrawMap(Graphics g)
+        public override void DrawMap(Graphics g)
         {
             _houses.DrawHouses(g);
             DrawCircles(g);

@@ -15,11 +15,14 @@ namespace Nostradamus
 {
     public partial class NostradamusMain : Form
     {
+        protected UserPreferenses _userpref;
+        protected List<AstroMapBase> _maps;
         public NostradamusMain()
         {
+            _maps = new List<AstroMapBase>();
             InitializeComponent();
         }
-        protected UserPreferenses _userpref;
+        
         private void NostradamusMain_Load(object sender, EventArgs e)
         {
             _userpref = new UserPreferenses();
@@ -28,26 +31,49 @@ namespace Nostradamus
 
         private void OnCreateMapByLastName(object sender, EventArgs e)
         {
+            MPersonBase person = null;
             using (dlgCreateMapByLastName dlg = new dlgCreateMapByLastName())
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    MPersonBase person = dlg.SelectedPerson;
+                    person = dlg.SelectedPerson;
                     dlg.Close();
-                    ClearPanel();
-                    AstroMapPerson map = new AstroMapPerson(person);
-                    Graphics g = System.Drawing.Graphics.FromHwnd(panMain.Handle);
-                    map.DrawMap(g);
-
                 }
             }
+            if (person != null)
+            {
+                TabPage tp = UpdateTab(person.Id);
 
+                AstroMapPerson map = new AstroMapPerson(person);
+                _maps.Add(map);
+                
+                //tabMapsCollection.SelectedTab.Invalidate();
+            }       
+
+        }
+        private TabPage UpdateTab(int id)
+        {
+
+            TabPage tp = new TabPage($"Map #{id}");
+            tp.Tag = id;
+            tabMapsCollection.TabPages.Add(tp);
+            tabMapsCollection.SelectedTab = tp;
+            tp.CausesValidation = false;
+            tabMapsCollection.SelectedTab.Paint += new PaintEventHandler(TabPagePaint);
+            return tabMapsCollection.SelectedTab;
+        }
+        protected void TabPagePaint(object sender, PaintEventArgs e)
+        {
+            int id = (int)((TabPage)sender).Tag;
+            AstroMapBase map = _maps.Where(x => x.ID == id).FirstOrDefault();
+            Graphics g = Graphics.FromHwnd(tabMapsCollection.SelectedTab.Handle);
+            map.DrawMap(g);
         }
         private void ClearPanel()
         {
             SolidBrush white = new SolidBrush(Color.White);
-            Graphics g = System.Drawing.Graphics.FromHwnd(panMain.Handle);
-            g.FillRectangle(white, panMain.Location.X, panMain.Location.Y, panMain.Width, panMain.Height);
+            Graphics g = System.Drawing.Graphics.FromHwnd(tabMapsCollection.TabPages[0].Handle);
+            g.FillRectangle(white, tabMapsCollection.TabPages[0].Location.X, tabMapsCollection.TabPages[0].Location.Y, tabMapsCollection.TabPages[0].Width, tabMapsCollection.TabPages[0].Height);
         }
 
         private void testMapToolStripMenuItem_Click(object sender, EventArgs e)
@@ -69,13 +95,47 @@ namespace Nostradamus
                 Place = 2
             };
             AstroMapPerson map = new AstroMapPerson(person);
-            Graphics g = System.Drawing.Graphics.FromHwnd(panMain.Handle);
+            Graphics g = System.Drawing.Graphics.FromHwnd(tabMapsCollection.TabPages[0].Handle);
             map.DrawMap(g);
         }
 
         private void NostradamusMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             _userpref.SavePreferenses();
+        }
+
+        private void AddNewMap_Click(object sender, EventArgs e)
+        {
+
+            TabPage tp = new TabPage($"Map #...");
+            tabMapsCollection.TabPages.Add(tp);
+            tabMapsCollection.SelectedTab = tp;
+        }
+
+        private void deleteMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TabPage tp = tabMapsCollection.SelectedTab;
+            tabMapsCollection.TabPages.Remove(tp);
+        }
+
+        private void OnCreateMapById(object sender, EventArgs e)
+        {
+            MPersonBase person = null;
+            using (dlgCreateMapByID dlg = new dlgCreateMapByID())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    person = dlg.Person;
+                }
+            }
+            if (person != null)
+            {
+                TabPage tp = UpdateTab(person.Id);
+
+                AstroMapPerson map = new AstroMapPerson(person);
+                _maps.Add(map);
+            }
+
         }
     }
 }

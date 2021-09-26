@@ -30,72 +30,70 @@ namespace Nostradamus
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NostradamusMain));
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuMain = new System.Windows.Forms.MenuStrip();
             this.createMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.byLastNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panMain = new System.Windows.Forms.Panel();
-            this.menuStrip1.SuspendLayout();
+            this.miByLastName = new System.Windows.Forms.ToolStripMenuItem();
+            this.miByID = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabMapsCollection = new System.Windows.Forms.TabControl();
+            this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // menuMain
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createMapToolStripMenuItem,
-            this.testMapToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1298, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createMapToolStripMenuItem});
+            this.menuMain.Location = new System.Drawing.Point(0, 0);
+            this.menuMain.Name = "menuMain";
+            this.menuMain.Size = new System.Drawing.Size(1298, 24);
+            this.menuMain.TabIndex = 0;
+            this.menuMain.Text = "menuMain";
             // 
             // createMapToolStripMenuItem
             // 
             this.createMapToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.byLastNameToolStripMenuItem});
+            this.miByLastName,
+            this.miByID});
             this.createMapToolStripMenuItem.Name = "createMapToolStripMenuItem";
             this.createMapToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
             this.createMapToolStripMenuItem.Text = "Create Map...";
             // 
-            // byLastNameToolStripMenuItem
+            // miByLastName
             // 
-            this.byLastNameToolStripMenuItem.Name = "byLastNameToolStripMenuItem";
-            this.byLastNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.byLastNameToolStripMenuItem.Text = "By LastName";
-            this.byLastNameToolStripMenuItem.Click += new System.EventHandler(this.OnCreateMapByLastName);
+            this.miByLastName.Name = "miByLastName";
+            this.miByLastName.Size = new System.Drawing.Size(180, 22);
+            this.miByLastName.Text = "By LastName";
+            this.miByLastName.Click += new System.EventHandler(this.OnCreateMapByLastName);
             // 
-            // testMapToolStripMenuItem
+            // miByID
             // 
-            this.testMapToolStripMenuItem.Name = "testMapToolStripMenuItem";
-            this.testMapToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
-            this.testMapToolStripMenuItem.Text = "TestMap";
-            this.testMapToolStripMenuItem.Click += new System.EventHandler(this.testMapToolStripMenuItem_Click);
+            this.miByID.Name = "miByID";
+            this.miByID.Size = new System.Drawing.Size(180, 22);
+            this.miByID.Text = "By ID";
+            this.miByID.Click += new System.EventHandler(this.OnCreateMapById);
             // 
-            // panMain
+            // tabMapsCollection
             // 
-            this.panMain.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.panMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panMain.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.panMain.Location = new System.Drawing.Point(12, 78);
-            this.panMain.Name = "panMain";
-            this.panMain.Size = new System.Drawing.Size(1274, 871);
-            this.panMain.TabIndex = 1;
+            this.tabMapsCollection.Location = new System.Drawing.Point(13, 28);
+            this.tabMapsCollection.Name = "tabMapsCollection";
+            this.tabMapsCollection.SelectedIndex = 0;
+            this.tabMapsCollection.Size = new System.Drawing.Size(1273, 921);
+            this.tabMapsCollection.TabIndex = 1;
             // 
             // NostradamusMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1298, 961);
-            this.Controls.Add(this.panMain);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.tabMapsCollection);
+            this.Controls.Add(this.menuMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.menuMain;
             this.Name = "NostradamusMain";
             this.Text = "Nostradamus 8.5";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NostradamusMain_FormClosing);
             this.Load += new System.EventHandler(this.NostradamusMain_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.menuMain.ResumeLayout(false);
+            this.menuMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -103,14 +101,11 @@ namespace Nostradamus
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem createMapToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem byLastNameToolStripMenuItem;
-        private System.Windows.Forms.Panel panMain;
-        private System.Windows.Forms.ToolStripMenuItem testMapToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripMenuItem miByLastName;
+        private System.Windows.Forms.TabControl tabMapsCollection;
+        private System.Windows.Forms.ToolStripMenuItem miByID;
     }
 }
 

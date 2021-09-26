@@ -12,49 +12,48 @@ namespace Nostradamus.Dialogs
 {
     public partial class dlgCreateMapByLastName : Form
     {
-        private const string InvitationLastName = "Enter a last name or a part of it...";
-        private Color BGEmptyLastName = SystemColors.Info;
-        private Color FGEmptyLastName = SystemColors.InactiveCaption;
-        private List<MPersonBase> PeopleCollection;
-
+        private const string InvitationInputCtrl = "Enter a last name or a part of it...";
+        protected Color BGEmptyInputCtrl = SystemColors.Info;
+        protected Color FGEmptyInputCtrl = SystemColors.InactiveCaption;
+        protected List<MPersonBase> PeopleCollection;
         public MPersonBase SelectedPerson { get; protected set; }
         public dlgCreateMapByLastName()
         {
             InitializeComponent();
-            txtLastName.Text = InvitationLastName;
+            txtInputCtrl.Text = InvitationInputCtrl;
         }
 
         private void OnTxtLastNameClicked(object sender, EventArgs e)
         {
 
-            if (txtLastName.Text == InvitationLastName)
+            if (txtInputCtrl.Text == InvitationInputCtrl)
             {
-                txtLastName.Text = "";
-                txtLastName.BackColor = SystemColors.Control;
-                txtLastName.ForeColor = SystemColors.ControlText;
+                txtInputCtrl.Text = "";
+                txtInputCtrl.BackColor = SystemColors.Control;
+                txtInputCtrl.ForeColor = SystemColors.ControlText;
             }
-            else if (txtLastName.Text == "")
+            else if (txtInputCtrl.Text == "")
             {
-                txtLastName.BackColor = BGEmptyLastName;
-                txtLastName.ForeColor = FGEmptyLastName;
-                txtLastName.Text = InvitationLastName;
+                txtInputCtrl.BackColor = BGEmptyInputCtrl;
+                txtInputCtrl.ForeColor = FGEmptyInputCtrl;
+                txtInputCtrl.Text = InvitationInputCtrl;
             }
         }
 
         private void OnLastNameKeyUp(object sender, KeyEventArgs e)
         {
-            if (txtLastName.Text == "")
+            if (txtInputCtrl.Text == "")
             {
-                txtLastName.BackColor = BGEmptyLastName;
-                txtLastName.ForeColor = FGEmptyLastName;
-                txtLastName.Text = InvitationLastName;
+                txtInputCtrl.BackColor = BGEmptyInputCtrl;
+                txtInputCtrl.ForeColor = FGEmptyInputCtrl;
+                txtInputCtrl.Text = InvitationInputCtrl;
                 btnSearch.Enabled = false;
             }
-            else if(txtLastName.Text == InvitationLastName)
+            else if(txtInputCtrl.Text == InvitationInputCtrl)
             {
-                txtLastName.Text = "";
-                txtLastName.BackColor = SystemColors.Control;
-                txtLastName.ForeColor = SystemColors.ControlText;
+                txtInputCtrl.Text = "";
+                txtInputCtrl.BackColor = SystemColors.Control;
+                txtInputCtrl.ForeColor = SystemColors.ControlText;
 
             }
             else
@@ -65,7 +64,7 @@ namespace Nostradamus.Dialogs
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            PeopleCollection = new PersonsCollection().GetPersonalCollectionByLastName(txtLastName.Text);
+            PeopleCollection = new PersonsCollection().GetPersonalCollectionByLastName(txtInputCtrl.Text);
             if (PeopleCollection != null)
             {
                 lstResult.DataSource = PeopleCollection;
@@ -100,23 +99,26 @@ namespace Nostradamus.Dialogs
 
         private void OnLastNameKeyDown(object sender, KeyEventArgs e)
         {
-            if (txtLastName.Text == "")
+            if (e.KeyValue != 16)//Shift
             {
-                txtLastName.BackColor = BGEmptyLastName;
-                txtLastName.ForeColor = FGEmptyLastName;
-                txtLastName.Text = InvitationLastName;
-                btnSearch.Enabled = false;
-            }
-            else if (txtLastName.Text == InvitationLastName)
-            {
-                txtLastName.Text = "";
-                txtLastName.BackColor = SystemColors.Control;
-                txtLastName.ForeColor = SystemColors.ControlText;
-                btnSearch.Enabled = false;
-            }
-            else
-            {
-                btnSearch.Enabled = true;
+                if (txtInputCtrl.Text == ""&& (e.KeyValue==8 || e.KeyValue==46))
+                {
+                    txtInputCtrl.BackColor = BGEmptyInputCtrl;
+                    txtInputCtrl.ForeColor = FGEmptyInputCtrl;
+                    txtInputCtrl.Text = InvitationInputCtrl;
+                    btnSearch.Enabled = false;
+                }
+                else if (txtInputCtrl.Text == InvitationInputCtrl)
+                {
+                    txtInputCtrl.Text = "";
+                    txtInputCtrl.BackColor = SystemColors.Control;
+                    txtInputCtrl.ForeColor = SystemColors.ControlText;
+                    btnSearch.Enabled = false;
+                }
+                else
+                {
+                    btnSearch.Enabled = true;
+                }
             }
         }
     }

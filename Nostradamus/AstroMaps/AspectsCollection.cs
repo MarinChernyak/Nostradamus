@@ -134,9 +134,12 @@ namespace Nostradamus.AstroMaps
                 for (int j = i+1; j < lstSO.Count; ++j)
                 {
                     SpaceObject so2 = lstSO[j]._so;
-                    double dLambda = so1.Lambda - so2.Lambda;
-                    dLambda = dLambda < 0 ? dLambda + 360 : dLambda;
-                    dLambda = dLambda >180 ? dLambda -180 : dLambda;
+                    double dLambda = Math.Abs(so1.Lambda - so2.Lambda);
+                    if (dLambda > 180)
+                    {
+                        dLambda = dLambda - 180 > 15 ? dLambda - 180 : dLambda;
+                    }
+
                     AspectType at = GetAspectType(dLambda, so1.PlanetType, so2.PlanetType);
                     if (at == AspectType.AT_CONJUNCTION)
                     {

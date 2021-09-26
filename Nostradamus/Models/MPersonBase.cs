@@ -60,5 +60,20 @@ namespace Nostradamus.Models
 
             return ModelsTransformer.TransferModelList<Person, MPersonBase>(data);
         }
+        public List<MPersonBase> GetPersonalCollectionByID(int Id)
+        {
+            List<Person> data = new List<Person>();
+            NostradamusContextFactory factory = new NostradamusContextFactory();
+            using (var context = factory.CreateDbContext(new string[] { _connection }))
+            {
+
+                var tem = context.People;
+                data.AddRange(context.People);
+                data = data.Where(x => x.Id==Id).ToList();
+
+            }
+
+            return ModelsTransformer.TransferModelList<Person, MPersonBase>(data);
+        }
     }
 }
