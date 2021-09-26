@@ -90,7 +90,7 @@ namespace Nostradamus.Dialogs
             this.btnCreateMap.Name = "btnCreateMap";
             this.btnCreateMap.Size = new System.Drawing.Size(312, 23);
             this.btnCreateMap.TabIndex = 4;
-            this.btnCreateMap.Text = "GetMap";
+            this.btnCreateMap.Text = "Create Map";
             this.btnCreateMap.UseVisualStyleBackColor = false;
             this.btnCreateMap.Click += new System.EventHandler(this.OnCreateMap);
             // 

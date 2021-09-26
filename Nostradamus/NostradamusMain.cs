@@ -137,5 +137,24 @@ namespace Nostradamus
             }
 
         }
+
+        private void byKeywordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MPersonBase person = null;
+            using (dlgCreateMapByKW dlg = new dlgCreateMapByKW())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    //person = dlg.Person;
+                }
+            }
+            //if (person != null)
+            //{
+            //    TabPage tp = UpdateTab(person.Id);
+
+            //    AstroMapPerson map = new AstroMapPerson(person);
+            //    _maps.Add(map);
+            //}
+        }
     }
 }
