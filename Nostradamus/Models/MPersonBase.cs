@@ -75,5 +75,30 @@ namespace Nostradamus.Models
 
             return ModelsTransformer.TransferModelList<Person, MPersonBase>(data);
         }
+        public List<MVwPeopleKeyWord> GetPersonalCollectionByKW(int IdKW)
+        {
+            List<VwPeopleKeyWord> data = null;
+            NostradamusContextFactory factory = new NostradamusContextFactory();
+            using (var context = factory.CreateDbContext(new string[] { _connection }))
+            {
+                data= context.VwPeopleKeyWords.Where(x => x.Idkw == IdKW).ToList();
+            }
+
+            return ModelsTransformer.TransferModelList<VwPeopleKeyWord, MVwPeopleKeyWord>(data);
+        }
+
+        // Single objects;
+        public MPersonBase GetPersonById(int Id)
+        {
+            Person data = null;
+            NostradamusContextFactory factory = new NostradamusContextFactory();
+            using (var context = factory.CreateDbContext(new string[] { _connection }))
+            {
+                
+                data = context.People.Where(x => x.Id == Id).FirstOrDefault();
+
+            }
+            return ModelsTransformer.TransferModel<Person, MPersonBase>(data);
+        }
     }
 }

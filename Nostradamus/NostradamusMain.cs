@@ -26,9 +26,15 @@ namespace Nostradamus
         private void NostradamusMain_Load(object sender, EventArgs e)
         {
             _userpref = new UserPreferenses();
-            _userpref.GetPrefernces();
+            SetStausBar();
         }
-
+        protected void SetStausBar()
+        {
+            if (_userpref.SelectedHousesSystem != null)
+            {
+                mnuStatusHouses.Text = $"Houses System: {_userpref.SelectedHousesSystem.SystemName}";
+            }
+        }
         private void OnCreateMapByLastName(object sender, EventArgs e)
         {
             MPersonBase person = null;
@@ -66,8 +72,11 @@ namespace Nostradamus
         {
             int id = (int)((TabPage)sender).Tag;
             AstroMapBase map = _maps.Where(x => x.ID == id).FirstOrDefault();
-            Graphics g = Graphics.FromHwnd(tabMapsCollection.SelectedTab.Handle);
-            map.DrawMap(g);
+            if (map != null)
+            {
+                Graphics g = Graphics.FromHwnd(tabMapsCollection.SelectedTab.Handle);
+                map.DrawMap(g);
+            }
         }
         private void ClearPanel()
         {
@@ -101,7 +110,7 @@ namespace Nostradamus
 
         private void NostradamusMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _userpref.SavePreferenses();
+            _userpref.Save();
         }
 
         private void AddNewMap_Click(object sender, EventArgs e)
@@ -138,23 +147,60 @@ namespace Nostradamus
 
         }
 
-        private void byKeywordsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OnCreateMapByKeyword(object sender, EventArgs e)
         {
-            MPersonBase person = null;
+            MVwPeopleKeyWord person = null;
             using (dlgCreateMapByKW dlg = new dlgCreateMapByKW())
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    //person = dlg.Person;
+                    person = dlg.SelectedPerson;
                 }
             }
-            //if (person != null)
-            //{
-            //    TabPage tp = UpdateTab(person.Id);
+            if (person != null)
+            {
+                AstroMapPerson map = new AstroMapPerson(person.IdPerson);
+                _maps.Add(map);
+                TabPage tp = UpdateTab(person.IdPerson);
+            }
+        }
 
-            //    AstroMapPerson map = new AstroMapPerson(person);
-            //    _maps.Add(map);
-            //}
+        private void setHouses_Click(object sender, EventArgs e)
+        {
+            HousesData selectedsys = null;
+            using (dlgHousesSystems dlg = new dlgHousesSystems(_userpref.SelectedHousesSystem))
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    selectedsys = dlg.SelectedSystem;
+                    if (selectedsys!=null && !string.IsNullOrEmpty(selectedsys.SystemID) && !string.IsNullOrEmpty(selectedsys.SystemName))
+                    {
+
+                        _userpref.SelectedHousesSystem = selectedsys;
+                        _userpref.Save();
+
+                    }
+                }
+            }
+        }
+
+        private void OnOrbsClicked(object sender, EventArgs e)
+        {
+            //HousesData selectedsys = null;
+            using (dlgOrbsSystem dlg = new dlgOrbsSystem())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    //selectedsys = dlg.SelectedSystem;
+                    //if (selectedsys != null && !string.IsNullOrEmpty(selectedsys.SystemID) && !string.IsNullOrEmpty(selectedsys.SystemName))
+                    //{
+
+                    //    _userpref.SelectedHousesSystem = selectedsys;
+                    //    _userpref.SavePreferenses();
+
+                    //}
+                }
+            }
         }
     }
 }

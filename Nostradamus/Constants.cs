@@ -11,5 +11,10 @@ namespace Nostradamus
         //public const string ConnectionGeoRemote = "NostraGeneralRemote";
         public const string ConnectionGeoLocal = "NostraGeo";
 
+        public const string DefaultOrbsSystem = "Huber";
+        public const string DefaultHuseSystemId = "K";
+        public const string DefaultHuseSystem = "Kock";
+
+
     }
 }

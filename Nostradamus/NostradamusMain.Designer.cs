@@ -34,15 +34,22 @@ namespace Nostradamus
             this.createMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miByLastName = new System.Windows.Forms.ToolStripMenuItem();
             this.miByID = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabMapsCollection = new System.Windows.Forms.TabControl();
             this.byKeywordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.setHouses = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabMapsCollection = new System.Windows.Forms.TabControl();
+            this.mnuStatus = new System.Windows.Forms.StatusStrip();
+            this.mnuStatusHouses = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mnuOrbs = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
+            this.mnuStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuMain
             // 
             this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createMapToolStripMenuItem});
+            this.createMapToolStripMenuItem,
+            this.mnuSettings});
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
             this.menuMain.Size = new System.Drawing.Size(1298, 24);
@@ -55,54 +62,98 @@ namespace Nostradamus
             this.miByLastName,
             this.miByID,
             this.byKeywordsToolStripMenuItem});
+            this.createMapToolStripMenuItem.Image = global::Nostradamus.Properties.Resources.map24;
             this.createMapToolStripMenuItem.Name = "createMapToolStripMenuItem";
-            this.createMapToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
+            this.createMapToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
             this.createMapToolStripMenuItem.Text = "Create Map...";
             // 
             // miByLastName
             // 
             this.miByLastName.Name = "miByLastName";
-            this.miByLastName.Size = new System.Drawing.Size(180, 22);
+            this.miByLastName.Size = new System.Drawing.Size(143, 22);
             this.miByLastName.Text = "By LastName";
             this.miByLastName.Click += new System.EventHandler(this.OnCreateMapByLastName);
             // 
             // miByID
             // 
             this.miByID.Name = "miByID";
-            this.miByID.Size = new System.Drawing.Size(180, 22);
+            this.miByID.Size = new System.Drawing.Size(143, 22);
             this.miByID.Text = "By ID";
             this.miByID.Click += new System.EventHandler(this.OnCreateMapById);
+            // 
+            // byKeywordsToolStripMenuItem
+            // 
+            this.byKeywordsToolStripMenuItem.Name = "byKeywordsToolStripMenuItem";
+            this.byKeywordsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.byKeywordsToolStripMenuItem.Text = "By Keywords";
+            this.byKeywordsToolStripMenuItem.Click += new System.EventHandler(this.OnCreateMapByKeyword);
+            // 
+            // mnuSettings
+            // 
+            this.mnuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setHouses,
+            this.mnuOrbs});
+            this.mnuSettings.Name = "mnuSettings";
+            this.mnuSettings.Size = new System.Drawing.Size(57, 20);
+            this.mnuSettings.Text = "Setings";
+            // 
+            // setHouses
+            // 
+            this.setHouses.Name = "setHouses";
+            this.setHouses.Size = new System.Drawing.Size(180, 22);
+            this.setHouses.Text = "Houses";
+            this.setHouses.Click += new System.EventHandler(this.setHouses_Click);
             // 
             // tabMapsCollection
             // 
             this.tabMapsCollection.Location = new System.Drawing.Point(13, 28);
             this.tabMapsCollection.Name = "tabMapsCollection";
             this.tabMapsCollection.SelectedIndex = 0;
-            this.tabMapsCollection.Size = new System.Drawing.Size(1273, 921);
+            this.tabMapsCollection.Size = new System.Drawing.Size(1273, 908);
             this.tabMapsCollection.TabIndex = 1;
             // 
-            // byKeywordsToolStripMenuItem
+            // mnuStatus
             // 
-            this.byKeywordsToolStripMenuItem.Name = "byKeywordsToolStripMenuItem";
-            this.byKeywordsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.byKeywordsToolStripMenuItem.Text = "By Keywords";
-            this.byKeywordsToolStripMenuItem.Click += new System.EventHandler(this.byKeywordsToolStripMenuItem_Click);
+            this.mnuStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuStatusHouses});
+            this.mnuStatus.Location = new System.Drawing.Point(0, 939);
+            this.mnuStatus.Name = "mnuStatus";
+            this.mnuStatus.Size = new System.Drawing.Size(1298, 22);
+            this.mnuStatus.TabIndex = 2;
+            this.mnuStatus.Text = "Settings";
+            // 
+            // mnuStatusHouses
+            // 
+            this.mnuStatusHouses.Name = "mnuStatusHouses";
+            this.mnuStatusHouses.Size = new System.Drawing.Size(118, 17);
+            this.mnuStatusHouses.Text = "toolStripStatusLabel1";
+            // 
+            // mnuOrbs
+            // 
+            this.mnuOrbs.Name = "mnuOrbs";
+            this.mnuOrbs.Size = new System.Drawing.Size(180, 22);
+            this.mnuOrbs.Text = "Orbs";
+            this.mnuOrbs.Click += new System.EventHandler(this.OnOrbsClicked);
             // 
             // NostradamusMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1298, 961);
+            this.Controls.Add(this.mnuStatus);
             this.Controls.Add(this.tabMapsCollection);
             this.Controls.Add(this.menuMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuMain;
             this.Name = "NostradamusMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Nostradamus 8.5";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NostradamusMain_FormClosing);
             this.Load += new System.EventHandler(this.NostradamusMain_Load);
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();
+            this.mnuStatus.ResumeLayout(false);
+            this.mnuStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,6 +167,11 @@ namespace Nostradamus
         private System.Windows.Forms.TabControl tabMapsCollection;
         private System.Windows.Forms.ToolStripMenuItem miByID;
         private System.Windows.Forms.ToolStripMenuItem byKeywordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuSettings;
+        private System.Windows.Forms.ToolStripMenuItem setHouses;
+        private System.Windows.Forms.StatusStrip mnuStatus;
+        private System.Windows.Forms.ToolStripStatusLabel mnuStatusHouses;
+        private System.Windows.Forms.ToolStripMenuItem mnuOrbs;
     }
 }
 

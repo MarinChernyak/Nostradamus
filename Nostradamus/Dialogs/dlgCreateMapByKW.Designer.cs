@@ -35,7 +35,7 @@ namespace Nostradamus.Dialogs
             this.btnGetPeople = new System.Windows.Forms.Button();
             this.btnDrillUp = new System.Windows.Forms.Button();
             this.btnCreateMap = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSelected = new System.Windows.Forms.TextBox();
             this.lblSelected = new System.Windows.Forms.Label();
             this.btnReturnKW = new System.Windows.Forms.Button();
             this.lstResult = new System.Windows.Forms.ListBox();
@@ -98,14 +98,14 @@ namespace Nostradamus.Dialogs
             this.btnCreateMap.UseVisualStyleBackColor = false;
             this.btnCreateMap.Click += new System.EventHandler(this.btnCreateMap_Click);
             // 
-            // textBox1
+            // txtSelected
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Info;
-            this.textBox1.Location = new System.Drawing.Point(15, 407);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(210, 23);
-            this.textBox1.TabIndex = 8;
+            this.txtSelected.BackColor = System.Drawing.SystemColors.Info;
+            this.txtSelected.Location = new System.Drawing.Point(15, 407);
+            this.txtSelected.Name = "txtSelected";
+            this.txtSelected.ReadOnly = true;
+            this.txtSelected.Size = new System.Drawing.Size(319, 23);
+            this.txtSelected.TabIndex = 8;
             // 
             // lblSelected
             // 
@@ -137,6 +137,7 @@ namespace Nostradamus.Dialogs
             this.lstResult.Name = "lstResult";
             this.lstResult.Size = new System.Drawing.Size(319, 319);
             this.lstResult.TabIndex = 10;
+            this.lstResult.SelectedValueChanged += new System.EventHandler(this.OnLstSelectionChanged);
             // 
             // dlgCreateMapByKW
             // 
@@ -145,7 +146,7 @@ namespace Nostradamus.Dialogs
             this.ClientSize = new System.Drawing.Size(348, 466);
             this.Controls.Add(this.lstResult);
             this.Controls.Add(this.lblSelected);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtSelected);
             this.Controls.Add(this.btnGetPeople);
             this.Controls.Add(this.lblLstKW);
             this.Controls.Add(this.btnCreateMap);
@@ -166,7 +167,7 @@ namespace Nostradamus.Dialogs
         private System.Windows.Forms.Button btnGetPeople;
         private System.Windows.Forms.Button btnDrillUp;
         private System.Windows.Forms.Button btnCreateMap;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSelected;
         private System.Windows.Forms.Label lblSelected;
         private System.Windows.Forms.Button btnReturnKW;
         private System.Windows.Forms.ListBox lstResult;

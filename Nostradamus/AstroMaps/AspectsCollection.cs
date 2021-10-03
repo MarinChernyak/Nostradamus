@@ -1,4 +1,5 @@
-﻿using NostraPlanetarium;
+﻿using Nostradamus.Models;
+using NostraPlanetarium;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -43,14 +44,22 @@ namespace Nostradamus.AstroMaps
     }
     public class AspectsCollection 
     {
-        protected List<AspectData> _AspectsDataCollection;
+        protected tAstroMapType AstroMapType { get; }
+
+        public List<AspectData> _AspectsDataCollection { get; protected set; }
         public List<Aspect> Aspects { get { return _aspects; } }
         protected List<Aspect> _aspects;
 
         protected OrbsCollection _orbs;
-        public AspectsCollection()
+        public AspectsCollection(tAstroMapType amt=tAstroMapType.RADICAL)
         {
-            _orbs = new OrbsCollection();
+            AstroMapType = amt;
+            UserPreferenses up = new UserPreferenses(false);
+            if (up != null)
+                _orbs = new OrbsCollection(up.OrbsSystem);    
+            else
+                _orbs = new OrbsCollection();
+
             _aspects = new List<Aspect>();
             CreateAspectsMap();
         }
@@ -122,6 +131,13 @@ namespace Nostradamus.AstroMaps
         }
         public AspectsCollection(List<SpaceObjectData> lstSO)
         {
+            UserPreferenses up = new UserPreferenses();
+            string orbssys = Constants.DefaultOrbsSystem;
+            if(up!=null)
+            {
+
+            }
+            //up.OrbsSystem
             _orbs = new OrbsCollection();
             CreateAspectsMap();
             CreateAspectsCollection(lstSO);
@@ -137,7 +153,7 @@ namespace Nostradamus.AstroMaps
                     double dLambda = Math.Abs(so1.Lambda - so2.Lambda);
                     if (dLambda > 180)
                     {
-                        dLambda = dLambda - 180 > 15 ? dLambda - 180 : dLambda;
+                        dLambda =  360-dLambda;
                     }
 
                     AspectType at = GetAspectType(dLambda, so1.PlanetType, so2.PlanetType);
@@ -164,8 +180,8 @@ namespace Nostradamus.AstroMaps
             AspectType at = AspectType.AT_NONE;
             double remainder = 0;
             at = GetAspectDataByvalue(30, angle, out remainder);
-            double o1 = _orbs.GetOrb(pt1, at);
-            double o2 = _orbs.GetOrb(pt2, at);
+            double o1 = _orbs.GetOrb(AstroMapType, pt1, at);
+            double o2 = _orbs.GetOrb(AstroMapType, pt2, at);
             double o = Math.Max(o1, o2);
             if(o< remainder)
                 at = AspectType.AT_NONE;

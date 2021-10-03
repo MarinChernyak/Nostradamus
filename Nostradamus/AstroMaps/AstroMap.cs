@@ -78,34 +78,45 @@ namespace Nostradamus.AstroMaps
         protected MPersonBase Person { get; }
         public AstroMapPerson(int id)
         {
-            _aspects = new AspectsCollection();
-            Person = new MPersonBase();
-            Person.Id = id;
-            GetPersonalData();
-            CreateHouses();
-            CreatePlanetsCollection();
+            if (id > 0)
+            {
+                ID = id;
+                PersonsCollection pc = new PersonsCollection();
+                Person = pc.GetPersonById(id);
+                if(Person !=null)
+                {
+                    CreateMap();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Unknown error in AstroMapPerson!");
+            }
         }
         public AstroMapPerson(MPersonBase person)
         {
             if (person != null)
             {
                 ID = person.Id;
-                _aspects = new AspectsCollection();
-                _geometry = new AstromapGeometry();
                 Person = person;
-
-                GetBirthPlace();
-                GetJD();                
-                CreateHouses();
-                CreatePlanetsCollection();
-                _aspects.CreateAspectsCollection(_planets);
+                CreateMap();
             }
             else
             {
-                MessageBox.Show("Unknown error!");
+                MessageBox.Show("Unknown error in AstroMapPerson!");
             }
 
 
+        }
+        protected void CreateMap()
+        {
+            _aspects = new AspectsCollection();
+            _geometry = new AstromapGeometry();
+            GetBirthPlace();
+            GetJD();
+            CreateHouses();
+            CreatePlanetsCollection();
+            _aspects.CreateAspectsCollection(_planets);
         }
         protected void GetJD()
         {
@@ -113,10 +124,6 @@ namespace Nostradamus.AstroMaps
             GetMidleValue(Person, out h, out m, out s);
             JD = new JulianDay(Person.BirthDay, Person.BirthMonth, Person.BirthYear, h, m, s, BirthPlace.TimeZoneData.TimeOffset, Person.AdditionalHours).JD;
 
-        }
-        protected void GetPersonalData()
-        {
-            //GetData byID
         }
         protected void GetBirthPlace()
         {
@@ -161,7 +168,16 @@ namespace Nostradamus.AstroMaps
 
         protected void CreateHouses()
         {
-            _houses = new AMHouses(JD, BirthPlace.Longitude, BirthPlace.Latitude, 'K', _geometry);
+            UserPreferenses up = new UserPreferenses();
+            HousesData hd = up.SelectedHousesSystem;
+            char system = 'K';
+            if(hd!=null && !string.IsNullOrEmpty(hd.SystemID))
+            {
+                char[] cc = hd.SystemID.ToCharArray();
+                system = cc[0];
+            }
+
+            _houses = new AMHouses(JD, BirthPlace.Longitude, BirthPlace.Latitude, system, _geometry);
         }
         public override void DrawMap(Graphics g)
         {
@@ -218,25 +234,33 @@ namespace Nostradamus.AstroMaps
                     dl += 360;
                 int index2 = (int)(dl / intWidth);
                 int index3 = (int)((sod._so.Lambda + intWidth / 2) / intWidth);
+                if (index3 >= iNumIntervals)
+                    index3 = iNumIntervals - 1;
 
                 string pt = sod._so.PlanetType.ToString();
-                
+                double delta = sod._so.Lambda - alfa;
+                if (delta < 0)
+                    delta += 360;
+
+
                 int iZuz = Math.Max(iZuz1[index1], iZuz2[index2]);
                 iZuz = Math.Max(iZuz, iZuz3[index3]);
 
                 string r = sod._so.SpeedLong < 0 ? "R" : "";
                 Icon icon = new Icon($"{path}{pt}{r}.ico");
 
-                double bbx = _geometry.Center.X - _geometry.RLimbCircle * Math.Cos((sod._so.Lambda - alfa) * Math.PI / 180) - BULET_SHIFT;
-                double bby = _geometry.Center.Y + _geometry.RLimbCircle * Math.Sin((sod._so.Lambda - alfa) * Math.PI / 180) - BULET_SHIFT;
+                double bbx = _geometry.Center.X - _geometry.RLimbCircle * Math.Cos(delta * Math.PI / 180) - BULET_SHIFT;
+                double bby = _geometry.Center.Y + _geometry.RLimbCircle * Math.Sin(delta * Math.PI / 180) - BULET_SHIFT;
                 sod._bullet = new PointF((float)bbx,(float) bby);                
 
                 Icon bb = sod.IsRed ? bricon : bbicon;
                 g.DrawIcon(bb, (int)bbx, (int)bby);
 
-                double px = _geometry.Center.X - planetShift * (1+0.09*iZuz)*Math.Cos((sod._so.Lambda - alfa) * Math.PI / 180);
-                double py = _geometry.Center.Y + planetShift * (1 + 0.09 * iZuz)*Math.Sin((sod._so.Lambda - alfa) * Math.PI / 180);
+               
+                double px = _geometry.Center.X - (planetShift + BULET_SHIFT) * (1 + 0.09 * iZuz) * Math.Cos((delta) * Math.PI / 180);
+                double py = _geometry.Center.Y + (planetShift- BULET_SHIFT) * (1 + 0.09 * iZuz) * Math.Sin((delta) * Math.PI / 180);
                 g.DrawIcon(icon, (int)px, (int)py);
+
 
                 iZuz1[index1]++;
                 iZuz2[index2]++;
