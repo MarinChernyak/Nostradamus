@@ -110,13 +110,12 @@ namespace Nostradamus.AstroMaps
         }
         protected void CreateMap()
         {
-            _aspects = new AspectsCollection();
             _geometry = new AstromapGeometry();
             GetBirthPlace();
             GetJD();
             CreateHouses();
             CreatePlanetsCollection();
-            _aspects.CreateAspectsCollection(_planets);
+            _aspects= new AspectsCollection(_planets, NPTypes.tAstroMapType.NATAL);
         }
         protected void GetJD()
         {

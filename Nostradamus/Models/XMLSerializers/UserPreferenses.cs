@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using System.Xml.Schema;
+using System.Windows;
 
 namespace Nostradamus.Models
 {
@@ -47,6 +48,10 @@ namespace Nostradamus.Models
                 Save();
             }
         }
+        protected override void UpdateFile()
+        {
+            _filename = _filename + "UserPreferences.xml";
+        }
         public string OrbsSystem {
             get { return _uprefrences.OrbsSystemName; }
             set
@@ -59,29 +64,22 @@ namespace Nostradamus.Models
         private UPrefXML _uprefrences { get; set; }
 
         
-        public UserPreferenses(bool initdef = true)
+        public UserPreferenses()
         {
-            _filename = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Models\\Data\\");
-            _filename = _filename +"UserPreferences.xml";
-            _uprefrences = new UPrefXML();
-            GetData();
-            if (initdef)
-            {
-                InitDefaults();
-            }
+            
         }
-        protected override void InitDefaults()
-        {
-            if (_uprefrences.HousesData == null || string.IsNullOrEmpty(_uprefrences.HousesData.SystemName))
-            {
-                _uprefrences.HousesData = new HousesData()
-                {
-                    SystemID = Constants.DefaultHuseSystemId,
-                    SystemName = Constants.DefaultHuseSystem
-                };
-                _uprefrences.OrbsSystemName = Constants.DefaultOrbsSystem;
-            }
-        }
+        //protected override void InitDefaults()
+        //{
+        //    if (_uprefrences.HousesData == null || string.IsNullOrEmpty(_uprefrences.HousesData.SystemName))
+        //    {
+        //        _uprefrences.HousesData = new HousesData()
+        //        {
+        //            SystemID = Constants.DefaultHuseSystemId,
+        //            SystemName = Constants.DefaultHuseSystem
+        //        };
+        //        _uprefrences.OrbsSystemName = Constants.DefaultOrbsSystem;
+        //    }
+        //}
         public  override void Save()
         {
             try
@@ -98,7 +96,7 @@ namespace Nostradamus.Models
             }
             catch(Exception e)
             {
-
+                MessageBox.Show($"UserPreferenses :Save => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public override void GetData()
@@ -116,6 +114,16 @@ namespace Nostradamus.Models
 
                 }
             }
+        }
+
+        protected override void UpdateFile(object param)
+        {
+            
+        }
+
+        public override void SaveAsNew()
+        {
+            
         }
     }
 }
