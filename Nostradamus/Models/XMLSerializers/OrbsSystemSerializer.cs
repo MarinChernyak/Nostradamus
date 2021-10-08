@@ -14,15 +14,16 @@ namespace Nostradamus.Models
 {
     public class OrbsSystemSerializer : XMLSerializerBase
     {
-        private string CurrentSystem { get;  }
+        private string CurrentSystem { get; set; }
         public OrbsCollectionData OrbsCollection { get; set; }
         public  OrbsSystemSerializer(string system)
             :base(system)
         {
-             CurrentSystem = system;            
+                      
         }
         protected override void UpdateFile(object param)
         {
+            CurrentSystem = param.ToString();
             _filename = $"{_filename}{param}.xml";
         }
         protected override void UpdateFile()
@@ -40,6 +41,7 @@ namespace Nostradamus.Models
                     try
                     {
                         OrbsCollection = (OrbsCollectionData)ser.Deserialize(reader);
+                        OrbsCollection.OrbsSystemName = CurrentSystem;
 
                     }
                     catch (Exception e)

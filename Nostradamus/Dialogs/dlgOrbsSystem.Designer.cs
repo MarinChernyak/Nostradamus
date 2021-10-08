@@ -31,10 +31,9 @@ namespace Nostradamus.Dialogs
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dlgOrbsSystem));
-            this.tableOtbs = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabCollectionsOrbs = new System.Windows.Forms.TabControl();
             this.tabNatal = new System.Windows.Forms.TabPage();
+            this.orbsPanelView = new Nostradamus.UserControls.OrbsPanelView();
             this.tabTransit = new System.Windows.Forms.TabPage();
             this.tabProgressions = new System.Windows.Forms.TabPage();
             this.lblExisting = new System.Windows.Forms.Label();
@@ -46,63 +45,9 @@ namespace Nostradamus.Dialogs
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.btnEdit = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableOtbs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabCollectionsOrbs.SuspendLayout();
             this.tabNatal.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableOtbs
-            // 
-            this.tableOtbs.AutoSize = true;
-            this.tableOtbs.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.tableOtbs.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableOtbs.ColumnCount = 14;
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableOtbs.Controls.Add(this.pictureBox1, 0, 2);
-            this.tableOtbs.Controls.Add(this.tableLayoutPanel1, 3, 4);
-            this.tableOtbs.Location = new System.Drawing.Point(6, 6);
-            this.tableOtbs.Name = "tableOtbs";
-            this.tableOtbs.RowCount = 13;
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableOtbs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableOtbs.Size = new System.Drawing.Size(440, 403);
-            this.tableOtbs.TabIndex = 0;
-            this.tableOtbs.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(4, 66);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(24, 24);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // tabCollectionsOrbs
             // 
@@ -112,26 +57,34 @@ namespace Nostradamus.Dialogs
             this.tabCollectionsOrbs.Location = new System.Drawing.Point(12, 63);
             this.tabCollectionsOrbs.Name = "tabCollectionsOrbs";
             this.tabCollectionsOrbs.SelectedIndex = 0;
-            this.tabCollectionsOrbs.Size = new System.Drawing.Size(460, 446);
+            this.tabCollectionsOrbs.Size = new System.Drawing.Size(435, 426);
             this.tabCollectionsOrbs.TabIndex = 2;
             // 
             // tabNatal
             // 
-            this.tabNatal.Controls.Add(this.tableOtbs);
+            this.tabNatal.Controls.Add(this.orbsPanelView);
             this.tabNatal.Location = new System.Drawing.Point(4, 24);
             this.tabNatal.Name = "tabNatal";
             this.tabNatal.Padding = new System.Windows.Forms.Padding(3);
-            this.tabNatal.Size = new System.Drawing.Size(452, 418);
+            this.tabNatal.Size = new System.Drawing.Size(427, 398);
             this.tabNatal.TabIndex = 0;
             this.tabNatal.Text = "Natal";
             this.tabNatal.UseVisualStyleBackColor = true;
+            // 
+            // orbsPanelView
+            // 
+            this.orbsPanelView.Location = new System.Drawing.Point(0, 0);
+            this.orbsPanelView.Name = "orbsPanelView";
+            this.orbsPanelView.OrbsData = null;
+            this.orbsPanelView.Size = new System.Drawing.Size(506, 443);
+            this.orbsPanelView.TabIndex = 10;
             // 
             // tabTransit
             // 
             this.tabTransit.Location = new System.Drawing.Point(4, 24);
             this.tabTransit.Name = "tabTransit";
             this.tabTransit.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTransit.Size = new System.Drawing.Size(452, 418);
+            this.tabTransit.Size = new System.Drawing.Size(542, 474);
             this.tabTransit.TabIndex = 1;
             this.tabTransit.Text = "Transit";
             this.tabTransit.UseVisualStyleBackColor = true;
@@ -140,7 +93,7 @@ namespace Nostradamus.Dialogs
             // 
             this.tabProgressions.Location = new System.Drawing.Point(4, 24);
             this.tabProgressions.Name = "tabProgressions";
-            this.tabProgressions.Size = new System.Drawing.Size(452, 418);
+            this.tabProgressions.Size = new System.Drawing.Size(542, 474);
             this.tabProgressions.TabIndex = 2;
             this.tabProgressions.Text = "Progressions";
             this.tabProgressions.UseVisualStyleBackColor = true;
@@ -160,14 +113,14 @@ namespace Nostradamus.Dialogs
             this.cmbExisting.FormattingEnabled = true;
             this.cmbExisting.Location = new System.Drawing.Point(12, 25);
             this.cmbExisting.Name = "cmbExisting";
-            this.cmbExisting.Size = new System.Drawing.Size(359, 23);
+            this.cmbExisting.Size = new System.Drawing.Size(323, 23);
             this.cmbExisting.TabIndex = 4;
             // 
             // btnNew
             // 
             this.btnNew.BackColor = System.Drawing.SystemColors.Highlight;
             this.btnNew.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnNew.Location = new System.Drawing.Point(418, 25);
+            this.btnNew.Location = new System.Drawing.Point(392, 24);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(51, 23);
             this.btnNew.TabIndex = 5;
@@ -180,7 +133,7 @@ namespace Nostradamus.Dialogs
             // 
             this.btnSave.BackColor = System.Drawing.SystemColors.Highlight;
             this.btnSave.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnSave.Location = new System.Drawing.Point(116, 512);
+            this.btnSave.Location = new System.Drawing.Point(132, 495);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(108, 23);
             this.btnSave.TabIndex = 6;
@@ -193,7 +146,7 @@ namespace Nostradamus.Dialogs
             // 
             this.btnCancel.BackColor = System.Drawing.SystemColors.Highlight;
             this.btnCancel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCancel.Location = new System.Drawing.Point(230, 512);
+            this.btnCancel.Location = new System.Drawing.Point(246, 495);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(89, 23);
             this.btnCancel.TabIndex = 7;
@@ -206,32 +159,19 @@ namespace Nostradamus.Dialogs
             // 
             this.btnEdit.BackColor = System.Drawing.SystemColors.Highlight;
             this.btnEdit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnEdit.Location = new System.Drawing.Point(377, 25);
+            this.btnEdit.Location = new System.Drawing.Point(341, 24);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(35, 23);
+            this.btnEdit.Size = new System.Drawing.Size(51, 23);
             this.btnEdit.TabIndex = 8;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(97, 128);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(24, 24);
-            this.tableLayoutPanel1.TabIndex = 1;
-            // 
             // dlgOrbsSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 547);
+            this.ClientSize = new System.Drawing.Size(458, 530);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
@@ -242,23 +182,15 @@ namespace Nostradamus.Dialogs
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "dlgOrbsSystem";
             this.Text = "dlgOrbsSystem";
-            this.tableOtbs.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabCollectionsOrbs.ResumeLayout(false);
             this.tabNatal.ResumeLayout(false);
-            this.tabNatal.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TableLayoutPanel tableOtbs;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TabControl tabCollectionsOrbs;
-        private System.Windows.Forms.TabPage tabNatal;
-        private System.Windows.Forms.TabPage tabTransit;
         private System.Windows.Forms.TabPage tabProgressions;
         private System.Windows.Forms.Label lblExisting;
         private System.Windows.Forms.ComboBox cmbExisting;
@@ -269,6 +201,8 @@ namespace Nostradamus.Dialogs
         private System.Windows.Forms.ToolTip toolTip2;
         private System.Windows.Forms.ToolTip toolTip3;
         private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private UserControls.OrbsPanelView orbsPanelView;
+        private System.Windows.Forms.TabPage tabNatal;
+        private System.Windows.Forms.TabPage tabTransit;
     }
 }

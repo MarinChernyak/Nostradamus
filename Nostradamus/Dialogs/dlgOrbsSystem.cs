@@ -22,45 +22,63 @@ namespace Nostradamus.Dialogs
         protected List<OrbsCollectionData> OrbsCollection {get; set;}
         public dlgOrbsSystem()
         {
+            _aspects = new string[]
+            {
+                "Conjunction","Semisextile","Sextile","Quadro","Trin","Quincunx","Opposition","Quintile","Biquintile","Octile","Trioctile","Decile","Tridecile"
+            }.ToList();
             InitializeComponent();
+            
             InitOrbsCollection();
-            InitCombos();
             InitTable();
-            InitDialogsImages();
+            InitCombos();
+            //InitTable();
+            //InitDialogsImages();
         }
         protected void InitTable()
         {
-            if(OrbsCollection!=null && OrbsCollection.Count>0)
-            {
-                OrbsCollectionData ocd = OrbsCollection.Where(x => x.OrbsSystemName == CurrentSystem).FirstOrDefault();
-                if(ocd!=null)
-                {
-                    foreach(OrbsMapCollection tab in ocd.OrbsMapCollection)
-                    {
-                        tAstroMapType type = tab.MapType;
-                        string tabtype = Utilities.FromUpperCaseToLowerWithFirstCapital< tAstroMapType>(type);
-                        List<PlanetsAspectsOrbsPairsCollection> paoclst = tab.PlanetsAspectsOrbsCollection;
-                        tabCollectionsOrbs.SelectTab($"tab{tabtype}");
+            OrbsCollectionData ocd = OrbsCollection.Where(x => x.OrbsSystemName == CurrentSystem).FirstOrDefault();
+            OrbsMapCollection omc =  ocd.OrbsMapCollection.Where(x=>x.MapType == tAstroMapType.NATAL).FirstOrDefault();
 
-                        foreach(PlanetsAspectsOrbsPairsCollection paoc in paoclst)
-                        {
-                            tPlanetType pt = paoc.PlanetType;
-                            foreach(AspectOrbsPair aop in paoc.AspectOrbsCollection)
-                            {
-                                AspectType AspectType = aop.AspectType;
-                                string aspectt = Utilities.FromUpperCaseToLowerWithFirstCapital<AspectType>(AspectType);
-                                double value = aop.OrbValue;
-                                TabPage tpage = tabCollectionsOrbs.SelectedTab;
-                                Label l = new Label();
-                                l.Text = value.ToString();
-                                int index = _aspects.FindIndex(x => x == aspectt);
-                                tableOtbs.Controls.Add(l, index+1, (int)pt + 1);
-                            }
-                        }
+            //            //string tabtype = Utilities.FromUpperCaseToLowerWithFirstCapital< tAstroMapType>(type);
+            //            List<PlanetsAspectsOrbsPairsCollection> paoclst = tab.PlanetsAspectsOrbsCollection;
 
-                    }
-                }
-            }
+            orbsPanelView.OrbsData = omc.PlanetsAspectsOrbsCollection;
+            orbsPanelView.Refresh();
+            //tableOtbs.SuspendLayout();
+            //if (OrbsCollection!=null && OrbsCollection.Count>0)
+            //{
+            //    OrbsCollectionData ocd = OrbsCollection.Where(x => x.OrbsSystemName == CurrentSystem).FirstOrDefault();
+            //    if(ocd!=null)
+            //    {
+            //        foreach(OrbsMapCollection tab in ocd.OrbsMapCollection)
+            //        {
+            //            tAstroMapType type = tab.MapType;
+            //            //string tabtype = Utilities.FromUpperCaseToLowerWithFirstCapital< tAstroMapType>(type);
+            //            List<PlanetsAspectsOrbsPairsCollection> paoclst = tab.PlanetsAspectsOrbsCollection;
+            //            //tabCollectionsOrbs.SelectTab($"tab{tabtype}");
+
+            //            foreach(PlanetsAspectsOrbsPairsCollection paoc in paoclst)
+            //            {
+            //                tPlanetType pt = paoc.PlanetType;
+            //                int counter = 1;
+            //                foreach(AspectOrbsPair aop in paoc.AspectOrbsCollection)
+            //                {
+            //                    //AspectType AspectType = aop.AspectType;
+            //                    //string aspectt = Utilities.FromUpperCaseToLowerWithFirstCapital<AspectType>(AspectType);
+            //                    double value = aop.OrbValue;
+            //                    TextBox l = new TextBox();
+            //                    l.Text = value.ToString();
+            //                    //int index = _aspects.FindIndex(x => x == aspectt);
+            //                    int col = counter++;
+            //                    int row = (int)pt + 1;
+            //                    tableOtbs.Controls.Add(l, col, row);
+            //                }
+            //            }
+
+            //        }
+            //    }
+            //}
+            //tableOtbs.ResumeLayout();
         }
         protected void InitOrbsCollection()
         {
@@ -105,10 +123,7 @@ namespace Nostradamus.Dialogs
         }
         private void InitDialogsImages()
         {
-            _aspects = new string[]
-            {
-                "Conjunction","Semisextile","Sextile","Quadro","Trin","Quincunx","Opposition","Quintile","Biquintile","Octile","Trioctile","Decile","Tridecile"
-            }.ToList();
+
             try
             {
                 SetupPlanetsImages();
@@ -151,19 +166,16 @@ namespace Nostradamus.Dialogs
         }
         protected void PutImage(string ImagePath,int column, int row)
         {
-            Panel panel = new Panel();
-            PictureBox pb = new PictureBox();
-            pb.Image = new Bitmap(ImagePath);
-            pb.Size = new System.Drawing.Size(16, 16);
-            panel.Controls.Add(pb);
-            panel.Dock = DockStyle.Fill;
-            pb.Top = 4;
-            pb.Left = 4;
-            tableOtbs.Controls.Add(panel, column, row);
-        }
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-           
+            //Panel panel = new Panel();
+            //PictureBox pb = new PictureBox();
+            //pb.Image = new Bitmap(ImagePath);
+            //pb.Size = new System.Drawing.Size(16, 16);
+            //panel.Controls.Add(pb);
+            //panel.Dock = DockStyle.Fill;
+            //pb.Top = 4;
+            //pb.Left = 4;
+            //tableOtbs.Controls.Add(panel, column, row);
+            
         }
 
         private void btnSave_Click(object sender, EventArgs e)
