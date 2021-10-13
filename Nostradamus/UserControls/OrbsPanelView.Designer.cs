@@ -36,9 +36,10 @@ namespace Nostradamus.UserControls
             // 
             this.panMain.Location = new System.Drawing.Point(0, 0);
             this.panMain.Name = "panMain";
-            this.panMain.Size = new System.Drawing.Size(548, 432);
+            this.panMain.Size = new System.Drawing.Size(430, 400);
             this.panMain.TabIndex = 0;
             this.panMain.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaintMain);
+            this.panMain.DoubleClick += new System.EventHandler(this.OnDoubleCkickPanel);
             // 
             // OrbsPanelView
             // 
@@ -46,7 +47,7 @@ namespace Nostradamus.UserControls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panMain);
             this.Name = "OrbsPanelView";
-            this.Size = new System.Drawing.Size(551, 432);
+            this.Size = new System.Drawing.Size(458, 432);
             this.ResumeLayout(false);
 
         }

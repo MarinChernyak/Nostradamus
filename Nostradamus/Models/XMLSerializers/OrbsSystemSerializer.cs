@@ -65,15 +65,6 @@ namespace Nostradamus.Models
                         ser.Serialize(writer, OrbsCollection);
                         writer.Close();
                     }
-                    //XmlSerializer ser = new XmlSerializer(typeof(OrbsCollectionData));
-                    //using (Stream fs = new FileStream(_filename, FileMode.Create))
-                    //{
-                    //    using (XmlWriter writer = new XmlTextWriter(fs, Encoding.Unicode))
-                    //    {
-                    //        ser.Serialize(writer, OrbsCollection);
-                    //        writer.Close();
-                    //    }
-                    //}
                 }
             }
             catch (Exception e)

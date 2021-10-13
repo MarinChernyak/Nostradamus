@@ -17,8 +17,11 @@ namespace Nostradamus.Models.XMLSerializers
            
             GetData();
         }
-        public void AddSystemToCollectuion(string newsystem)
+        public void AddSystemToCollection(string newsystem)
         {
+            if (OrbsSystemsList == null)
+                OrbsSystemsList = new List<string>();
+
             int index=OrbsSystemsList.FindIndex(x =>x== newsystem);
             if(index<0)
             {
@@ -28,17 +31,21 @@ namespace Nostradamus.Models.XMLSerializers
         public override void GetData()
         {
             XmlSerializer ser = new XmlSerializer(typeof(List<string>));
-
-            using (Stream reader = new FileStream(_filename, FileMode.Open))
+            if (File.Exists(_filename))
             {
-                try
+                using (Stream reader = new FileStream(_filename, FileMode.Open))
                 {
-                    OrbsSystemsList = (List<string>)ser.Deserialize(reader);
+                    try
+                    {
+                        OrbsSystemsList = (List<string>)ser.Deserialize(reader);
+                        if (OrbsSystemsList == null)
+                            OrbsSystemsList = new List<string>();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                catch
-                {
-
-                }                
             }
         }
 
@@ -46,14 +53,12 @@ namespace Nostradamus.Models.XMLSerializers
         {
             try
             {
+                var xmlWriterSettings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.Unicode, NewLineHandling = NewLineHandling.Entitize };
                 XmlSerializer ser = new XmlSerializer(typeof(List<string>));
-                using (Stream fs = new FileStream(_filename, FileMode.Create))
+                using (XmlWriter writer = XmlWriter.Create(_filename, xmlWriterSettings))
                 {
-                    using (XmlWriter writer = new XmlTextWriter(fs, Encoding.Unicode))
-                    {
-                        ser.Serialize(writer, OrbsSystemsList);
-                        writer.Close();
-                    }
+                    ser.Serialize(writer, OrbsSystemsList);
+                    writer.Close();
                 }
             }
             catch (Exception e)
@@ -62,13 +67,6 @@ namespace Nostradamus.Models.XMLSerializers
 
             }
         }
-
-        //protected override void InitDefaults()
-        //{
-        //    OrbsSystemsList = new List<string>();
-        //    OrbsSystemsList.Add(Constants.DefaultOrbsSystem);
-        //    Save();
-        //}
 
         protected override void UpdateFile()
         {

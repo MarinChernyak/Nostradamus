@@ -141,8 +141,9 @@ namespace Nostradamus.Dialogs
 
         private void OnInputCtrlKryPressed(object sender, KeyPressEventArgs e)
         {
-            const char Delete = (char)8;
-            e.Handled = !Char.IsDigit(e.KeyChar) && e.KeyChar != Delete;
+            //const char Delete = (char)8;
+            //e.Handled = !Char.IsDigit(e.KeyChar) && e.KeyChar != Delete;
+            e.Handled = Utilities.IsErrorInt(e);
         }
     }
 }
