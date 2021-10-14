@@ -42,7 +42,7 @@ namespace Nostradamus.UserControls
                             continue;
 
                         double dVal = aop.OrbValue;
-                        float Y = (index + 1) * _painter._Width_Grid_Cell + 5;
+                        float Y = (index + 1) * _painter._Height_Grid_Cell + 5;
                         float X = (j+1) * _painter._Width_Grid_Cell + 5;
                         g.DrawString(dVal.ToString(), f, Brushes.Black, new PointF(X,Y));
                     }
@@ -57,7 +57,7 @@ namespace Nostradamus.UserControls
             int X = me.X;
             int Y = me.Y;
 
-            int planet = Y/ _painter._Width_Grid_Cell - 1;
+            int planet = Y/ _painter._Height_Grid_Cell - 1;
             int aspect = X /_painter._Width_Grid_Cell - 1;
 
             string splanet = Utilities.FromUpperCaseToLowerWithFirstCapital<tPlanetType>(_painter._planets[planet]);

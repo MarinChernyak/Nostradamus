@@ -41,6 +41,7 @@ namespace Nostradamus
             this.tabMapsCollection = new System.Windows.Forms.TabControl();
             this.mnuStatus = new System.Windows.Forms.StatusStrip();
             this.mnuStatusHouses = new System.Windows.Forms.ToolStripStatusLabel();
+            this.objectsVisibilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             this.mnuStatus.SuspendLayout();
             this.SuspendLayout();
@@ -70,21 +71,21 @@ namespace Nostradamus
             // miByLastName
             // 
             this.miByLastName.Name = "miByLastName";
-            this.miByLastName.Size = new System.Drawing.Size(180, 22);
+            this.miByLastName.Size = new System.Drawing.Size(143, 22);
             this.miByLastName.Text = "By LastName";
             this.miByLastName.Click += new System.EventHandler(this.OnCreateMapByLastName);
             // 
             // miByID
             // 
             this.miByID.Name = "miByID";
-            this.miByID.Size = new System.Drawing.Size(180, 22);
+            this.miByID.Size = new System.Drawing.Size(143, 22);
             this.miByID.Text = "By ID";
             this.miByID.Click += new System.EventHandler(this.OnCreateMapById);
             // 
             // byKeywordsToolStripMenuItem
             // 
             this.byKeywordsToolStripMenuItem.Name = "byKeywordsToolStripMenuItem";
-            this.byKeywordsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.byKeywordsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.byKeywordsToolStripMenuItem.Text = "By Keywords";
             this.byKeywordsToolStripMenuItem.Click += new System.EventHandler(this.OnCreateMapByKeyword);
             // 
@@ -92,7 +93,8 @@ namespace Nostradamus
             // 
             this.mnuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.setHouses,
-            this.mnuOrbs});
+            this.mnuOrbs,
+            this.objectsVisibilityToolStripMenuItem});
             this.mnuSettings.Name = "mnuSettings";
             this.mnuSettings.Size = new System.Drawing.Size(57, 20);
             this.mnuSettings.Text = "Setings";
@@ -100,14 +102,14 @@ namespace Nostradamus
             // setHouses
             // 
             this.setHouses.Name = "setHouses";
-            this.setHouses.Size = new System.Drawing.Size(113, 22);
+            this.setHouses.Size = new System.Drawing.Size(180, 22);
             this.setHouses.Text = "Houses";
             this.setHouses.Click += new System.EventHandler(this.setHouses_Click);
             // 
             // mnuOrbs
             // 
             this.mnuOrbs.Name = "mnuOrbs";
-            this.mnuOrbs.Size = new System.Drawing.Size(113, 22);
+            this.mnuOrbs.Size = new System.Drawing.Size(180, 22);
             this.mnuOrbs.Text = "Orbs";
             this.mnuOrbs.Click += new System.EventHandler(this.OnOrbsClicked);
             // 
@@ -134,6 +136,13 @@ namespace Nostradamus
             this.mnuStatusHouses.Name = "mnuStatusHouses";
             this.mnuStatusHouses.Size = new System.Drawing.Size(118, 17);
             this.mnuStatusHouses.Text = "toolStripStatusLabel1";
+            // 
+            // objectsVisibilityToolStripMenuItem
+            // 
+            this.objectsVisibilityToolStripMenuItem.Name = "objectsVisibilityToolStripMenuItem";
+            this.objectsVisibilityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectsVisibilityToolStripMenuItem.Text = "Objects Visibility";
+            this.objectsVisibilityToolStripMenuItem.Click += new System.EventHandler(this.OnClickObjectsVisibility);
             // 
             // NostradamusMain
             // 
@@ -172,6 +181,7 @@ namespace Nostradamus
         private System.Windows.Forms.StatusStrip mnuStatus;
         private System.Windows.Forms.ToolStripStatusLabel mnuStatusHouses;
         private System.Windows.Forms.ToolStripMenuItem mnuOrbs;
+        private System.Windows.Forms.ToolStripMenuItem objectsVisibilityToolStripMenuItem;
     }
 }
 

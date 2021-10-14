@@ -191,14 +191,16 @@ namespace Nostradamus
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    //selectedsys = dlg.SelectedSystem;
-                    //if (selectedsys != null && !string.IsNullOrEmpty(selectedsys.SystemID) && !string.IsNullOrEmpty(selectedsys.SystemName))
-                    //{
+                }
+            }
+        }
 
-                    //    _userpref.SelectedHousesSystem = selectedsys;
-                    //    _userpref.SavePreferenses();
-
-                    //}
+        private void OnClickObjectsVisibility(object sender, EventArgs e)
+        {
+            using (dlgPlanetsVisibility dlg = new dlgPlanetsVisibility())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
                 }
             }
         }

@@ -25,7 +25,19 @@ namespace Nostradamus.Models
         public abstract void GetData();
         protected abstract void UpdateFile();
         protected abstract void UpdateFile(object param);
-        public abstract void SaveAsNew();
+        public virtual void SaveAsNew()
+        {
+            if (!File.Exists(_filename))
+            {
+                using (FileStream fs = File.Create(_filename))
+                {
+                    for (byte i = 0; i < 100; i++)
+                    {
+                        fs.WriteByte(i);
+                    }
+                }
+            }
+        }
 
     }
 }

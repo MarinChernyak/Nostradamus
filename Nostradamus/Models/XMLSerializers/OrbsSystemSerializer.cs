@@ -75,21 +75,7 @@ namespace Nostradamus.Models
             }
         }
 
-        public override void SaveAsNew()
-        {
-            if (!File.Exists(_filename))
-            {
-                using (FileStream fs = File.Create(_filename))
-                {
-                    for (byte i = 0; i < 100; i++)
-                    {
-                        fs.WriteByte(i);
-                    }
-                }
-            }
 
-            
-        }
 
         
 
