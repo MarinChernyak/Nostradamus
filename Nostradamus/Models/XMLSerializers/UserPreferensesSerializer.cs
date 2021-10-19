@@ -30,66 +30,36 @@ namespace Nostradamus.Models
         public string SystemID { get; set; }
         public string SystemRef { get; set; }
     }
-    public class UPrefXML 
+    public class UserPreferensesData 
     {
         public string OrbsSystemName { get; set; }
         public HousesData HousesData { get; set; }
 
         
     }
-    public class UserPreferenses : XMLSerializerBase
+    public class UserPreferensesSerializer : XMLSerializerBase
     {
-        public HousesData SelectedHousesSystem
-        {
-            get { return _uprefrences.HousesData; }
-            set
-            { 
-                _uprefrences.HousesData = value;
-                Save();
-            }
-        }
+        public override object Data { get; set; }
+        
         protected override void UpdateFile()
         {
             _filename = _filename + "UserPreferences.xml";
-        }
-        public string OrbsSystem {
-            get { return _uprefrences.OrbsSystemName; }
-            set
-            {
-                _uprefrences.OrbsSystemName = value;
-                Save();
-            }
-        }
-
-        private UPrefXML _uprefrences { get; set; }
-
-        
-        public UserPreferenses()
+        }  
+         
+        public UserPreferensesSerializer()
         {
-            
+            Data = new UserPreferensesData();
         }
-        //protected override void InitDefaults()
-        //{
-        //    if (_uprefrences.HousesData == null || string.IsNullOrEmpty(_uprefrences.HousesData.SystemName))
-        //    {
-        //        _uprefrences.HousesData = new HousesData()
-        //        {
-        //            SystemID = Constants.DefaultHuseSystemId,
-        //            SystemName = Constants.DefaultHuseSystem
-        //        };
-        //        _uprefrences.OrbsSystemName = Constants.DefaultOrbsSystem;
-        //    }
-        //}
         public  override void Save()
         {
             try
             {
-                XmlSerializer ser = new XmlSerializer(typeof(UPrefXML));
+                XmlSerializer ser = new XmlSerializer(typeof(UserPreferensesData));
                 using (Stream fs = new FileStream(_filename, FileMode.Create))
                 {
                     using (XmlWriter writer = new XmlTextWriter(fs, Encoding.Unicode))
                     {
-                        ser.Serialize(writer, _uprefrences);
+                        ser.Serialize(writer, Data);
                         writer.Close();
                     }
                 }
@@ -101,13 +71,13 @@ namespace Nostradamus.Models
         }
         public override void GetData()
         {
-            XmlSerializer ser = new XmlSerializer(typeof(UPrefXML));
+            XmlSerializer ser = new XmlSerializer(typeof(UserPreferensesData));
 
             using (Stream reader = new FileStream(_filename, FileMode.Open))
             {
                 try
                 {
-                    _uprefrences = (UPrefXML)ser.Deserialize(reader);
+                    Data = (UserPreferensesData)ser.Deserialize(reader);
                 }
                 catch
                 {

@@ -11,10 +11,10 @@ namespace Nostradamus.Models.XMLSerializers
 {
     public class PlanetsVisibilitySerializer : XMLSerializerBase
     {
-        public List<MapPlanetsVisibilityCollection> MapPlanetsVisibilityCollection { get; set; }
+        public List<GroupMapPlanetsVisibilityCollection> LstGroupMapPlanetsVisibilityCollection { get; set; }
         public override void GetData()
         {
-            XmlSerializer ser = new XmlSerializer(typeof(List<MapPlanetsVisibilityCollection>));
+            XmlSerializer ser = new XmlSerializer(typeof(List<GroupMapPlanetsVisibilityCollection>));
             if(!File.Exists(_filename))
             {
                 File.Create(_filename);
@@ -24,13 +24,18 @@ namespace Nostradamus.Models.XMLSerializers
             {
                 try
                 {
-                    MapPlanetsVisibilityCollection = (List<MapPlanetsVisibilityCollection>)ser.Deserialize(reader);
-                    if (MapPlanetsVisibilityCollection == null)
-                        MapPlanetsVisibilityCollection = new List<MapPlanetsVisibilityCollection>();
+                    LstGroupMapPlanetsVisibilityCollection = (List<GroupMapPlanetsVisibilityCollection>)ser.Deserialize(reader);
+                    if (LstGroupMapPlanetsVisibilityCollection == null)
+                        LstGroupMapPlanetsVisibilityCollection = new List<GroupMapPlanetsVisibilityCollection>();
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"PlanetsVisibilitySerializer :GetData => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //MessageBox.Show($"PlanetsVisibilitySerializer :GetData => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                if(LstGroupMapPlanetsVisibilityCollection==null)
+                {
+                    LstGroupMapPlanetsVisibilityCollection = new List<GroupMapPlanetsVisibilityCollection>();
                 }
             }            
         }
@@ -39,13 +44,13 @@ namespace Nostradamus.Models.XMLSerializers
         {
             try
             {
-                if (MapPlanetsVisibilityCollection != null)
+                if (LstGroupMapPlanetsVisibilityCollection != null)
                 {
                     var xmlWriterSettings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.Unicode, NewLineHandling = NewLineHandling.Entitize };
-                    XmlSerializer ser = new XmlSerializer(typeof(List<MapPlanetsVisibilityCollection>));
+                    XmlSerializer ser = new XmlSerializer(typeof(List<GroupMapPlanetsVisibilityCollection>));
                     using (XmlWriter writer = XmlWriter.Create(_filename, xmlWriterSettings))
                     {
-                        ser.Serialize(writer, MapPlanetsVisibilityCollection);
+                        ser.Serialize(writer, LstGroupMapPlanetsVisibilityCollection);
                         writer.Close();
                     }
                 }

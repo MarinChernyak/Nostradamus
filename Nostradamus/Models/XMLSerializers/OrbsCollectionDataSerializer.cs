@@ -12,11 +12,11 @@ using static NostraPlanetarium.NPTypes;
 
 namespace Nostradamus.Models
 {
-    public class OrbsSystemSerializer : XMLSerializerBase
+    public class OrbsCollectionDataSerializer : XMLSerializerBase
     {
         private string CurrentSystem { get; set; }
-        public OrbsCollectionData OrbsCollection { get; set; }
-        public  OrbsSystemSerializer(string system)
+        //public OrbsCollectionData OrbsCollection { get; set; }
+        public  OrbsCollectionDataSerializer(string system)
             :base(system)
         {
                       
@@ -40,8 +40,8 @@ namespace Nostradamus.Models
                 {
                     try
                     {
-                        OrbsCollection = (OrbsCollectionData)ser.Deserialize(reader);
-                        OrbsCollection.OrbsSystemName = CurrentSystem;
+                        Data = (OrbsCollectionData)ser.Deserialize(reader);
+                        ((OrbsCollectionData)Data).OrbsSystemName = CurrentSystem;
 
                     }
                     catch (Exception e)
@@ -56,13 +56,13 @@ namespace Nostradamus.Models
         {
             try
             {
-                if (OrbsCollection != null)
+                if (Data != null)
                 {
                     var xmlWriterSettings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.Unicode, NewLineHandling = NewLineHandling.Entitize };
                     XmlSerializer ser = new XmlSerializer(typeof(OrbsCollectionData));
                     using(XmlWriter writer = XmlWriter.Create(_filename, xmlWriterSettings))
                     {
-                        ser.Serialize(writer, OrbsCollection);
+                        ser.Serialize(writer, Data);
                         writer.Close();
                     }
                 }

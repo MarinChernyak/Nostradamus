@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Nostradamus.AstroMaps;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Xml;
@@ -9,25 +9,22 @@ using System.Xml.Serialization;
 
 namespace Nostradamus.Models.XMLSerializers
 {
-    public class OrbsSystemListSerializer : XMLSerializerBase
+    public class AspectsMapSerializer : XMLSerializerBase
     {
-        public List<string> OrbsSystemsList { get; protected set; }
         public override void GetData()
         {
-            XmlSerializer ser = new XmlSerializer(typeof(List<string>));
+            XmlSerializer ser = new XmlSerializer(typeof(OrbsCollectionData));
             if (File.Exists(_filename))
             {
                 using (Stream reader = new FileStream(_filename, FileMode.Open))
                 {
                     try
                     {
-                        OrbsSystemsList = (List<string>)ser.Deserialize(reader);
-                        if (OrbsSystemsList == null)
-                            OrbsSystemsList = new List<string>();
+                        Data = (List<AspectData>)ser.Deserialize(reader);
                     }
                     catch (Exception e)
                     {
-                        //MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        //MessageBox.Show($"AspectsMapSerializer :GetData => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -41,13 +38,13 @@ namespace Nostradamus.Models.XMLSerializers
                 XmlSerializer ser = new XmlSerializer(typeof(List<string>));
                 using (XmlWriter writer = XmlWriter.Create(_filename, xmlWriterSettings))
                 {
-                    ser.Serialize(writer, OrbsSystemsList);
+                    ser.Serialize(writer, Data);
                     writer.Close();
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show($"OrbsSystemListSerializer: Save => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show($"AspectsMapSerializer: Save => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
         }
@@ -59,12 +56,7 @@ namespace Nostradamus.Models.XMLSerializers
 
         protected override void UpdateFile(object param)
         {
-           
-        }
 
-        public override void SaveAsNew()
-        {
-            
         }
     }
 }

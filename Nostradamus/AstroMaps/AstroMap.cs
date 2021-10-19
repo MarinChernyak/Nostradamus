@@ -1,5 +1,6 @@
 ﻿
 using Nostradamus.Models;
+using Nostradamus.Models.DataFactories;
 using Nostradamus.Models.GeoModels;
 using NostradamusDAL.EntitiesGeo;
 using NostradamusDAL.Factory;
@@ -155,8 +156,11 @@ namespace Nostradamus.AstroMaps
         {
 
             _planets = new List<SpaceObjectData>();
-            for (int t = (int)NPTypes.tPlanetType.PT_SUN; t < (int)NPTypes.tPlanetType.PT_TRUE_NODE; ++t)
+            for (int t = (int)NPTypes.tPlanetType.PT_SUN; t <= (int)NPTypes.tPlanetType.PT_TRUE_NODE; ++t)
             {
+                if (t == (int)NPTypes.tPlanetType.PT_MEAN_NODE)
+                    continue;
+
                 SpaceObject so = new BigObject(JD, (NPTypes.tPlanetType)t);
                 _planets.Add(new SpaceObjectData()
                 {
@@ -167,8 +171,8 @@ namespace Nostradamus.AstroMaps
 
         protected void CreateHouses()
         {
-            UserPreferenses up = new UserPreferenses();
-            HousesData hd = up.SelectedHousesSystem;
+            UserPreferncesDataFactory up = new UserPreferncesDataFactory();
+            HousesData hd = up.Data.HousesData;
             char system = 'K';
             if(hd!=null && !string.IsNullOrEmpty(hd.SystemID))
             {
@@ -199,13 +203,10 @@ namespace Nostradamus.AstroMaps
                 if (sod1 != null && sod2 != null)
                 {
 
-                    if (at._aspect_data.PenToDraw != null)
-                    {
-                        PointF bulet1 = new PointF(sod1._bullet.X + BULET_SHIFT, sod1._bullet.Y + BULET_SHIFT);
-                        PointF bulet2 = new PointF(sod2._bullet.X + BULET_SHIFT, sod2._bullet.Y + BULET_SHIFT);
+                    PointF bulet1 = new PointF(sod1._bullet.X + BULET_SHIFT, sod1._bullet.Y + BULET_SHIFT);
+                    PointF bulet2 = new PointF(sod2._bullet.X + BULET_SHIFT, sod2._bullet.Y + BULET_SHIFT);
 
-                        g.DrawLine(at._aspect_data.PenToDraw, bulet1, bulet2);
-                    }
+                    g.DrawLine(at._aspect_data.GetPen(), bulet1, bulet2);                 
                 }
             }
         }

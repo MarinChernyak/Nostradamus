@@ -1,5 +1,7 @@
 ﻿using Nostradamus.AstroMaps;
 using Nostradamus.Models;
+using Nostradamus.Models.DataFactories;
+using Nostradamus.Models.DataProcessors;
 using Nostradamus.Models.XMLSerializers;
 using Nostradamus.UserControls;
 using System;
@@ -29,6 +31,11 @@ namespace Nostradamus.Dialogs
             MapType = tAstroMapType.NATAL;
             InitTable();
             InitCombos();
+        }
+        public OrbsCollectionData GetOrbsCollectionData()
+        {
+            OrbsCollectionData ocd = OrbsCollection.Where(x => x.OrbsSystemName == CurrentSystem).FirstOrDefault();
+            return ocd;
         }
         protected void InitTable()
         {
@@ -84,11 +91,11 @@ namespace Nostradamus.Dialogs
         protected void InitOrbsCollection()
         {
             OrbsCollection = new List<OrbsCollectionData>();
-            UserPreferenses up = new UserPreferenses();
+            UserPreferncesDataFactory up = new UserPreferncesDataFactory();
             CurrentSystem = Constants.DefaultOrbsSystem;
-            if (up != null && up.OrbsSystem != null)
+            if (up != null && up.Data.OrbsSystemName != null)
             {
-                CurrentSystem = up.OrbsSystem;
+                CurrentSystem = up.Data.OrbsSystemName;
             }
             OrbsSystemListSerializer OrbsListser = new OrbsSystemListSerializer();
             List<string> OrbsList = OrbsListser.OrbsSystemsList;
@@ -106,10 +113,10 @@ namespace Nostradamus.Dialogs
         }
         protected void AddOrbsCollectionData(string system)
         {
-            OrbsSystemSerializer oss = new OrbsSystemSerializer(system);
+            OrbsCollectionDataSerializer oss = new OrbsCollectionDataSerializer(system);
             if (oss != null)
             {
-                OrbsCollectionData ocd = oss.OrbsCollection;
+                OrbsCollectionData ocd = oss.Data as OrbsCollectionData;
                 if (ocd == null)
                 {
                     ocd = new OrbsCollectionData();
@@ -193,12 +200,11 @@ namespace Nostradamus.Dialogs
             OrbsCollectionData ocd = OrbsCollection.Where(x => x.OrbsSystemName == CurrentSystem).FirstOrDefault();
             if (ocd != null)
             {
-                OrbsSystemListSerializer serlist = new OrbsSystemListSerializer();
-                serlist.AddSystemToCollection(CurrentSystem);
-                serlist.Save();
+                OrbsSystemListProcessor proc = new OrbsSystemListProcessor();
+                proc.AddNewSystem(CurrentSystem);
 
-                OrbsSystemSerializer ser = new OrbsSystemSerializer(CurrentSystem);
-                ser.OrbsCollection = ocd;
+                OrbsCollectionDataSerializer ser = new OrbsCollectionDataSerializer(CurrentSystem);
+                ser.Data = ocd;
                 ser.Save();
                 //this.DialogResult = DialogResult.OK;
             }
@@ -216,11 +222,10 @@ namespace Nostradamus.Dialogs
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     CurrentSystem = dlg.NewValue;
-                    OrbsSystemListSerializer ser = new OrbsSystemListSerializer();
-                    ser.AddSystemToCollection(CurrentSystem);
-                    ser.Save();
+                    OrbsSystemListProcessor proc = new OrbsSystemListProcessor();
+                    proc.AddNewSystem(CurrentSystem);
 
-                    cmbExisting.DataSource = ser.OrbsSystemsList;
+                    cmbExisting.DataSource = proc.OrbsSystemList;
                     cmbExisting.SelectedItem = CurrentSystem;
 
                     OrbsCollectionData newcol = new OrbsCollectionData();

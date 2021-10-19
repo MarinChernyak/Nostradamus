@@ -30,39 +30,46 @@ namespace Nostradamus.Dialogs
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dlgPlanetsVisibility));
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabMajor = new System.Windows.Forms.TabPage();
+            this.tabPlanetsVisibility = new System.Windows.Forms.TabControl();
+            this.tabMain = new System.Windows.Forms.TabPage();
             this.tabFict = new System.Windows.Forms.TabPage();
             this.tabSmall = new System.Windows.Forms.TabPage();
-            this.planetsVisibilityPanelView1 = new Nostradamus.UserControls.PlanetsVisibilityPanelView();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
+            this.pvFict = new Nostradamus.UserControls.PlanetsVisibilityPanelView();
+            this.pvMain = new Nostradamus.UserControls.PlanetsVisibilityPanelView();
+            this.pvSmall = new Nostradamus.UserControls.PlanetsVisibilityPanelView();
+            this.tabPlanetsVisibility.SuspendLayout();
+            this.tabMain.SuspendLayout();
+            this.tabFict.SuspendLayout();
+            this.tabSmall.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // tabPlanetsVisibility
             // 
-            this.tabControl1.Controls.Add(this.tabMajor);
-            this.tabControl1.Controls.Add(this.tabFict);
-            this.tabControl1.Controls.Add(this.tabSmall);
-            this.tabControl1.Location = new System.Drawing.Point(13, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(566, 383);
-            this.tabControl1.TabIndex = 0;
+            this.tabPlanetsVisibility.Controls.Add(this.tabMain);
+            this.tabPlanetsVisibility.Controls.Add(this.tabFict);
+            this.tabPlanetsVisibility.Controls.Add(this.tabSmall);
+            this.tabPlanetsVisibility.Location = new System.Drawing.Point(13, 12);
+            this.tabPlanetsVisibility.Name = "tabPlanetsVisibility";
+            this.tabPlanetsVisibility.SelectedIndex = 0;
+            this.tabPlanetsVisibility.Size = new System.Drawing.Size(566, 383);
+            this.tabPlanetsVisibility.TabIndex = 0;
             // 
-            // tabMajor
+            // tabMain
             // 
-            this.tabMajor.Location = new System.Drawing.Point(4, 24);
-            this.tabMajor.Name = "tabMajor";
-            this.tabMajor.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMajor.Size = new System.Drawing.Size(558, 355);
-            this.tabMajor.TabIndex = 0;
-            this.tabMajor.Text = "Major";
-            this.tabMajor.UseVisualStyleBackColor = true;
+            this.tabMain.Controls.Add(this.pvMain);
+            this.tabMain.Location = new System.Drawing.Point(4, 24);
+            this.tabMain.Name = "tabMain";
+            this.tabMain.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMain.Size = new System.Drawing.Size(558, 355);
+            this.tabMain.TabIndex = 0;
+            this.tabMain.Text = "Main";
+            this.tabMain.UseVisualStyleBackColor = true;
             // 
             // tabFict
             // 
+            this.tabFict.Controls.Add(this.pvFict);
             this.tabFict.Location = new System.Drawing.Point(4, 24);
             this.tabFict.Name = "tabFict";
             this.tabFict.Padding = new System.Windows.Forms.Padding(3);
@@ -73,19 +80,13 @@ namespace Nostradamus.Dialogs
             // 
             // tabSmall
             // 
+            this.tabSmall.Controls.Add(this.pvSmall);
             this.tabSmall.Location = new System.Drawing.Point(4, 24);
             this.tabSmall.Name = "tabSmall";
             this.tabSmall.Size = new System.Drawing.Size(558, 355);
             this.tabSmall.TabIndex = 2;
             this.tabSmall.Text = "Small Objects";
             this.tabSmall.UseVisualStyleBackColor = true;
-            // 
-            // planetsVisibilityPanelView1
-            // 
-            this.planetsVisibilityPanelView1.Location = new System.Drawing.Point(23, 44);
-            this.planetsVisibilityPanelView1.Name = "planetsVisibilityPanelView1";
-            this.planetsVisibilityPanelView1.Size = new System.Drawing.Size(546, 342);
-            this.planetsVisibilityPanelView1.TabIndex = 0;
             // 
             // btnSave
             // 
@@ -109,6 +110,27 @@ namespace Nostradamus.Dialogs
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
             // 
+            // pvFict
+            // 
+            this.pvFict.Location = new System.Drawing.Point(3, 0);
+            this.pvFict.Name = "pvFict";
+            this.pvFict.Size = new System.Drawing.Size(577, 357);
+            this.pvFict.TabIndex = 0;
+            // 
+            // pvMain
+            // 
+            this.pvMain.Location = new System.Drawing.Point(-4, 2);
+            this.pvMain.Name = "pvMain";
+            this.pvMain.Size = new System.Drawing.Size(577, 357);
+            this.pvMain.TabIndex = 0;
+            // 
+            // pvSmall
+            // 
+            this.pvSmall.Location = new System.Drawing.Point(4, 4);
+            this.pvSmall.Name = "pvSmall";
+            this.pvSmall.Size = new System.Drawing.Size(577, 357);
+            this.pvSmall.TabIndex = 0;
+            // 
             // dlgPlanetsVisibility
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -116,24 +138,28 @@ namespace Nostradamus.Dialogs
             this.ClientSize = new System.Drawing.Size(590, 436);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.planetsVisibilityPanelView1);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabPlanetsVisibility);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "dlgPlanetsVisibility";
             this.Text = "Planets Visibility Setup";
-            this.tabControl1.ResumeLayout(false);
+            this.tabPlanetsVisibility.ResumeLayout(false);
+            this.tabMain.ResumeLayout(false);
+            this.tabFict.ResumeLayout(false);
+            this.tabSmall.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabMajor;
+        private System.Windows.Forms.TabControl tabPlanetsVisibility;
+        private System.Windows.Forms.TabPage tabMain;
         private System.Windows.Forms.TabPage tabFict;
         private System.Windows.Forms.TabPage tabSmall;
-        private UserControls.PlanetsVisibilityPanelView planetsVisibilityPanelView1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
+        private UserControls.PlanetsVisibilityPanelView pvMain;
+        private UserControls.PlanetsVisibilityPanelView pvFict;
+        private UserControls.PlanetsVisibilityPanelView pvSmall;
     }
 }

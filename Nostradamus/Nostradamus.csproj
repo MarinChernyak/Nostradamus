@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="Dialogs\dlgHousesSystems___.cs" />
     <Compile Remove="Dialogs\dlgHousesSystems___.Designer.cs" />
+    <Compile Remove="Models\DataProcessors\OrbsMapCollectionProcessor.cs" />
   </ItemGroup>
 
   <ItemGroup>

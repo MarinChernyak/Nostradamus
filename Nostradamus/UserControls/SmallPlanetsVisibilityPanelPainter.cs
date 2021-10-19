@@ -4,16 +4,16 @@ using System.Text;
 
 namespace Nostradamus.UserControls
 {
-    public class SmallPlanetsVisibilityPanelPainter : PanelPainterBase
+    public class SmallPlanetsVisibilityPanelPainter : PanelPainterPlanetsVisisbilityBase
     {
         protected override void SetPlanets()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         protected override void SetSize()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

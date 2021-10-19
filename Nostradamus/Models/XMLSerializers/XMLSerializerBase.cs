@@ -8,6 +8,7 @@ namespace Nostradamus.Models
     public abstract class XMLSerializerBase
     {
         protected string _filename;
+        public virtual object Data { get; set; }
         public XMLSerializerBase()
         {
             _filename = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Models\\Data\\");

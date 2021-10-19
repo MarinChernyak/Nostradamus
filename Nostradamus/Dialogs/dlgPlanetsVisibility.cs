@@ -1,11 +1,8 @@
 ﻿using Nostradamus.AstroMaps;
-using System;
+using Nostradamus.Models.DataProcessors;
+using Nostradamus.Models.XMLSerializers;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using static NostraPlanetarium.NPTypes;
 
@@ -13,43 +10,68 @@ namespace Nostradamus.Dialogs
 {
     public partial class dlgPlanetsVisibility : Form
     {
-        protected List<MapPlanetsVisibilityCollection> MapPlanetsVisibilityCollection { get; set; }
+        protected List<GroupMapPlanetsVisibilityCollection> GroupMapPlanetsVisibilityCollectionLst { get; set; }
         protected tPlanetsGroup CurrentPlanetGroup { get; set; }
         public dlgPlanetsVisibility()
         {
             InitializeComponent();
-
+            InitGroupVisibilityCollection();
+            InitPanels();
             InitTable();
+        }
+        protected void InitGroupVisibilityCollection()
+        {
+            PlanetsVisibilitySerializer ser = new PlanetsVisibilitySerializer();
+            GroupMapPlanetsVisibilityCollectionLst = ser.LstGroupMapPlanetsVisibilityCollection;
+        }
+        protected void InitPanels()
+        {
+            pvMain.InitPanel(tPlanetsGroup.PG_MAIN);
+            pvFict.InitPanel(tPlanetsGroup.PG_FICTITIOUS);
+            pvSmall.InitPanel(tPlanetsGroup.PG_SMALL);
+        }
+        protected void UpdateViewPanel()
+        {
+            UserControls.PlanetsVisibilityPanelView opv = null;
+            switch (CurrentPlanetGroup)
+            {
+                case tPlanetsGroup.PG_MAIN:
+                    opv = pvMain;
+                    break;
+                case tPlanetsGroup.PG_FICTITIOUS:
+                    opv = pvFict;
+                    break;
+                case tPlanetsGroup.PG_SMALL:
+                    opv = pvSmall;
+                    break;
+            };
+
+            if (opv != null)
+            {
+                GroupMapPlanetsVisibilityCollection gmp = GroupMapPlanetsVisibilityCollectionLst.Where(x => x.PlanetGroup == CurrentPlanetGroup).FirstOrDefault();
+                if (gmp != null)
+                {
+                    opv.MapPlanetsVisibilityCollection = gmp.MapPlanetsVisibilityCollection;
+                }
+                opv.Refresh();
+            }
         }
 
         protected void InitTable()
         {
 
         }
-        protected MapPlanetsVisibilityCollection GetCollection(tPlanetsGroup pg)
+        protected GroupMapPlanetsVisibilityCollection GetCollection(tPlanetsGroup pg)
         {
-            MapPlanetsVisibilityCollection map = null;
-            if (MapPlanetsVisibilityCollection==null)
-            {
-                MapPlanetsVisibilityCollection = new List<MapPlanetsVisibilityCollection>();
-            }
-
-            map = MapPlanetsVisibilityCollection.Where(x => x.PlanetGroup == pg).First();
-            if (map == null)
-            {
-                map = new MapPlanetsVisibilityCollection()
-                {
-                    PlanetGroup = pg,
-                    PlanetsVisibilityCollection = new List<PlanetsVisibility>()
-                };
-            }
-            return map;
+            GroupMapPlanetsVisibilityCollection gmpvc = GroupMapPlanetsVisibilityCollectionLst.Where(x => x.PlanetGroup == pg).First();
+            return gmpvc;
         }
-        protected void UpdateVisibility(tPlanetsGroup pg , tPlanetType pt)
+        protected void UpdateVisibility(tPlanetsGroup pg, tAstroMapType mt, tPlanetType pt)
         {
-            MapPlanetsVisibilityCollection map = GetCollection(pg);
-            MapPlanetsVisibilityCollectionProcessor proc = new MapPlanetsVisibilityCollectionProcessor(map);
-            proc.ToggleValue(pg, pt);
+            GroupMapPlanetsVisibilityCollection gmpvc = GroupMapPlanetsVisibilityCollectionLst.Where(x => x.PlanetGroup == pg).First();
+            MapPlanetsVisibilityCollectionProcessor proc = new MapPlanetsVisibilityCollectionProcessor();
+            proc.MapPlanetsVisibilityCollection = gmpvc.MapPlanetsVisibilityCollection;
+            proc.ToggleValue(mt,pt);
         }
     }
 }
