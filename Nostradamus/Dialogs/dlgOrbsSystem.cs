@@ -97,8 +97,8 @@ namespace Nostradamus.Dialogs
             {
                 CurrentSystem = up.Data.OrbsSystemName;
             }
-            OrbsSystemListSerializer OrbsListser = new OrbsSystemListSerializer();
-            List<string> OrbsList = OrbsListser.OrbsSystemsList;
+            OrbsSystemListFactory fact = new OrbsSystemListFactory();
+            List<string> OrbsList = fact.Data;
             if (OrbsList != null)
             {
                 foreach (string system in OrbsList)
@@ -173,23 +173,8 @@ namespace Nostradamus.Dialogs
         }
         protected void InitSystemsCombo()
         {
-            OrbsSystemListSerializer ser = new OrbsSystemListSerializer();
-            List<string> systems = ser.OrbsSystemsList;
-            if (systems == null)
-            {
-                systems = new List<string>();
-
-            }
-            if (systems.Count == 0)
-            {
-                systems.Add(Constants.DefaultHuseSystem);
-            }
-            else
-            {
-                systems = ser.OrbsSystemsList;
-            }
-
-            cmbExisting.DataSource = systems;
+            OrbsSystemListFactory fact = new OrbsSystemListFactory();
+            cmbExisting.DataSource = fact.Data;
         }
         private void btnSave_Click(object sender, EventArgs e)
         {

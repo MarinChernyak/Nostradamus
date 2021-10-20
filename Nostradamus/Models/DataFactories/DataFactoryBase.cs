@@ -17,26 +17,29 @@ namespace Nostradamus.Models.DataFactories
             CreateSerializer();
             GetData();
         }
+        public DataFactoryBase(T data)
+        {
+            CreateSerializer();
+            SetData(data);
+        }
         protected void GetData()
         {
             _serializer.GetData();
             Data = (T)_serializer.Data;
-            if (Data == null)
-            {
-                CreateDefaultData();
-            }
+            ConsiderDefaultData();
+            
         }
-        public void SetData(object data)
+        protected void SetData(T data)
         {
-            _serializer.Data = (T)data;
+            _serializer.Data = data;
             _serializer.Save();
         }
-        public void SetData()
+        protected void SetData()
         {
             _serializer.Data = Data;
             _serializer.Save();
         }
         protected abstract void CreateSerializer();
-        protected abstract void CreateDefaultData();
+        protected abstract void ConsiderDefaultData();
     }
 }

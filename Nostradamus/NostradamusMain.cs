@@ -44,8 +44,8 @@ namespace Nostradamus
         }
         protected void SaveUserPref()
         {
-            UserPreferncesDataFactory fact = new UserPreferncesDataFactory();
-            fact.SetData(_userpref);
+            UserPreferncesDataFactory fact = new UserPreferncesDataFactory(_userpref);
+
         }
         protected void LoadOrbsCollectionData()
         {
@@ -212,8 +212,7 @@ namespace Nostradamus
                     {
 
                         _userpref.HousesData = selectedsys;
-                        UserPreferncesDataFactory fact = new UserPreferncesDataFactory();
-                        fact.SetData(_userpref);
+                        UserPreferncesDataFactory fact = new UserPreferncesDataFactory(_userpref);
                     }
                 }
             }

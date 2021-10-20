@@ -10,6 +10,7 @@
     <Compile Remove="Dialogs\dlgHousesSystems___.cs" />
     <Compile Remove="Dialogs\dlgHousesSystems___.Designer.cs" />
     <Compile Remove="Models\DataProcessors\OrbsMapCollectionProcessor.cs" />
+    <Compile Remove="Models\XMLSerializers\XDictionary.cs" />
   </ItemGroup>
 
   <ItemGroup>

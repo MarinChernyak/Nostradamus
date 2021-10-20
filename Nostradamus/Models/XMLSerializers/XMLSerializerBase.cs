@@ -13,32 +13,22 @@ namespace Nostradamus.Models
         {
             _filename = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Models\\Data\\");
             UpdateFile();
-            GetData();
+            if(Data==null)
+            {
+                GetData();
+            }
         }
-        public XMLSerializerBase(object param)
+        public XMLSerializerBase(object data)
         {
             _filename = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Models\\Data\\");
-            UpdateFile(param);
-            GetData();
+            UpdateFile();
+            Data = data;
+            Save();
         }
         //protected abstract void InitDefaults();
         public abstract void Save();
         public abstract void GetData();
-        protected abstract void UpdateFile();
-        protected abstract void UpdateFile(object param);
-        public virtual void SaveAsNew()
-        {
-            if (!File.Exists(_filename))
-            {
-                using (FileStream fs = File.Create(_filename))
-                {
-                    for (byte i = 0; i < 100; i++)
-                    {
-                        fs.WriteByte(i);
-                    }
-                }
-            }
-        }
+        protected abstract void UpdateFile();      
 
     }
 }

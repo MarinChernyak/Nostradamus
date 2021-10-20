@@ -20,11 +20,19 @@ namespace Nostradamus.UserControls
                 "Natal","Transit","Progress","Direct","Solar", "Solar Pr","Synastry","Horar"
             };
         }
-        public override void Draw(Graphics g)
+        protected override void SetSize()
+        {
+            _Height = 330;
+            _Width = 550;
+            _Height_Grid_Cell = 30;
+            _Width_Grid_Cell = 60;
+        }
+        public void Draw(Graphics g)
         {
             base.Draw(g);
             DrawPlanetsIcons(g);
             DrawMapsTypes(g);
+            DrawData(g);
         }
         protected void DrawMapsTypes(Graphics g)
         {
@@ -43,18 +51,21 @@ namespace Nostradamus.UserControls
             foreach (tAstroMapType map in Enum.GetValues(typeof(tAstroMapType)))
             {
                 MapPlanetsVisibility mapobj = MapPlanetsVisibilityCollection.Where(x => x.MapType == map).FirstOrDefault();
-                for (int j = 0; j < mapobj.PlanetsVisibilityList.Count; j++)
+                if (mapobj != null)
                 {
-                    PlanetsVisibility pv = mapobj.PlanetsVisibilityList[j];
-                    if (pv.IsVisible)
+                    for (int j = 0; j < mapobj.PlanetsVisibilityList.Count; j++)
                     {
-                        float Y = (imapCounter + 1) * _Height_Grid_Cell + 5;
-                        float X = (j + 1) * _Width_Grid_Cell + 5;
+                        PlanetsVisibility pv = mapobj.PlanetsVisibilityList[j];
+                        if (pv.IsVisible)
+                        {
+                            float X = imapCounter * _Width_Grid_Cell + 5;
+                            float Y = (j + 1) *_Height_Grid_Cell  + 5;
 
-                        g.DrawImage(ic, X, Y);
+                            g.DrawImage(ic, X, Y);
+                        }
                     }
+                    imapCounter++;
                 }
-                imapCounter++;
             }
         }
     }

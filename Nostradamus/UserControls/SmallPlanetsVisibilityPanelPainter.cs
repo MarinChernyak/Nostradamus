@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using static NostraPlanetarium.NPTypes;
 
 namespace Nostradamus.UserControls
 {
@@ -8,12 +10,17 @@ namespace Nostradamus.UserControls
     {
         protected override void SetPlanets()
         {
-            //throw new NotImplementedException();
+            _planets = new tPlanetType[]
+{
+                tPlanetType.PT_CHIRON,//15
+                tPlanetType.PT_PHOLUS,
+                tPlanetType.PT_CERES,
+                tPlanetType.PT_PALLAS,
+                tPlanetType.PT_JUNO,
+                tPlanetType.PT_VESTA,//20
+
+            }.ToList();
         }
 
-        protected override void SetSize()
-        {
-            //throw new NotImplementedException();
-        }
     }
 }

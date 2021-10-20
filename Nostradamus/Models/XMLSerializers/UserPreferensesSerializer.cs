@@ -48,7 +48,12 @@ namespace Nostradamus.Models
          
         public UserPreferensesSerializer()
         {
-            Data = new UserPreferensesData();
+
+        }
+        public UserPreferensesSerializer(object data)
+            :base(data)
+        {
+
         }
         public  override void Save()
         {
@@ -84,16 +89,6 @@ namespace Nostradamus.Models
 
                 }
             }
-        }
-
-        protected override void UpdateFile(object param)
-        {
-            
-        }
-
-        public override void SaveAsNew()
-        {
-            
         }
     }
 }

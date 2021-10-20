@@ -11,6 +11,15 @@ namespace Nostradamus.Models.XMLSerializers
 {
     public class AspectsMapSerializer : XMLSerializerBase
     {
+        public AspectsMapSerializer()
+        {
+
+        }
+        public AspectsMapSerializer(object data)
+            :base(data)
+        {
+
+        }
         public override void GetData()
         {
             XmlSerializer ser = new XmlSerializer(typeof(OrbsCollectionData));
@@ -54,9 +63,6 @@ namespace Nostradamus.Models.XMLSerializers
             _filename = $"{_filename}OrbsSystemsList.xml";
         }
 
-        protected override void UpdateFile(object param)
-        {
 
-        }
     }
 }

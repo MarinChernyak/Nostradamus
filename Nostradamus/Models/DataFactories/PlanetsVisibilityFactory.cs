@@ -9,31 +9,43 @@ namespace Nostradamus.Models.DataFactories
 {
     public class PlanetsVisibilityFactory : DataFactoryBase<List<GroupMapPlanetsVisibilityCollection>>
     {
-        protected override void CreateDefaultData()
+        public PlanetsVisibilityFactory()
         {
-            Data = new List<GroupMapPlanetsVisibilityCollection>();
-            for(int igr=(int)tPlanetsGroup.PG_MAIN; igr< (int)tPlanetsGroup.PG_CUSTOM; ++igr)
-            {
-                List<MapPlanetsVisibility> lstMapPlanetsVisibility = new List<MapPlanetsVisibility>();
 
-                GroupMapPlanetsVisibilityCollection gr = new GroupMapPlanetsVisibilityCollection()
+        }
+        public PlanetsVisibilityFactory(List<GroupMapPlanetsVisibilityCollection> data)
+            :base(data)
+        {
+
+        }
+        protected override void ConsiderDefaultData()            
+        {
+            if (Data == null || Data.Count == 0)
+            {
+                Data = new List<GroupMapPlanetsVisibilityCollection>();
+                for (int igr = (int)tPlanetsGroup.PG_MAIN; igr < (int)tPlanetsGroup.PG_CUSTOM; ++igr)
                 {
-                    PlanetGroup = (tPlanetsGroup)igr,
-                    MapPlanetsVisibilityCollection = lstMapPlanetsVisibility
-                };
-                for(int imap = (int)tAstroMapType.NATAL; imap< (int)tAstroMapType.NUMBER_DYNAMIC_TYPES; ++imap)
-                {
-                    List<PlanetsVisibility> lpv = new List<PlanetsVisibility>();
-                    UpdateListPlanetsVisibility((tPlanetsGroup)igr, lpv);
-                    MapPlanetsVisibility mpv = new MapPlanetsVisibility()
+                    List<MapPlanetsVisibility> lstMapPlanetsVisibility = new List<MapPlanetsVisibility>();
+
+                    GroupMapPlanetsVisibilityCollection gr = new GroupMapPlanetsVisibilityCollection()
                     {
-                        MapType = (tAstroMapType)imap,
-                        PlanetsVisibilityList = lpv
-                    };                    
-                    lstMapPlanetsVisibility.Add(mpv);
+                        PlanetGroup = (tPlanetsGroup)igr,
+                        MapPlanetsVisibilityCollection = lstMapPlanetsVisibility
+                    };
+                    for (int imap = (int)tAstroMapType.NATAL; imap < (int)tAstroMapType.NUMBER_DYNAMIC_TYPES; ++imap)
+                    {
+                        List<PlanetsVisibility> lpv = new List<PlanetsVisibility>();
+                        UpdateListPlanetsVisibility((tPlanetsGroup)igr, lpv);
+                        MapPlanetsVisibility mpv = new MapPlanetsVisibility()
+                        {
+                            MapType = (tAstroMapType)imap,
+                            PlanetsVisibilityList = lpv
+                        };
+                        lstMapPlanetsVisibility.Add(mpv);
+                    }
+                    Data.Add(gr);
                 }
-                Data.Add(gr);
-            }            
+            }
         }
         protected void UpdateListPlanetsVisibility(tPlanetsGroup pg, List<PlanetsVisibility> lpv)
         {
@@ -51,8 +63,8 @@ namespace Nostradamus.Models.DataFactories
                     ptend = tPlanetType.PT_MEAN_APOG;
                     break;
                 case tPlanetsGroup.PG_SMALL:
-                    ptstart = tPlanetType.PT_TRUE_NODE;
-                    ptend = tPlanetType.PT_MEAN_APOG;
+                    ptstart = tPlanetType.PT_CHIRON;
+                    ptend = tPlanetType.PT_VESTA;
                     break;
             };
             for(int index=(int)ptstart; index<= (int)ptend; ++index)

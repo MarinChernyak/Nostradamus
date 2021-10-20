@@ -11,7 +11,16 @@ namespace Nostradamus.Models.XMLSerializers
 {
     public class OrbsSystemListSerializer : XMLSerializerBase
     {
-        public List<string> OrbsSystemsList { get; protected set; }
+
+        public OrbsSystemListSerializer()
+        {
+
+        }
+        public OrbsSystemListSerializer(List<string> orbsSystemsList)
+            :base(orbsSystemsList)
+        {
+            
+        }
         public override void GetData()
         {
             XmlSerializer ser = new XmlSerializer(typeof(List<string>));
@@ -21,9 +30,9 @@ namespace Nostradamus.Models.XMLSerializers
                 {
                     try
                     {
-                        OrbsSystemsList = (List<string>)ser.Deserialize(reader);
-                        if (OrbsSystemsList == null)
-                            OrbsSystemsList = new List<string>();
+                        Data = (List<string>)ser.Deserialize(reader);
+                        if (Data == null)
+                            Data = new List<string>();
                     }
                     catch (Exception e)
                     {
@@ -41,7 +50,7 @@ namespace Nostradamus.Models.XMLSerializers
                 XmlSerializer ser = new XmlSerializer(typeof(List<string>));
                 using (XmlWriter writer = XmlWriter.Create(_filename, xmlWriterSettings))
                 {
-                    ser.Serialize(writer, OrbsSystemsList);
+                    ser.Serialize(writer, Data);
                     writer.Close();
                 }
             }
@@ -55,16 +64,6 @@ namespace Nostradamus.Models.XMLSerializers
         protected override void UpdateFile()
         {
             _filename = $"{_filename}OrbsSystemsList.xml";
-        }
-
-        protected override void UpdateFile(object param)
-        {
-           
-        }
-
-        public override void SaveAsNew()
-        {
-            
         }
     }
 }

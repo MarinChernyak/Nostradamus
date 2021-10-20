@@ -19,17 +19,6 @@ namespace Nostradamus.UserControls
 
         }
 
-        protected override void SetSize()
-        {
-            _Height = 330;
-            _Width = 550;
-            _Height_Grid_Cell = 30;
-            _Width_Grid_Cell = 60;
-        }
-        public override void Draw(Graphics g)
-        {
-            base.Draw(g);
-        }
 
     }
 }

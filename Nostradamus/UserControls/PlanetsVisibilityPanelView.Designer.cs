@@ -39,6 +39,7 @@ namespace Nostradamus.UserControls
             this.panMain.Size = new System.Drawing.Size(571, 350);
             this.panMain.TabIndex = 0;
             this.panMain.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaintMain);
+            this.panMain.DoubleClick += new System.EventHandler(this.OnDoubleClickPanel);
             // 
             // PlanetsVisibilityPanelView
             // 

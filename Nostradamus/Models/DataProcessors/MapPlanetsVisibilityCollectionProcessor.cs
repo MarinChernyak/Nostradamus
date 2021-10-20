@@ -32,6 +32,15 @@ namespace Nostradamus.Models.DataProcessors
                 mpv.PlanetsVisibilityList = new List<PlanetsVisibility>();
             }
             PlanetsVisibility pv = mpv.PlanetsVisibilityList.Where(x => x.PlanetsType == pt).FirstOrDefault();
+            if(pv==null)
+            {
+                pv = new PlanetsVisibility()
+                {
+                    IsVisible = true,
+                    PlanetsType = pt
+                };
+                mpv.PlanetsVisibilityList.Add(pv);
+            }
             return pv;
         }
         public List<PlanetsVisibility> GetSimpleVisibilityCollection(tAstroMapType mt)
@@ -51,10 +60,13 @@ namespace Nostradamus.Models.DataProcessors
         }
         public void ToggleValue(tAstroMapType mt, tPlanetType pt)
         {
-            PlanetsVisibility obj = GetPlanetsVisibility(mt, pt);
-            if (!_justcreated)
+            if (mt != tAstroMapType.UNKNOWN)
             {
-                obj.IsVisible = !obj.IsVisible;
+                PlanetsVisibility obj = GetPlanetsVisibility(mt, pt);
+                if (!_justcreated)
+                {
+                    obj.IsVisible = !obj.IsVisible;
+                }
             }
         }
 

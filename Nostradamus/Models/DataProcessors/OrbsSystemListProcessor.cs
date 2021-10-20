@@ -23,7 +23,7 @@ namespace Nostradamus.Models.DataProcessors
             if(!OrbsSystemList.Contains(system))
             {
                 OrbsSystemList.Add(system);
-                _fact.SetData(OrbsSystemList);
+                _fact.Update(OrbsSystemList);
             }
         }
         public void RemoveSystem(string system)
@@ -31,7 +31,7 @@ namespace Nostradamus.Models.DataProcessors
             if (!OrbsSystemList.Contains(system))
             {
                 OrbsSystemList.Remove(system);
-                _fact.SetData(OrbsSystemList);
+                _fact.Update(OrbsSystemList);
             }
         }
     }

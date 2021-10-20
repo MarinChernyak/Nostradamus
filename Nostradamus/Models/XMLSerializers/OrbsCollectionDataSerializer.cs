@@ -12,7 +12,7 @@ using static NostraPlanetarium.NPTypes;
 
 namespace Nostradamus.Models
 {
-    public class OrbsCollectionDataSerializer : XMLSerializerBase
+    public class OrbsCollectionDataSerializer : XMLSerializerBaseParam
     {
         private string CurrentSystem { get; set; }
         //public OrbsCollectionData OrbsCollection { get; set; }
@@ -21,14 +21,15 @@ namespace Nostradamus.Models
         {
                       
         }
+        public OrbsCollectionDataSerializer(string system, object data)
+        : base(system,data)
+        {
+
+        }
         protected override void UpdateFile(object param)
         {
             CurrentSystem = param.ToString();
             _filename = $"{_filename}{param}.xml";
-        }
-        protected override void UpdateFile()
-        {
-           
         }
         public override void GetData()
         {
@@ -75,9 +76,8 @@ namespace Nostradamus.Models
             }
         }
 
-
-
-        
-
+        protected override void UpdateFile()
+        {
+        }
     }
 }

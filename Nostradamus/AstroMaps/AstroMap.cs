@@ -35,10 +35,7 @@ namespace Nostradamus.AstroMaps
         protected double JD;
         public AstroMapBase()
         {
-            //_aspects = new AspectsCollection();
-            //_planets = new List<SpaceObject>();
             CreateMapSigns();
-
         }
         protected abstract void CreatePlanetsCollection();
         public abstract void DrawMap(Graphics g);

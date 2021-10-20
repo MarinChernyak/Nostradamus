@@ -11,7 +11,7 @@ namespace Nostradamus.Models.XMLSerializers
 {
     public class PlanetsVisibilitySerializer : XMLSerializerBase
     {
-        public List<GroupMapPlanetsVisibilityCollection> LstGroupMapPlanetsVisibilityCollection { get; set; }
+       
         public override void GetData()
         {
             XmlSerializer ser = new XmlSerializer(typeof(List<GroupMapPlanetsVisibilityCollection>));
@@ -24,18 +24,18 @@ namespace Nostradamus.Models.XMLSerializers
             {
                 try
                 {
-                    LstGroupMapPlanetsVisibilityCollection = (List<GroupMapPlanetsVisibilityCollection>)ser.Deserialize(reader);
-                    if (LstGroupMapPlanetsVisibilityCollection == null)
-                        LstGroupMapPlanetsVisibilityCollection = new List<GroupMapPlanetsVisibilityCollection>();
+                    Data = (List<GroupMapPlanetsVisibilityCollection>)ser.Deserialize(reader);
+                    if (Data == null)
+                        Data = new List<GroupMapPlanetsVisibilityCollection>();
                 }
                 catch (Exception e)
                 {
                     //MessageBox.Show($"PlanetsVisibilitySerializer :GetData => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
-                if(LstGroupMapPlanetsVisibilityCollection==null)
+                if(Data==null)
                 {
-                    LstGroupMapPlanetsVisibilityCollection = new List<GroupMapPlanetsVisibilityCollection>();
+                    Data = new List<GroupMapPlanetsVisibilityCollection>();
                 }
             }            
         }
@@ -44,13 +44,13 @@ namespace Nostradamus.Models.XMLSerializers
         {
             try
             {
-                if (LstGroupMapPlanetsVisibilityCollection != null)
+                if (Data != null)
                 {
                     var xmlWriterSettings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.Unicode, NewLineHandling = NewLineHandling.Entitize };
                     XmlSerializer ser = new XmlSerializer(typeof(List<GroupMapPlanetsVisibilityCollection>));
                     using (XmlWriter writer = XmlWriter.Create(_filename, xmlWriterSettings))
                     {
-                        ser.Serialize(writer, LstGroupMapPlanetsVisibilityCollection);
+                        ser.Serialize(writer, Data);
                         writer.Close();
                     }
                 }
@@ -65,11 +65,6 @@ namespace Nostradamus.Models.XMLSerializers
         protected override void UpdateFile()
         {
             _filename = $"{_filename}PlanetsVisibility.xml";
-        }
-
-        protected override void UpdateFile(object param)
-        {
-            
         }
     }
 }

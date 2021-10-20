@@ -15,6 +15,7 @@ namespace Nostradamus.UserControls
 {
     public partial class PlanetsVisibilityPanelView : UserControl
     {
+        protected tPlanetsGroup _pg { get; set; }
         public List<MapPlanetsVisibility> MapPlanetsVisibilityCollection { get; set; }
 
         protected PanelPainterPlanetsVisisbilityBase _painter;
@@ -27,9 +28,14 @@ namespace Nostradamus.UserControls
         {
             CreatePainter(pg); 
         }
+        public  void SetData(List<MapPlanetsVisibility> mapPlanetsVisibilityCollection)
+        {
+            MapPlanetsVisibilityCollection = mapPlanetsVisibilityCollection;
+        }
         protected void CreatePainter(tPlanetsGroup pg)
         {
-            switch(pg)
+            _pg = pg;
+            switch (pg)
             {
                 case tPlanetsGroup.PG_MAIN:
                     _painter = new MainPlanetsVisibilityPanelPainter();
@@ -50,9 +56,22 @@ namespace Nostradamus.UserControls
         private void OnPaintMain(object sender, PaintEventArgs e)
         {
             Graphics g = Graphics.FromHwnd(panMain.Handle);
-            _painter.Draw(g);
+            if(_painter!=null)
+                _painter.Draw(g);
        }
-
+        protected int GetShift()
+        {
+            int iShift = 0;
+            if(_pg==tPlanetsGroup.PG_FICTITIOUS)
+            {
+                iShift = (int)tPlanetType.PT_TRUE_NODE;
+            }
+            if(_pg == tPlanetsGroup.PG_SMALL)
+            {
+                iShift = (int)tPlanetType.PT_CHIRON;
+            }
+            return iShift;
+        }
         private void OnDoubleClickPanel(object sender, EventArgs e)
         {
             MouseEventArgs me = e as MouseEventArgs;
@@ -72,7 +91,8 @@ namespace Nostradamus.UserControls
                 {
                     MapPlanetsVisibilityCollection = MapPlanetsVisibilityCollection
                 };
-                proc.ToggleValue((tAstroMapType)map, (tPlanetType)planet);
+                int iShift = GetShift();
+                proc.ToggleValue((tAstroMapType)map, (tPlanetType)(planet+ iShift));
                 Refresh();
             }
 
