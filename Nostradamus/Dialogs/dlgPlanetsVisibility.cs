@@ -78,7 +78,7 @@ namespace Nostradamus.Dialogs
         {
             GroupMapPlanetsVisibilityCollection gmpvc = GroupMapPlanetsVisibilityCollectionLst.Where(x => x.PlanetGroup == pg).First();
             MapPlanetsVisibilityCollectionProcessor proc = new MapPlanetsVisibilityCollectionProcessor();
-            proc.MapPlanetsVisibilityCollection = gmpvc.MapPlanetsVisibilityCollection;
+            proc.Data = gmpvc.MapPlanetsVisibilityCollection;
             proc.ToggleValue(mt,pt);
         }
 

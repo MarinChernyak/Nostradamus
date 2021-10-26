@@ -1,6 +1,7 @@
 ﻿
 using Nostradamus.Models;
 using Nostradamus.Models.DataFactories;
+using Nostradamus.Models.DataProcessors;
 using Nostradamus.Models.GeoModels;
 using NostradamusDAL.EntitiesGeo;
 using NostradamusDAL.Factory;
@@ -16,6 +17,7 @@ using System.Text;
 using System.Windows;
 //using System.Windows.Media;
 using System.Windows.Shapes;
+using static NostraPlanetarium.NPTypes;
 
 namespace Nostradamus.AstroMaps
 {
@@ -23,8 +25,9 @@ namespace Nostradamus.AstroMaps
     {
         public int ID { get; protected set; }
         protected MCityData BirthPlace { get; set; }
+        protected MapPlanetsVisibilityCollectionProcessor MapPlanetsVisibility;
         protected AspectsCollection _aspects { get; set; }
-        protected List<SpaceObjectData> _planets;
+        protected List<SpaceObjectData> _static_objects;
         protected AMHouses _houses;
 
         #region graph
@@ -35,9 +38,10 @@ namespace Nostradamus.AstroMaps
         protected double JD;
         public AstroMapBase()
         {
+            MapPlanetsVisibility = new MapPlanetsVisibilityCollectionProcessor();
             CreateMapSigns();
         }
-        protected abstract void CreatePlanetsCollection();
+        protected abstract List<SpaceObjectData> CreateSOCollection(tAstroMapType type = tAstroMapType.NATAL);
         public abstract void DrawMap(Graphics g);
         protected void GetMidleValue(MPersonBase person, out int h, out int m, out int s)
         {
@@ -69,12 +73,15 @@ namespace Nostradamus.AstroMaps
             _mapSigns[10] = "h";//aqr
             _mapSigns[11] = "i";//pis
         }
+
+        protected abstract void CreateGeometry();
+        protected abstract void Createaspects();
     }
-    public class AstroMapPerson : AstroMapBase
+    public class AstroMapStatic : AstroMapBase
     {
         protected const int BULET_SHIFT = 8;
         protected MPersonBase Person { get; }
-        public AstroMapPerson(int id)
+        public AstroMapStatic(int id)
         {
             if (id > 0)
             {
@@ -88,10 +95,10 @@ namespace Nostradamus.AstroMaps
             }
             else
             {
-                MessageBox.Show("Unknown error in AstroMapPerson!");
+                MessageBox.Show("Unknown error in AstroMapStatic!");
             }
         }
-        public AstroMapPerson(MPersonBase person)
+        public AstroMapStatic(MPersonBase person)
         {
             if (person != null)
             {
@@ -101,19 +108,27 @@ namespace Nostradamus.AstroMaps
             }
             else
             {
-                MessageBox.Show("Unknown error in AstroMapPerson!");
+                MessageBox.Show("Unknown error in AstroMapStatic!");
             }
 
 
         }
-        protected void CreateMap()
+        protected override void CreateGeometry()
         {
             _geometry = new AstromapGeometry();
+        }
+        protected virtual void CreateMap()
+        {
+            CreateGeometry();
             GetBirthPlace();
             GetJD();
             CreateHouses();
-            CreatePlanetsCollection();
-            _aspects= new AspectsCollection(_planets, NPTypes.tAstroMapType.NATAL);
+            _static_objects=  CreateSOCollection();
+             Createaspects();
+        }
+        protected override void Createaspects()
+        {
+            _aspects = new AspectsCollection(_static_objects);
         }
         protected void GetJD()
         {
@@ -121,6 +136,10 @@ namespace Nostradamus.AstroMaps
             GetMidleValue(Person, out h, out m, out s);
             JD = new JulianDay(Person.BirthDay, Person.BirthMonth, Person.BirthYear, h, m, s, BirthPlace.TimeZoneData.TimeOffset, Person.AdditionalHours).JD;
 
+        }
+        protected void GetJD(DateTime dt)
+        {
+            JD = new JulianDay(dt.Day, dt.Month, dt.Year, dt.Hour, dt.Minute, 0, BirthPlace.TimeZoneData.TimeOffset, Person.AdditionalHours).JD;
         }
         protected void GetBirthPlace()
         {
@@ -149,17 +168,36 @@ namespace Nostradamus.AstroMaps
             }
 
         }
-        protected override void CreatePlanetsCollection()
+        protected List<SpaceObjectData> CreateMainCollection(tAstroMapType at=tAstroMapType.NATAL)
         {
 
-            _planets = new List<SpaceObjectData>();
+            List < SpaceObjectData > so_collection = new List<SpaceObjectData>();
             for (int t = (int)NPTypes.tPlanetType.PT_SUN; t <= (int)NPTypes.tPlanetType.PT_TRUE_NODE; ++t)
             {
-                if (t == (int)NPTypes.tPlanetType.PT_MEAN_NODE)
+                bool isVisible= MapPlanetsVisibility.GetValue(at, (NPTypes.tPlanetType)t);
+
+                if (t == (int)NPTypes.tPlanetType.PT_MEAN_NODE || !isVisible)
                     continue;
 
                 SpaceObject so = new BigObject(JD, (NPTypes.tPlanetType)t);
-                _planets.Add(new SpaceObjectData()
+                so_collection.Add(new SpaceObjectData()
+                {
+                    _so = so
+                });
+            }
+            return so_collection;
+        }
+        protected void CreateSmallObjectsCollection(tAstroMapType at = tAstroMapType.NATAL)
+        {
+            for (int t = (int)NPTypes.tPlanetType.PT_SUN; t <= (int)NPTypes.tPlanetType.PT_TRUE_NODE; ++t)
+            {
+                bool isVisible = MapPlanetsVisibility.GetValue(at, (NPTypes.tPlanetType)t);
+
+                if (t == (int)NPTypes.tPlanetType.PT_MEAN_NODE || !isVisible)
+                    continue;
+
+                SpaceObject so = new BigObject(JD, (NPTypes.tPlanetType)t);
+                _static_objects.Add(new SpaceObjectData()
                 {
                     _so = so
                 });
@@ -194,8 +232,8 @@ namespace Nostradamus.AstroMaps
                 NPTypes.tPlanetType p1 = at.PlanetType1;
                 NPTypes.tPlanetType p2 = at.PlanetType2;
 
-                SpaceObjectData sod1 = _planets.Where(x => x._so.PlanetType == p1).FirstOrDefault();
-                SpaceObjectData sod2 = _planets.Where(x => x._so.PlanetType == p2).FirstOrDefault();
+                SpaceObjectData sod1 = _static_objects.Where(x => x._so.PlanetType == p1).FirstOrDefault();
+                SpaceObjectData sod2 = _static_objects.Where(x => x._so.PlanetType == p2).FirstOrDefault();
 
                 if (sod1 != null && sod2 != null)
                 {
@@ -209,7 +247,7 @@ namespace Nostradamus.AstroMaps
         }
         protected void DrawPlanets(Graphics g)
         {
-            string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1","Resources\\icons\\");
+            string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1","Resources\\icons\\StaticObjects\\");
 
             double alfa = _houses.GelAlfa();
             Icon bbicon = new Icon($"{path}BuletBlue.ico");
@@ -221,7 +259,7 @@ namespace Nostradamus.AstroMaps
             int[] iZuz2 = new int[iNumIntervals];
             int[] iZuz3 = new int[iNumIntervals];
 
-            foreach (SpaceObjectData sod in _planets)
+            foreach (SpaceObjectData sod in _static_objects)
             {
                 //New
                 int intWidth = 360/ iNumIntervals;
@@ -244,7 +282,8 @@ namespace Nostradamus.AstroMaps
                 iZuz = Math.Max(iZuz, iZuz3[index3]);
 
                 string r = sod._so.SpeedLong < 0 ? "R" : "";
-                Icon icon = new Icon($"{path}{pt}{r}.ico");
+                //Image icon = new Image($"{path}{pt}{r}.png");
+                Image ic = Image.FromFile($"{path}{pt}{r}.png");
 
                 double bbx = _geometry.Center.X - _geometry.RLimbCircle * Math.Cos(delta * Math.PI / 180) - BULET_SHIFT;
                 double bby = _geometry.Center.Y + _geometry.RLimbCircle * Math.Sin(delta * Math.PI / 180) - BULET_SHIFT;
@@ -256,7 +295,7 @@ namespace Nostradamus.AstroMaps
                
                 double px = _geometry.Center.X - (planetShift + BULET_SHIFT) * (1 + 0.09 * iZuz) * Math.Cos((delta) * Math.PI / 180);
                 double py = _geometry.Center.Y + (planetShift- BULET_SHIFT) * (1 + 0.09 * iZuz) * Math.Sin((delta) * Math.PI / 180);
-                g.DrawIcon(icon, (int)px, (int)py);
+                g.DrawImage(ic, (int)px, (int)py);
 
 
                 iZuz1[index1]++;
@@ -265,7 +304,7 @@ namespace Nostradamus.AstroMaps
             }
 
         }
-       protected void DrawCircles(Graphics g)
+       protected  void DrawCircles(Graphics g)
         {
             g.DrawEllipse(_houses.PenHouses, _geometry.ExtCirclePoint.X, _geometry.ExtCirclePoint.Y, _geometry.ExternalCircle.Width, _geometry.ExternalCircle.Height);
             g.FillEllipse(Brushes.White, _geometry.ExtCirclePoint.X + 1, _geometry.ExtCirclePoint.Y + 1, _geometry.ExternalCircle.Width - 2, _geometry.ExternalCircle.Height - 2);
@@ -341,6 +380,11 @@ namespace Nostradamus.AstroMaps
                 Pen pr = i % 2 == 0 ? p : p2;
                 g.DrawLine(pr, new PointF((float)X1, (float)Y1), new PointF((float)X2, (float)Y2));
             }
+        }
+
+        protected override List<SpaceObjectData> CreateSOCollection(tAstroMapType type= tAstroMapType.NATAL)
+        {
+            return  CreateMainCollection(type);
         }
     }
 }

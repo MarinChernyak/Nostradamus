@@ -88,10 +88,10 @@ namespace Nostradamus.AstroMaps
 
             for (int i = 1; i < 7; ++i)
             {
-                ptb.X = (float)(_geometry.Center.X - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[i] * Math.PI / 180));
-                ptb.Y = (float)(_geometry.Center.Y + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[i] * Math.PI / 180)); 
-                pte.X = (float)(_geometry.Center.X + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[i] * Math.PI / 180));
-                pte.Y = (float)(_geometry.Center.Y - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[i] * Math.PI / 180));
+                ptb.X = (float)(_geometry.Center.X - (_geometry.GetExternakRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[i] * Math.PI / 180));
+                ptb.Y = (float)(_geometry.Center.Y + (_geometry.GetExternakRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[i] * Math.PI / 180)); 
+                pte.X = (float)(_geometry.Center.X + (_geometry.GetExternakRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[i] * Math.PI / 180));
+                pte.Y = (float)(_geometry.Center.Y - (_geometry.GetExternakRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[i] * Math.PI / 180));
 
                 Pen p = PenHouses;
                 if (i == 1)
@@ -103,10 +103,10 @@ namespace Nostradamus.AstroMaps
                 g.DrawLine(p, ptb, pte);
                 DrawNotations(g, ptb, pte, i);
             }
-            ptb.X = (float)(_geometry.Center.X - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[7] * Math.PI / 180));
-            ptb.Y = (float)(_geometry.Center.Y + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[7] * Math.PI / 180));
-            pte.X = (float)(_geometry.Center.X + (_geometry.RExtCircle + _geometry.HouseShift) * Math.Cos(_houses_draw[7] * Math.PI / 180));
-            pte.Y = (float)(_geometry.Center.Y - (_geometry.RExtCircle + _geometry.HouseShift) * Math.Sin(_houses_draw[7] * Math.PI / 180));
+            ptb.X = (float)(_geometry.Center.X - (_geometry.GetExternakRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[7] * Math.PI / 180));
+            ptb.Y = (float)(_geometry.Center.Y + (_geometry.GetExternakRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[7] * Math.PI / 180));
+            pte.X = (float)(_geometry.Center.X + (_geometry.GetExternakRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[7] * Math.PI / 180));
+            pte.Y = (float)(_geometry.Center.Y - (_geometry.GetExternakRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[7] * Math.PI / 180));
 
             DrawArrowsMC(g, ptb, pte, 7);
 

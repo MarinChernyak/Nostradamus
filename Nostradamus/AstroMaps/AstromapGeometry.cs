@@ -12,7 +12,7 @@ namespace Nostradamus.AstroMaps
         public int RIntCircle { get; set; }
         public int RLimbCircle { get; set; }
 
-        public int HouseShift { get; set; }
+        //public int HouseShift { get; set; }
 
         public Point ExtCirclePoint { get; set; }
         public Size ExternalCircle { get; set; }
@@ -25,11 +25,11 @@ namespace Nostradamus.AstroMaps
         public double ArrowsAngle { get; set; }
         public AstromapGeometry()
         {
-            Center = new Point(810, 400);
+            Center = new Point(810, 440);
             RExtCircle = 320;            
             RIntCircle = 240;
             RLimbCircle = 232;
-            HouseShift = 30;
+            //HouseShift = 30;
             ArrowsLength = 15;
             ArrowsAngle = 25;
 
@@ -41,6 +41,14 @@ namespace Nostradamus.AstroMaps
 
             LimbCirclePoint = new Point(Center.X - RLimbCircle, Center.Y - RLimbCircle);
             LimbCircle = new Size(2* RLimbCircle, 2* RLimbCircle);
+        }
+        public virtual int GetExternakRadius()
+        {
+            return RExtCircle;
+        }
+        public virtual int GetHouseShift()
+        {
+            return 30;
         }
     }
 }

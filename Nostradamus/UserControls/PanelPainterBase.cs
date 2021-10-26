@@ -69,7 +69,7 @@ namespace Nostradamus.UserControls
         {
             try
             {
-                string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Resources\\icons\\");
+                string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Resources\\icons\\StaticObjects\\");
                 string imagepath = $"{path}{name}.png";
                 Image ic = Image.FromFile(imagepath);
                 g.DrawImage(ic, X, Y);

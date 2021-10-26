@@ -87,9 +87,9 @@ namespace Nostradamus.UserControls
                 int map = X / _painter._Width_Grid_Cell - 1;
 
 
-                MapPlanetsVisibilityCollectionProcessor proc = new MapPlanetsVisibilityCollectionProcessor()
+                MapPlanetsVisibilityCollectionProcessor proc = new MapPlanetsVisibilityCollectionProcessor(false)
                 {
-                    MapPlanetsVisibilityCollection = MapPlanetsVisibilityCollection
+                    Data = MapPlanetsVisibilityCollection
                 };
                 int iShift = GetShift();
                 proc.ToggleValue((tAstroMapType)map, (tPlanetType)(planet+ iShift));

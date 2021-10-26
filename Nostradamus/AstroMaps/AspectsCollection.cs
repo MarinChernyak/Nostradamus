@@ -79,26 +79,30 @@ namespace Nostradamus.AstroMaps
         public List<Aspect> Aspects { get { return _aspects; } }
         protected List<Aspect> _aspects;
 
-        protected OrbsCollectionData _orbs;
-
-        public AspectsCollection(List<SpaceObjectData> lstSO, tAstroMapType amt = tAstroMapType.NATAL)
+        public AspectsCollection(List<SpaceObjectData> lstSO)
         {
+            AstroMapType = tAstroMapType.NATAL;
             UserPreferncesDataFactory _upfact = new UserPreferncesDataFactory();
             _ocdp = new OrbsCollectionDataProcessor(_upfact.Data.OrbsSystemName);
-            _orbs = _ocdp.Data;
-            CreateAspectsCollection(lstSO);
+            CreateAspectsCollection(lstSO, lstSO);
         }
-        
+        public AspectsCollection(List<SpaceObjectData> lstStatic, List<SpaceObjectData> lstDynamic, tAstroMapType type )
+        {
+            AstroMapType = type;
+            UserPreferncesDataFactory _upfact = new UserPreferncesDataFactory();
+            _ocdp = new OrbsCollectionDataProcessor(_upfact.Data.OrbsSystemName);
+            CreateAspectsCollection(lstStatic, lstDynamic);
+        }
 
-        public void CreateAspectsCollection(List<SpaceObjectData> lstSO)
+        public void CreateAspectsCollection(List<SpaceObjectData> lstSO1, List<SpaceObjectData> lstSO2)
         {
             _aspects = new List<Aspect>();
-            for (int i = 0; i < lstSO.Count; ++i)
+            for (int i = 0; i < lstSO1.Count; ++i)
             {
-                SpaceObject so1 = lstSO[i]._so;
-                for (int j = i+1; j < lstSO.Count; ++j)
+                SpaceObject so1 = lstSO1[i]._so;
+                for (int j = i+1; j < lstSO2.Count; ++j)
                 {
-                    SpaceObject so2 = lstSO[j]._so;
+                    SpaceObject so2 = lstSO2[j]._so;
                     double dLambda = Math.Abs(so1.Lambda - so2.Lambda);
                     if (dLambda > 180)
                     {
@@ -108,7 +112,7 @@ namespace Nostradamus.AstroMaps
                      AspectType at = GetAspectType(dLambda, so1.PlanetType, so2.PlanetType);
                     if (at == AspectType.AT_CONJUNCTION)
                     {
-                        lstSO[j].IsRed = lstSO[i].IsRed = true;
+                        lstSO1[j].IsRed = lstSO2[i].IsRed = true;
                     }
                     if (at!= AspectType.AT_NONE)
                     {

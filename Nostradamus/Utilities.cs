@@ -53,5 +53,22 @@ namespace Nostradamus
             }
             return IsError;
         }
+        public static Dictionary<string,int> GetMonthsData()
+        {
+            Dictionary<string, int> data = new Dictionary<string, int>();            
+            data["January"]=1;
+            data["February"]=2;
+            data["March"]=3;
+            data["April"]=4;
+            data["May"]=5;
+            data["June"]=6;
+            data["July"]=7;
+            data["August"]=8;
+            data["September"]=9;
+            data["October"]=10;
+            data["November"]=11;
+            data["December"] = 12;            
+            return data;
+        }
     }
 }

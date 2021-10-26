@@ -11,11 +11,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static NostraPlanetarium.NPTypes;
 
 namespace Nostradamus
 {
     public partial class NostradamusMain : Form
     {
+        protected int CurrentMapId { get; set; }
         protected UserPreferensesData _userpref;
         protected List<AstroMapBase> _maps;
         protected OrbsCollectionData OrbsCollectionData { get; set; }
@@ -67,16 +69,15 @@ namespace Nostradamus
         #endregion
 
         #region Updates
-        private TabPage UpdateTab(int id)
-        {
 
-            TabPage tp = new TabPage($"Map #{id}");
-            tp.Tag = id;
-            tabMapsCollection.TabPages.Add(tp);
-            tabMapsCollection.SelectedTab = tp;
-            tp.CausesValidation = false;
-            tabMapsCollection.SelectedTab.Paint += new PaintEventHandler(TabPagePaint);
-            return tabMapsCollection.SelectedTab;
+        public void UpdateMap(MDynamicMapUpdateInfo info )
+        {
+            AstroMapFactory fact = new AstroMapFactory(CurrentMapId, info.DynamicDate, info.MapType);
+            AstroMapBase map = _maps.Where(x => x.ID == CurrentMapId).FirstOrDefault();
+            _maps.Remove(map);
+            _maps.Add(fact.CreatedMap);
+            UpdateTab();
+
         }
         #endregion
 
@@ -94,12 +95,12 @@ namespace Nostradamus
             }
             if (person != null)
             {
-                TabPage tp = UpdateTab(person.Id);
+                TabPage tp = CreateNewTab(person.Id);
+                CurrentMapId = person.Id;
 
-                AstroMapPerson map = new AstroMapPerson(person);
+                AstroMapStatic map = new AstroMapStatic(person);
                 _maps.Add(map);
                 
-                //tabMapsCollection.SelectedTab.Invalidate();
             }       
 
         }
@@ -121,7 +122,7 @@ namespace Nostradamus
                 SecondName = "Pupkind",
                 Place = 2
             };
-            AstroMapPerson map = new AstroMapPerson(person);
+            AstroMapStatic map = new AstroMapStatic(person);
             Graphics g = System.Drawing.Graphics.FromHwnd(tabMapsCollection.TabPages[0].Handle);
             map.DrawMap(g);
         }
@@ -137,9 +138,10 @@ namespace Nostradamus
             }
             if (person != null)
             {
-                TabPage tp = UpdateTab(person.Id);
+                TabPage tp = CreateNewTab(person.Id);
+                CurrentMapId = person.Id;
 
-                AstroMapPerson map = new AstroMapPerson(person);
+                AstroMapStatic map = new AstroMapStatic(person);
                 _maps.Add(map);
             }
 
@@ -156,9 +158,10 @@ namespace Nostradamus
             }
             if (person != null)
             {
-                AstroMapPerson map = new AstroMapPerson(person.IdPerson);
+                AstroMapStatic map = new AstroMapStatic(person.IdPerson);
                 _maps.Add(map);
-                TabPage tp = UpdateTab(person.IdPerson);
+                TabPage tp = CreateNewTab(person.IdPerson);
+                CurrentMapId = person.IdPerson;
             }
         }
         #endregion
@@ -184,6 +187,23 @@ namespace Nostradamus
         #endregion
 
         #region Tabs Fuctionality
+        private TabPage CreateNewTab(int id)
+        {
+
+            TabPage tp = new TabPage($"Map #{id}");
+            tp.Tag = id;
+            tabMapsCollection.TabPages.Add(tp);
+            tabMapsCollection.SelectedTab = tp;
+            tp.CausesValidation = false;
+            tabMapsCollection.SelectedTab.Paint += new PaintEventHandler(TabPagePaint);
+            return tabMapsCollection.SelectedTab;
+        }
+        private TabPage UpdateTab()
+        {
+            TabPage tp = tabMapsCollection.SelectedTab;
+            tp.Refresh();
+            return tabMapsCollection.SelectedTab;
+        }
         private void AddNewMap_Click(object sender, EventArgs e)
         {
 
@@ -239,7 +259,17 @@ namespace Nostradamus
                 }
             }
         }
+        private void OnCreateTransitMap(object sender, EventArgs e)
+        {
+            dlgDynamicMap dlg = new dlgDynamicMap();
+            dlg.MyParent = this;
+            dlg.Show();
+        }
+
+
 
         #endregion
+
+
     }
 }

@@ -11,21 +11,20 @@ namespace Nostradamus.Models.DataProcessors
     public class MapPlanetsVisibilityCollectionProcessor: BaseProcessor
     {
         public bool _justcreated { get; protected set; }
-        public List<MapPlanetsVisibility> MapPlanetsVisibilityCollection { get; set; }
+        public List<MapPlanetsVisibility> Data { get; set; }
 
         public MapPlanetsVisibilityCollectionProcessor(bool initdata = true)
             :base(initdata)
         {
-            //GetData();
         }
         protected PlanetsVisibility GetPlanetsVisibility(tAstroMapType mt, tPlanetType pt)
         {
             _justcreated = false;
-            if (MapPlanetsVisibilityCollection == null)
+            if (Data == null)
             {
-                MapPlanetsVisibilityCollection = new List<MapPlanetsVisibility>();
+                Data = new List<MapPlanetsVisibility>();
             }
-            MapPlanetsVisibility mpv = MapPlanetsVisibilityCollection.Where(x => x.MapType == mt).FirstOrDefault();
+            MapPlanetsVisibility mpv = Data.Where(x => x.MapType == mt).FirstOrDefault();
 
             if (mpv.PlanetsVisibilityList == null)
             {
@@ -45,7 +44,7 @@ namespace Nostradamus.Models.DataProcessors
         }
         public List<PlanetsVisibility> GetSimpleVisibilityCollection(tAstroMapType mt)
         {
-            MapPlanetsVisibility mpv = MapPlanetsVisibilityCollection.Where(x => x.MapType == mt).First();
+            MapPlanetsVisibility mpv = Data.Where(x => x.MapType == mt).First();
             return mpv.PlanetsVisibilityList;
         }
         public bool GetValue(tAstroMapType mt, tPlanetType pt)
@@ -72,7 +71,13 @@ namespace Nostradamus.Models.DataProcessors
 
         protected override void GetData()
         {
-            
+            PlanetsVisibilityFactory _fact = new PlanetsVisibilityFactory();
+            Data = _fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_MAIN).FirstOrDefault().MapPlanetsVisibilityCollection ;
+            Data.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_FICTITIOUS).FirstOrDefault().MapPlanetsVisibilityCollection);
+            Data.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_SMALL).FirstOrDefault().MapPlanetsVisibilityCollection);
+            //Data.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_CUSTOM).FirstOrDefault().MapPlanetsVisibilityCollection);
+            //Data.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_HAMBURGERS).FirstOrDefault().MapPlanetsVisibilityCollection);
+
         }
     }
 }
