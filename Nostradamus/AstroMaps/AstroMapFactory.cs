@@ -11,18 +11,18 @@ namespace Nostradamus.AstroMaps
         public AstroMapBase CreatedMap { get; protected set; }
         public AstroMapFactory(int Id)
         {
-            CreatedMap = new AstroMapStatic(Id);
+            CreatedMap = new AstromapStaticStandAlone(Id);
         }
         public AstroMapFactory(MPersonBase person)
         {
-            CreatedMap = new AstroMapStatic(person);
+            CreatedMap = new AstromapStaticStandAlone(person);
         }
-        public AstroMapFactory(int Id, DateTime dtdynamic, tAstroMapType type )
+        public AstroMapFactory(int Id, MDynamicMapUpdateInfo info )
         {
-            switch(type)
+            switch(info.MapType)
             {
                 case tAstroMapType.TRANSIT:
-                    CreatedMap = new AstroMapTransit(Id, dtdynamic);
+                    //CreatedMap = new AstroMapTransit( );
                     break;
             }
         }

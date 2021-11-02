@@ -72,11 +72,17 @@ namespace Nostradamus
 
         public void UpdateMap(MDynamicMapUpdateInfo info )
         {
-            AstroMapFactory fact = new AstroMapFactory(CurrentMapId, info.DynamicDate, info.MapType);
-            AstroMapBase map = _maps.Where(x => x.ID == CurrentMapId).FirstOrDefault();
-            _maps.Remove(map);
-            _maps.Add(fact.CreatedMap);
-            UpdateTab();
+            //EventPlace
+            AstromapStaticStandAlone mapb = _maps.Where(x => x.ID == CurrentMapId).FirstOrDefault() as AstromapStaticStandAlone;
+            if(mapb!=null)
+            {
+                info.EventPlace = mapb.EventPlace;
+                AstromapComplex mapc = new AstromapComplex(new AstroMapStaticComplex(mapb), info);
+                _maps.Remove(mapb);
+                _maps.Add(mapc);
+                UpdateTab();
+            }
+
 
         }
         #endregion
@@ -98,10 +104,10 @@ namespace Nostradamus
                 TabPage tp = CreateNewTab(person.Id);
                 CurrentMapId = person.Id;
 
-                AstroMapStatic map = new AstroMapStatic(person);
+                AstromapStaticStandAlone map = new AstromapStaticStandAlone(person);
                 _maps.Add(map);
                 
-            }       
+            }      
 
         }
         private void testMapToolStripMenuItem_Click(object sender, EventArgs e)
@@ -122,7 +128,7 @@ namespace Nostradamus
                 SecondName = "Pupkind",
                 Place = 2
             };
-            AstroMapStatic map = new AstroMapStatic(person);
+            AstromapStaticStandAlone map = new AstromapStaticStandAlone(person);
             Graphics g = System.Drawing.Graphics.FromHwnd(tabMapsCollection.TabPages[0].Handle);
             map.DrawMap(g);
         }
@@ -141,7 +147,7 @@ namespace Nostradamus
                 TabPage tp = CreateNewTab(person.Id);
                 CurrentMapId = person.Id;
 
-                AstroMapStatic map = new AstroMapStatic(person);
+                AstromapStaticStandAlone map = new AstromapStaticStandAlone(person);
                 _maps.Add(map);
             }
 
@@ -158,7 +164,7 @@ namespace Nostradamus
             }
             if (person != null)
             {
-                AstroMapStatic map = new AstroMapStatic(person.IdPerson);
+                AstromapStaticStandAlone map = new AstromapStaticStandAlone(person.IdPerson);
                 _maps.Add(map);
                 TabPage tp = CreateNewTab(person.IdPerson);
                 CurrentMapId = person.IdPerson;
@@ -170,7 +176,7 @@ namespace Nostradamus
         protected void TabPagePaint(object sender, PaintEventArgs e)
         {
             int id = (int)((TabPage)sender).Tag;
-            AstroMapBase map = _maps.Where(x => x.ID == id).FirstOrDefault();
+            AstroMapBase map = _maps.FirstOrDefault(x => x.ID == id);
             if (map != null)
             {
                 Graphics g = Graphics.FromHwnd(tabMapsCollection.SelectedTab.Handle);

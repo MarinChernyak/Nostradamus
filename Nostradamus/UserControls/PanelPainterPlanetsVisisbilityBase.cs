@@ -27,7 +27,7 @@ namespace Nostradamus.UserControls
             _Height_Grid_Cell = 30;
             _Width_Grid_Cell = 60;
         }
-        public void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
             base.Draw(g);
             DrawPlanetsIcons(g);

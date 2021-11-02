@@ -1,4 +1,5 @@
-﻿using NostraPlanetarium;
+﻿using Nostradamus.Models;
+using NostraPlanetarium;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,8 +10,8 @@ namespace Nostradamus.AstroMaps
 {
     public class AstroMapTransit : AstroMapDynamic
     {
-        public AstroMapTransit(int id, DateTime dt)
-            :base(id,dt,NPTypes.tAstroMapType.TRANSIT)
+        public AstroMapTransit(MDynamicMapUpdateInfo info)
+            :base(info)
         {
 
         }

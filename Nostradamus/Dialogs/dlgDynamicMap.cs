@@ -85,8 +85,7 @@ namespace Nostradamus.Dialogs
             MDynamicMapUpdateInfo info = new MDynamicMapUpdateInfo()
             {
                 MapType = t,
-                DynamicDate = dt,
-                IdStatic=0
+                DynamicDate = dt
             };
             MyParent.UpdateMap(info);
         }

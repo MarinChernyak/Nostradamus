@@ -16,7 +16,7 @@ namespace Nostradamus.AstroMaps
             ExtCircleDynamicPoint = new Point(Center.X - RExtCircleDynamic, Center.Y - RExtCircleDynamic);
             ExternalCircleDynamic = new Size(2 * RExtCircleDynamic, 2 * RExtCircleDynamic);
         }
-        public override int GetExternakRadius()
+        public override int GetExternalRadius()
         {
             return RExtCircleDynamic;
         }

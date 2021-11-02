@@ -7,6 +7,7 @@ namespace Nostradamus.AstroMaps
 {
     public class AstromapGeometry
     {
+        public int BULET_SHIFT { get; set; }
         public Point Center { get; set; }
         public int RExtCircle { get; set; }
         public int RIntCircle { get; set; }
@@ -41,8 +42,9 @@ namespace Nostradamus.AstroMaps
 
             LimbCirclePoint = new Point(Center.X - RLimbCircle, Center.Y - RLimbCircle);
             LimbCircle = new Size(2* RLimbCircle, 2* RLimbCircle);
+            BULET_SHIFT = 8;
         }
-        public virtual int GetExternakRadius()
+        public virtual int GetExternalRadius()
         {
             return RExtCircle;
         }

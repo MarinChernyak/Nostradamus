@@ -93,7 +93,6 @@ namespace Nostradamus.AstroMaps
             _ocdp = new OrbsCollectionDataProcessor(_upfact.Data.OrbsSystemName);
             CreateAspectsCollection(lstStatic, lstDynamic);
         }
-
         public void CreateAspectsCollection(List<SpaceObjectData> lstSO1, List<SpaceObjectData> lstSO2)
         {
             _aspects = new List<Aspect>();

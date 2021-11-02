@@ -1,4 +1,5 @@
-﻿using NostraPlanetarium;
+﻿using Nostradamus.Models;
+using NostraPlanetarium;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,32 +9,54 @@ using static NostraPlanetarium.NPTypes;
 
 namespace Nostradamus.AstroMaps
 {
-    public class AstroMapDynamic : AstroMapStatic
+    public class AstroMapDynamic : AstroMapBase
     {
-        protected List<SpaceObjectData> _dynamic_objects;
-        protected DateTime DynamicDate { get; set; }
 
-        protected tAstroMapType DynamicType{ get; set; }
-    public AstroMapDynamic(int idStatic, DateTime dt, tAstroMapType type)
-            : base(idStatic)
+        protected AstromapGeometryDynamic _geometry;
+        protected DateTime DynamicDate { get; set; }
+        protected double AdditionalHour { get; set; }
+
+        public tAstroMapType DynamicType{ get; protected set; }
+        public AstromapGeometryDynamic GetGeometry()
+        {
+            return _geometry as AstromapGeometryDynamic;
+        }
+        public AstroMapDynamic(MDynamicMapUpdateInfo info)
         {
             _geometry = new AstromapGeometryDynamic();
-            DynamicDate = dt;
-            DynamicType = type;
-            GetJD(dt);
-            _dynamic_objects=CreateSOCollection(DynamicType);
+            DynamicDate = info.DynamicDate;
+            DynamicType = info.MapType;
+            EventPlace = info.EventPlace;
+            AdditionalHour = info.AdditionalHour;
+            GetJD();
+            CreateMap();
+        }
+        protected void CreateMap()
+        {
+            CreateSOCollection();
+            Createaspects();
         }
         public override void DrawMap(Graphics g)
         {
             DrawDynCircles(g);
             DrawDynamicPlanets(g);
-            base.DrawMap(g);
+            
         }
+        protected void GetJD()
+        {
+            JD = new JulianDay(DynamicDate.Day, DynamicDate.Month, DynamicDate.Year, DynamicDate.Hour, DynamicDate.Minute, 0, EventPlace.TimeZoneData.TimeOffset, AdditionalHour).JD;
+        }
+        protected override void CreateSOCollection()
+        {
+            _space_objects = CreateMainCollection(tAstroMapType.TRANSIT);
+        }
+
         protected override void Createaspects()
         {
-            _aspects = new AspectsCollection(_static_objects,_dynamic_objects,DynamicType);
+            //dynamic-dynamic
+            _aspects = new AspectsCollection(_space_objects, _space_objects, DynamicType);
         }
-        protected override void CreateGeometry()
+        protected void CreateGeometry()
         {
             _geometry = new AstromapGeometryDynamic();
         }
@@ -52,7 +75,7 @@ namespace Nostradamus.AstroMaps
             int[] iZuz2 = new int[iNumIntervals];
             int[] iZuz3 = new int[iNumIntervals];
 
-            foreach (SpaceObjectData sod in _dynamic_objects)
+            foreach (SpaceObjectData sod in _space_objects)
             {
                 //New
                 int intWidth = 360 / iNumIntervals;
@@ -77,16 +100,16 @@ namespace Nostradamus.AstroMaps
                 string r = sod._so.SpeedLong < 0 ? "R" : "";
                 Image ic = Image.FromFile($"{path}{pt}{r}.png");
 
-                double bbx = geometry.Center.X - geometry.RLimbCircle * Math.Cos(delta * Math.PI / 180) - BULET_SHIFT;
-                double bby = geometry.Center.Y + geometry.RLimbCircle * Math.Sin(delta * Math.PI / 180) - BULET_SHIFT;
+                double bbx = geometry.Center.X - geometry.RLimbCircle * Math.Cos(delta * Math.PI / 180) - _geometry.BULET_SHIFT;
+                double bby = geometry.Center.Y + geometry.RLimbCircle * Math.Sin(delta * Math.PI / 180) - _geometry.BULET_SHIFT;
                 sod._bullet = new PointF((float)bbx, (float)bby);
 
                 Icon bb = sod.IsRed ? bricon : bbicon;
                 g.DrawIcon(bb, (int)bbx, (int)bby);
 
-
-                double px = geometry.Center.X - (planetShift + BULET_SHIFT) * (1 + 0.09 * iZuz) * Math.Cos((delta) * Math.PI / 180);
-                double py = geometry.Center.Y + (planetShift - BULET_SHIFT) * (1 + 0.09 * iZuz) * Math.Sin((delta) * Math.PI / 180);
+                int planetIconShift = delta > 270 || (delta > 0 && delta < 90) ? _geometry.BULET_SHIFT : 0;
+                double px = geometry.Center.X - planetShift  * (1 + 0.09 * iZuz) * Math.Cos((delta) * Math.PI / 180) - _geometry.BULET_SHIFT; ;
+                double py = geometry.Center.Y + planetShift  * (1 + 0.09 * iZuz) * Math.Sin((delta) * Math.PI / 180) - _geometry.BULET_SHIFT; ;
                 g.DrawImage(ic, (int)px, (int)py);
 
 
@@ -99,8 +122,9 @@ namespace Nostradamus.AstroMaps
         protected void DrawDynCircles(Graphics g)
         {
             SolidBrush myBrush = new SolidBrush(Color.FromArgb(216,233,231));
-            g.DrawEllipse(_houses.PenHouses, ((AstromapGeometryDynamic)_geometry).ExtCircleDynamicPoint.X, ((AstromapGeometryDynamic)_geometry).ExtCircleDynamicPoint.Y, ((AstromapGeometryDynamic)_geometry).ExternalCircleDynamic.Width, ((AstromapGeometryDynamic)_geometry).ExternalCircleDynamic.Height);
-            g.FillEllipse(myBrush, ((AstromapGeometryDynamic)_geometry).ExtCircleDynamicPoint.X + 1, ((AstromapGeometryDynamic)_geometry).ExtCircleDynamicPoint.Y + 1, ((AstromapGeometryDynamic)_geometry).ExternalCircleDynamic.Width - 2, ((AstromapGeometryDynamic)_geometry).ExternalCircleDynamic.Height - 2);
+            g.DrawEllipse(_houses.PenHouses, _geometry.ExtCircleDynamicPoint.X, _geometry.ExtCircleDynamicPoint.Y, _geometry.ExternalCircleDynamic.Width, _geometry.ExternalCircleDynamic.Height);
+            g.FillEllipse(myBrush, _geometry.ExtCircleDynamicPoint.X + 1, _geometry.ExtCircleDynamicPoint.Y + 1, _geometry.ExternalCircleDynamic.Width - 2, _geometry.ExternalCircleDynamic.Height - 2);
         }
+
     }
 }
