@@ -48,23 +48,19 @@ namespace Nostradamus.Dialogs
 
             numYear.Maximum = 10000;
             numYear.Minimum = -5000;
-            numYear.Value = 2000;
 
             numDay.Minimum = 1;
             numDay.Maximum = 31;
-            numDay.Value = 1;
 
             numHour.Minimum = 0;
             numHour.Maximum = 23;
-            numHour.Value = 12;
 
             numMinutes.Minimum = 0;
             numMinutes.Maximum = 59;
-            numMinutes.Value = 0;
 
             cmbMonths.DataSource = new BindingSource( Utilities.GetMonthsData(),null);
-            cmbMonths.DisplayMember = "Key";
-            cmbMonths.ValueMember = "Value";
+            cmbMonths.DisplayMember = "Value";
+            cmbMonths.ValueMember = "Key";
 
             DynMapsTypes = new Dictionary<string, tAstroMapType>();
             DynMapsTypes["Transit"] = tAstroMapType.TRANSIT;
@@ -75,7 +71,7 @@ namespace Nostradamus.Dialogs
             cmbDynamicMapType.ValueMember = "Value";
 
             cmbDynamicStep.DataSource = DynStep;
-
+            SetToday();
 
 
         }
@@ -165,6 +161,21 @@ namespace Nostradamus.Dialogs
             RecalculateDynamic(dt);
         }
 
+        private void OnSetToday(object sender, EventArgs e)
+        {
+            SetToday();
+        }
+        protected void SetToday()
+        {
+            DateTime dt = DateTime.Now;
+            numDay.Value = dt.Day;
+            numHour.Value = dt.Hour;
+            numMinutes.Value = dt.Minute;
+            numYear.Value = dt.Year;
 
+            string s = Utilities.GetMonthsData()[dt.Month];
+            int i = cmbMonths.FindString(s);
+            cmbMonths.SelectedIndex = i;
+        }
     }
 }

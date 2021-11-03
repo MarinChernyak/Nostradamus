@@ -32,6 +32,13 @@ namespace Nostradamus
             LoadUserPref();
             LoadOrbsCollectionData();
             SetStausBar();
+            UpdateMenuItems();
+
+        }
+        protected void UpdateMenuItems()
+        {
+            createDynamicMapMenuItem.Enabled = CurrentMapId > 0 ? true : false;
+
         }
         private void NostradamusMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -73,17 +80,32 @@ namespace Nostradamus
         public void UpdateMap(MDynamicMapUpdateInfo info )
         {
             //EventPlace
-            AstromapStaticStandAlone mapb = _maps.Where(x => x.ID == CurrentMapId).FirstOrDefault() as AstromapStaticStandAlone;
+            AstroMapBase mapb = _maps.Where(x => x.ID == CurrentMapId).FirstOrDefault();
+            AstroMapBase mapc = null;
             if(mapb!=null)
             {
-                info.EventPlace = mapb.EventPlace;
-                AstromapComplex mapc = new AstromapComplex(new AstroMapStaticComplex(mapb), info);
-                _maps.Remove(mapb);
-                _maps.Add(mapc);
-                UpdateTab();
+                Type t = mapb.GetType();
+                if (t == typeof(AstroMapStaticStandAlone))
+                {
+                    AstroMapStaticStandAlone map = mapb as AstroMapStaticStandAlone;
+                    info.EventPlace = mapb.EventPlace;
+                    mapc = new AstromapComplex(new AstroMapStaticComplex(map), info);
+                }
+                else if (t == typeof(AstromapComplex))
+                {
+
+                    AstromapComplex map = mapb as AstromapComplex;
+                    info.EventPlace = map.GetStaticMap().EventPlace;
+                    mapc = new AstromapComplex(map.GetStaticMap(), info);
+                }
+                if(mapc != null)
+                {
+                    _maps.Remove(mapb);
+                    _maps.Add(mapc);
+                    UpdateTab();
+                }
+
             }
-
-
         }
         #endregion
 
@@ -101,10 +123,10 @@ namespace Nostradamus
             }
             if (person != null)
             {
-                TabPage tp = CreateNewTab(person.Id);
                 CurrentMapId = person.Id;
+                TabPage tp = CreateNewTab(person.Id);                
 
-                AstromapStaticStandAlone map = new AstromapStaticStandAlone(person);
+                AstroMapStaticStandAlone map = new AstroMapStaticStandAlone(person);
                 _maps.Add(map);
                 
             }      
@@ -128,7 +150,7 @@ namespace Nostradamus
                 SecondName = "Pupkind",
                 Place = 2
             };
-            AstromapStaticStandAlone map = new AstromapStaticStandAlone(person);
+            AstroMapStaticStandAlone map = new AstroMapStaticStandAlone(person);
             Graphics g = System.Drawing.Graphics.FromHwnd(tabMapsCollection.TabPages[0].Handle);
             map.DrawMap(g);
         }
@@ -147,7 +169,7 @@ namespace Nostradamus
                 TabPage tp = CreateNewTab(person.Id);
                 CurrentMapId = person.Id;
 
-                AstromapStaticStandAlone map = new AstromapStaticStandAlone(person);
+                AstroMapStaticStandAlone map = new AstroMapStaticStandAlone(person);
                 _maps.Add(map);
             }
 
@@ -164,7 +186,7 @@ namespace Nostradamus
             }
             if (person != null)
             {
-                AstromapStaticStandAlone map = new AstromapStaticStandAlone(person.IdPerson);
+                AstroMapStaticStandAlone map = new AstroMapStaticStandAlone(person.IdPerson);
                 _maps.Add(map);
                 TabPage tp = CreateNewTab(person.IdPerson);
                 CurrentMapId = person.IdPerson;
@@ -195,7 +217,7 @@ namespace Nostradamus
         #region Tabs Fuctionality
         private TabPage CreateNewTab(int id)
         {
-
+            UpdateMenuItems();
             TabPage tp = new TabPage($"Map #{id}");
             tp.Tag = id;
             tabMapsCollection.TabPages.Add(tp);
@@ -206,6 +228,7 @@ namespace Nostradamus
         }
         private TabPage UpdateTab()
         {
+            UpdateMenuItems();
             TabPage tp = tabMapsCollection.SelectedTab;
             tp.Refresh();
             return tabMapsCollection.SelectedTab;

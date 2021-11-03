@@ -48,6 +48,7 @@ namespace Nostradamus.Dialogs
             this.btnForward = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnRecalculate = new System.Windows.Forms.Button();
+            this.btnToday = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numDay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numYear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHour)).BeginInit();
@@ -223,11 +224,22 @@ namespace Nostradamus.Dialogs
             this.btnRecalculate.UseVisualStyleBackColor = false;
             this.btnRecalculate.Click += new System.EventHandler(this.OnRecalculate);
             // 
+            // btnToday
+            // 
+            this.btnToday.Location = new System.Drawing.Point(165, 80);
+            this.btnToday.Name = "btnToday";
+            this.btnToday.Size = new System.Drawing.Size(62, 23);
+            this.btnToday.TabIndex = 15;
+            this.btnToday.Text = "Now...";
+            this.btnToday.UseVisualStyleBackColor = true;
+            this.btnToday.Click += new System.EventHandler(this.OnSetToday);
+            // 
             // dlgDynamicMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(240, 300);
+            this.Controls.Add(this.btnToday);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnForward);
             this.Controls.Add(this.btnRecalculate);
@@ -278,5 +290,6 @@ namespace Nostradamus.Dialogs
         private System.Windows.Forms.Button btnForward;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnRecalculate;
+        private System.Windows.Forms.Button btnToday;
     }
 }

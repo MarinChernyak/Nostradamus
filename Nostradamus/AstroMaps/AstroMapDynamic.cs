@@ -54,11 +54,25 @@ namespace Nostradamus.AstroMaps
         protected override void Createaspects()
         {
             //dynamic-dynamic
-            _aspects = new AspectsCollection(_space_objects, _space_objects, DynamicType);
+            //_aspects = new AspectsCollection(_space_objects, _space_objects, DynamicType);
         }
         protected void CreateGeometry()
         {
             _geometry = new AstromapGeometryDynamic();
+        }
+        public void DrawDynamicBullets(Graphics g)
+        {
+            string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Resources\\icons\\DynamicObjects\\");
+
+            Icon bbicon = new Icon($"{path}BuletBlue.ico");
+            Icon bricon = new Icon($"{path}BuletRed.ico");
+
+            foreach (SpaceObjectData sod in _space_objects)
+            {
+                Icon bb = sod.IsRed ? bricon : bbicon;
+
+                g.DrawIcon(bb, (int)sod._bullet.X, (int)sod._bullet.Y);
+            }
         }
         protected void DrawDynamicPlanets(Graphics g)
         {
@@ -66,8 +80,6 @@ namespace Nostradamus.AstroMaps
             string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Resources\\icons\\DynamicObjects\\");
 
             double alfa = _houses.GelAlfa();
-            Icon bbicon = new Icon($"{path}BuletBlue.ico");
-            Icon bricon = new Icon($"{path}BuletRed.ico");
 
             int planetShift = (geometry.RExtCircleDynamic - geometry.RExtCircle) / 4 + geometry.RExtCircle;
             const int iNumIntervals = 90;
@@ -104,14 +116,10 @@ namespace Nostradamus.AstroMaps
                 double bby = geometry.Center.Y + geometry.RLimbCircle * Math.Sin(delta * Math.PI / 180) - _geometry.BULET_SHIFT;
                 sod._bullet = new PointF((float)bbx, (float)bby);
 
-                Icon bb = sod.IsRed ? bricon : bbicon;
-                g.DrawIcon(bb, (int)bbx, (int)bby);
-
                 int planetIconShift = delta > 270 || (delta > 0 && delta < 90) ? _geometry.BULET_SHIFT : 0;
-                double px = geometry.Center.X - planetShift  * (1 + 0.09 * iZuz) * Math.Cos((delta) * Math.PI / 180) - _geometry.BULET_SHIFT; ;
-                double py = geometry.Center.Y + planetShift  * (1 + 0.09 * iZuz) * Math.Sin((delta) * Math.PI / 180) - _geometry.BULET_SHIFT; ;
+                double px = geometry.Center.X - planetShift  * (1 + 0.09 * iZuz) * Math.Cos((delta) * Math.PI / 180) - planetIconShift;
+                double py = geometry.Center.Y + planetShift  * (1 + 0.09 * iZuz) * Math.Sin((delta) * Math.PI / 180) - planetIconShift;
                 g.DrawImage(ic, (int)px, (int)py);
-
 
                 iZuz1[index1]++;
                 iZuz2[index2]++;

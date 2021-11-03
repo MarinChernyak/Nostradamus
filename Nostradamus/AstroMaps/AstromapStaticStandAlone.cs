@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace Nostradamus.AstroMaps
 {
-    public class AstromapStaticStandAlone : AstroMapStaticStatistical
+    public class AstroMapStaticStandAlone : AstroMapStaticStatistical
     {
         #region graph
         protected Dictionary<int, string> _mapSigns;
@@ -24,11 +24,11 @@ namespace Nostradamus.AstroMaps
         {
             return _geometry;
         }
-        protected AstromapStaticStandAlone()
+        protected AstroMapStaticStandAlone()
         {
 
         }
-        public AstromapStaticStandAlone(int id)
+        public AstroMapStaticStandAlone(int id)
         {
             if (id > 0)
             {
@@ -46,7 +46,7 @@ namespace Nostradamus.AstroMaps
                 MessageBox.Show("Unknown error in AstroMapStatic!");
             }
         }
-        public AstromapStaticStandAlone(MPersonBase person)
+        public AstroMapStaticStandAlone(MPersonBase person)
         {
             if (person != null)
             {

@@ -73,35 +73,36 @@ namespace Nostradamus.AstroMaps
     }
     public class AspectsCollection : AspectsMap
     {
-        protected tAstroMapType AstroMapType { get; }
-        OrbsCollectionDataProcessor _ocdp;
+        protected tAstroMapType AstroMapType { get; set; }
+        protected OrbsCollectionDataProcessor _ocdp;
 
         public List<Aspect> Aspects { get { return _aspects; } }
         protected List<Aspect> _aspects;
 
         public AspectsCollection(List<SpaceObjectData> lstSO)
         {
-            AstroMapType = tAstroMapType.NATAL;
             UserPreferncesDataFactory _upfact = new UserPreferncesDataFactory();
             _ocdp = new OrbsCollectionDataProcessor(_upfact.Data.OrbsSystemName);
-            CreateAspectsCollection(lstSO, lstSO);
+            CreateAspectsCollection(lstSO);
         }
-        public AspectsCollection(List<SpaceObjectData> lstStatic, List<SpaceObjectData> lstDynamic, tAstroMapType type )
+
+        protected void InitRedBuletsStatic(List<SpaceObjectData> lstSO1)
         {
-            AstroMapType = type;
-            UserPreferncesDataFactory _upfact = new UserPreferncesDataFactory();
-            _ocdp = new OrbsCollectionDataProcessor(_upfact.Data.OrbsSystemName);
-            CreateAspectsCollection(lstStatic, lstDynamic);
+            foreach(SpaceObjectData sod in lstSO1)
+            {
+                sod.IsRed = false;
+            }
         }
-        public void CreateAspectsCollection(List<SpaceObjectData> lstSO1, List<SpaceObjectData> lstSO2)
+        public void CreateAspectsCollection(List<SpaceObjectData> lstSO1)
         {
+            InitRedBuletsStatic(lstSO1);
             _aspects = new List<Aspect>();
             for (int i = 0; i < lstSO1.Count; ++i)
             {
                 SpaceObject so1 = lstSO1[i]._so;
-                for (int j = i+1; j < lstSO2.Count; ++j)
+                for (int j = i+1; j < lstSO1.Count; ++j)
                 {
-                    SpaceObject so2 = lstSO2[j]._so;
+                    SpaceObject so2 = lstSO1[j]._so;
                     double dLambda = Math.Abs(so1.Lambda - so2.Lambda);
                     if (dLambda > 180)
                     {
@@ -111,8 +112,9 @@ namespace Nostradamus.AstroMaps
                      AspectType at = GetAspectType(dLambda, so1.PlanetType, so2.PlanetType);
                     if (at == AspectType.AT_CONJUNCTION)
                     {
-                        lstSO1[j].IsRed = lstSO2[i].IsRed = true;
+                        lstSO1[i].IsRed = lstSO1[j].IsRed = true;
                     }
+
                     if (at!= AspectType.AT_NONE)
                     {
                         _aspects.Add(new Aspect()

@@ -11,11 +11,11 @@ namespace Nostradamus.AstroMaps
         public AstroMapBase CreatedMap { get; protected set; }
         public AstroMapFactory(int Id)
         {
-            CreatedMap = new AstromapStaticStandAlone(Id);
+            CreatedMap = new AstroMapStaticStandAlone(Id);
         }
         public AstroMapFactory(MPersonBase person)
         {
-            CreatedMap = new AstromapStaticStandAlone(person);
+            CreatedMap = new AstroMapStaticStandAlone(person);
         }
         public AstroMapFactory(int Id, MDynamicMapUpdateInfo info )
         {
