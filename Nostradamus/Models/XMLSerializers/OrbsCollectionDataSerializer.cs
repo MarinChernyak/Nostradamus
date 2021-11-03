@@ -47,7 +47,7 @@ namespace Nostradamus.Models
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show($"OrbsSystemSerializer :GetData => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        _lm.SetLog($"OrbsCollectionDataSerializer :GetData => {e.Message}");
                     }
                 }
             }

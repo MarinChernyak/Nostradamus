@@ -36,7 +36,8 @@ namespace Nostradamus.Models.XMLSerializers
                     }
                     catch (Exception e)
                     {
-                        //MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        _lm.SetLog($"OrbsSystemListSerializer :GetData => {e.Message}");
+                       
                     }
                 }
             }

@@ -23,12 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="SMUtilities">
-      <HintPath>..\..\..\SMUtilities2\ClassLibrary1\bin\Release\SMUtilities.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="bin\Debug\netcoreapp3.1\" />
   </ItemGroup>
 

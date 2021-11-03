@@ -8,9 +8,11 @@ namespace Nostradamus.Models
     public abstract class XMLSerializerBase
     {
         protected string _filename;
+        protected LogMaster _lm;
         public virtual object Data { get; set; }
         public XMLSerializerBase()
         {
+            _lm = new LogMaster();
             _filename = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Models\\Data\\");
             UpdateFile();
             if(Data==null)
@@ -20,6 +22,7 @@ namespace Nostradamus.Models
         }
         public XMLSerializerBase(object data)
         {
+            _lm = new LogMaster();
             _filename = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Models\\Data\\");
             UpdateFile();
             Data = data;

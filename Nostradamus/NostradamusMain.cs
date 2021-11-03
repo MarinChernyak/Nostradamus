@@ -312,8 +312,39 @@ namespace Nostradamus
 
 
 
+
         #endregion
 
+        private void OnDeleteMap(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("The current map will be delete! Do you want to procced?","Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+            {
+                UpdateCurrentId();
+                _maps.RemoveAll(x => x.ID == CurrentMapId);
+                tabMapsCollection.TabPages.Remove(tabMapsCollection.SelectedTab);
+                
+                CurrentMapId = 0;
+                if (tabMapsCollection.SelectedTab!=null)
+                {
+                    CurrentMapId = Convert.ToInt32(tabMapsCollection.SelectedTab.Tag);
+                    tabMapsCollection.SelectTab(0);
+                    UpdateTab();
+                } 
+            }
+        }
 
+        private void UpdateCurrentId()
+        {
+            CurrentMapId = 0;
+            if(tabMapsCollection.SelectedTab!=null)
+            {
+                CurrentMapId= Convert.ToInt32(tabMapsCollection.SelectedTab.Tag);
+            }
+        }
+
+        private void OnMapNotesSetting(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace Nostradamus.Models.XMLSerializers
                     }
                     catch (Exception e)
                     {
-                        //MessageBox.Show($"AspectsMapSerializer :GetData => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        _lm.SetLog($"AspectsMapSerializer :GetData => {e.Message}");
                     }
                 }
             }
@@ -53,8 +53,7 @@ namespace Nostradamus.Models.XMLSerializers
             }
             catch (Exception e)
             {
-                //MessageBox.Show($"AspectsMapSerializer: Save => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                _lm.SetLog($"AspectsMapSerializer :Save => {e.Message}");
             }
         }
 
@@ -62,7 +61,5 @@ namespace Nostradamus.Models.XMLSerializers
         {
             _filename = $"{_filename}OrbsSystemsList.xml";
         }
-
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using Nostradamus.AstroMaps;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -9,13 +8,29 @@ using System.Xml.Serialization;
 
 namespace Nostradamus.Models.XMLSerializers
 {
-    public class PlanetsVisibilitySerializer : XMLSerializerBase
+    public class MapNotesBase
     {
-       
+        public bool Coordinates { get; set; }
+        public bool Aspects { get; set; }
+    }
+    public class StaticMapNotes : MapNotesBase
+    {
+        public bool FirstLastName { get; set; }
+        public bool Houses { get; set; }
+    }
+    public class MapNotes 
+    {
+        public StaticMapNotes StaticMapNotes { get; set; }
+        public MapNotesBase DynamicMapNotes { get; set; }
+}
+
+
+    public class MapsNotesSerializer : XMLSerializerBase
+    {
         public override void GetData()
         {
-            XmlSerializer ser = new XmlSerializer(typeof(List<GroupMapPlanetsVisibilityCollection>));
-            if(!File.Exists(_filename))
+            XmlSerializer ser = new XmlSerializer(typeof(MapNotes));
+            if (!File.Exists(_filename))
             {
                 File.Create(_filename);
             }
@@ -24,20 +39,20 @@ namespace Nostradamus.Models.XMLSerializers
             {
                 try
                 {
-                    Data = (List<GroupMapPlanetsVisibilityCollection>)ser.Deserialize(reader);
+                    Data = (MapNotes)ser.Deserialize(reader);
                     if (Data == null)
-                        Data = new List<GroupMapPlanetsVisibilityCollection>();
+                        Data = new MapNotes();
                 }
                 catch (Exception e)
                 {
-                    _lm.SetLog($"PlanetsVisibilitySerializer :GetData => {e.Message}");
+                    _lm.SetLog($"MapsNotesSerializer :GetData => {e.Message}");
                 }
 
-                if (Data==null)
+                if (Data == null)
                 {
-                    Data = new List<GroupMapPlanetsVisibilityCollection>();
+                    Data = new MapNotes();
                 }
-            }            
+            }
         }
 
         public override void Save()
@@ -47,7 +62,7 @@ namespace Nostradamus.Models.XMLSerializers
                 if (Data != null)
                 {
                     var xmlWriterSettings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.Unicode, NewLineHandling = NewLineHandling.Entitize };
-                    XmlSerializer ser = new XmlSerializer(typeof(List<GroupMapPlanetsVisibilityCollection>));
+                    XmlSerializer ser = new XmlSerializer(typeof(MapNotes));
                     using (XmlWriter writer = XmlWriter.Create(_filename, xmlWriterSettings))
                     {
                         ser.Serialize(writer, Data);
@@ -57,12 +72,12 @@ namespace Nostradamus.Models.XMLSerializers
             }
             catch (Exception e)
             {
-                _lm.SetLog($"PlanetsVisibilitySerializer :Save => {e.Message}");
+                _lm.SetLog($"MapsNotesSerializer :Save => {e.Message}");
             }
-        }
+        } 
         protected override void UpdateFile()
         {
-            _filename = $"{_filename}PlanetsVisibility.xml";
+            _filename = _filename + "MapNotes.xml";
         }
     }
 }

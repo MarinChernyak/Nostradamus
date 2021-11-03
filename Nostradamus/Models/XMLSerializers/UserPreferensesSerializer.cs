@@ -48,7 +48,7 @@ namespace Nostradamus.Models
          
         public UserPreferensesSerializer()
         {
-
+            
         }
         public UserPreferensesSerializer(object data)
             :base(data)
@@ -70,8 +70,8 @@ namespace Nostradamus.Models
                 }
             }
             catch(Exception e)
-            {
-                MessageBox.Show($"UserPreferenses :Save => {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {                
+                _lm.SetLog($"UserPreferenses :Save => {e.Message}");
             }
         }
         public override void GetData()
