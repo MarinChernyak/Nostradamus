@@ -92,6 +92,10 @@ namespace Nostradamus.Dialogs
 
         private void OnExit(object sender, EventArgs e)
         {
+            if(MessageBox.Show("Would you like to return to natal map? If you press 'No', the dynamic map will be hanging on","Please provide your choise",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+            {
+                MyParent.ResetStatic();
+            }
             Close();
             this.DialogResult = DialogResult.Cancel;
         }

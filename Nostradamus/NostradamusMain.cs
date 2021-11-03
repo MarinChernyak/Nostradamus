@@ -76,7 +76,22 @@ namespace Nostradamus
         #endregion
 
         #region Updates
-
+        public void ResetStatic()
+        {
+            AstroMapBase mapb = _maps.Where(x => x.ID == CurrentMapId).FirstOrDefault();
+            if (mapb != null)
+            {
+                Type t = mapb.GetType();
+                if (t == typeof(AstromapComplex))
+                {
+                    AstromapComplex amc = mapb as AstromapComplex;
+                    AstroMapStaticStandAlone mapc = new AstroMapStaticStandAlone(amc.GetStaticMap().ID);
+                    _maps.Remove(mapb);
+                    _maps.Add(mapc);
+                    UpdateTab();
+                }
+            }
+        }
         public void UpdateMap(MDynamicMapUpdateInfo info )
         {
             //EventPlace
