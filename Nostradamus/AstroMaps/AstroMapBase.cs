@@ -60,5 +60,7 @@ namespace Nostradamus.AstroMaps
         {
 
         }
+        protected virtual void ProvideMapNotes(Graphics g) { }
+
     }
 }

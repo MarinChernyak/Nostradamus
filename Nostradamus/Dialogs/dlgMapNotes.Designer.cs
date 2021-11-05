@@ -34,18 +34,19 @@ namespace Nostradamus.Dialogs
             this.chCoordinamesStatic = new System.Windows.Forms.CheckBox();
             this.chCoordHouses = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.chAspectsTable = new System.Windows.Forms.CheckBox();
+            this.chStaticAspectsTable = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.chCoordDynamic = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chDynamicAspects = new System.Windows.Forms.CheckBox();
             this.btnSaveUpdate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.chDOB = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // chFLNames
             // 
             this.chFLNames.AutoSize = true;
-            this.chFLNames.Location = new System.Drawing.Point(13, 57);
+            this.chFLNames.Location = new System.Drawing.Point(12, 57);
             this.chFLNames.Name = "chFLNames";
             this.chFLNames.Size = new System.Drawing.Size(130, 19);
             this.chFLNames.TabIndex = 1;
@@ -55,7 +56,7 @@ namespace Nostradamus.Dialogs
             // chCoordinamesStatic
             // 
             this.chCoordinamesStatic.AutoSize = true;
-            this.chCoordinamesStatic.Location = new System.Drawing.Point(13, 83);
+            this.chCoordinamesStatic.Location = new System.Drawing.Point(12, 103);
             this.chCoordinamesStatic.Name = "chCoordinamesStatic";
             this.chCoordinamesStatic.Size = new System.Drawing.Size(232, 19);
             this.chCoordinamesStatic.TabIndex = 2;
@@ -65,7 +66,7 @@ namespace Nostradamus.Dialogs
             // chCoordHouses
             // 
             this.chCoordHouses.AutoSize = true;
-            this.chCoordHouses.Location = new System.Drawing.Point(13, 109);
+            this.chCoordHouses.Location = new System.Drawing.Point(12, 126);
             this.chCoordHouses.Name = "chCoordHouses";
             this.chCoordHouses.Size = new System.Drawing.Size(151, 19);
             this.chCoordHouses.TabIndex = 3;
@@ -77,28 +78,28 @@ namespace Nostradamus.Dialogs
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label1.Location = new System.Drawing.Point(13, 20);
+            this.label1.Location = new System.Drawing.Point(12, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(219, 28);
             this.label1.TabIndex = 4;
             this.label1.Text = "Notes of a Static Map";
             // 
-            // chAspectsTable
+            // chStaticAspectsTable
             // 
-            this.chAspectsTable.AutoSize = true;
-            this.chAspectsTable.Location = new System.Drawing.Point(13, 135);
-            this.chAspectsTable.Name = "chAspectsTable";
-            this.chAspectsTable.Size = new System.Drawing.Size(97, 19);
-            this.chAspectsTable.TabIndex = 5;
-            this.chAspectsTable.Text = "Aspects Table";
-            this.chAspectsTable.UseVisualStyleBackColor = true;
+            this.chStaticAspectsTable.AutoSize = true;
+            this.chStaticAspectsTable.Location = new System.Drawing.Point(12, 149);
+            this.chStaticAspectsTable.Name = "chStaticAspectsTable";
+            this.chStaticAspectsTable.Size = new System.Drawing.Size(97, 19);
+            this.chStaticAspectsTable.TabIndex = 5;
+            this.chStaticAspectsTable.Text = "Aspects Table";
+            this.chStaticAspectsTable.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label2.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label2.Location = new System.Drawing.Point(12, 170);
+            this.label2.Location = new System.Drawing.Point(12, 173);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(248, 28);
             this.label2.TabIndex = 4;
@@ -107,22 +108,22 @@ namespace Nostradamus.Dialogs
             // chCoordDynamic
             // 
             this.chCoordDynamic.AutoSize = true;
-            this.chCoordDynamic.Location = new System.Drawing.Point(13, 212);
+            this.chCoordDynamic.Location = new System.Drawing.Point(12, 212);
             this.chCoordDynamic.Name = "chCoordDynamic";
             this.chCoordDynamic.Size = new System.Drawing.Size(250, 19);
             this.chCoordDynamic.TabIndex = 2;
             this.chCoordDynamic.Text = "Coordinames of planets in a dynamic map";
             this.chCoordDynamic.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // chDynamicAspects
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(13, 237);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(181, 19);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "Dynamic-Static Aspects Table";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chDynamicAspects.AutoSize = true;
+            this.chDynamicAspects.Location = new System.Drawing.Point(12, 237);
+            this.chDynamicAspects.Name = "chDynamicAspects";
+            this.chDynamicAspects.Size = new System.Drawing.Size(181, 19);
+            this.chDynamicAspects.TabIndex = 5;
+            this.chDynamicAspects.Text = "Dynamic-Static Aspects Table";
+            this.chDynamicAspects.UseVisualStyleBackColor = true;
             // 
             // btnSaveUpdate
             // 
@@ -143,6 +144,16 @@ namespace Nostradamus.Dialogs
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // chDOB
+            // 
+            this.chDOB.AutoSize = true;
+            this.chDOB.Location = new System.Drawing.Point(12, 80);
+            this.chDOB.Name = "chDOB";
+            this.chDOB.Size = new System.Drawing.Size(92, 19);
+            this.chDOB.TabIndex = 2;
+            this.chDOB.Text = "Date of Birth";
+            this.chDOB.UseVisualStyleBackColor = true;
+            // 
             // dlgMapNotes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -150,12 +161,13 @@ namespace Nostradamus.Dialogs
             this.ClientSize = new System.Drawing.Size(336, 331);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSaveUpdate);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.chAspectsTable);
+            this.Controls.Add(this.chDynamicAspects);
+            this.Controls.Add(this.chStaticAspectsTable);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chCoordHouses);
             this.Controls.Add(this.chCoordDynamic);
+            this.Controls.Add(this.chDOB);
             this.Controls.Add(this.chCoordinamesStatic);
             this.Controls.Add(this.chFLNames);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -173,11 +185,12 @@ namespace Nostradamus.Dialogs
         private System.Windows.Forms.CheckBox chCoordinamesStatic;
         private System.Windows.Forms.CheckBox chCoordHouses;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox chAspectsTable;
+        private System.Windows.Forms.CheckBox chStaticAspectsTable;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chCoordDynamic;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chDynamicAspects;
         private System.Windows.Forms.Button btnSaveUpdate;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.CheckBox chDOB;
     }
 }

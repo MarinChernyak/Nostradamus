@@ -344,7 +344,11 @@ namespace Nostradamus
 
         private void OnMapNotesSetting(object sender, EventArgs e)
         {
+            dlgMapNotes dlg = new dlgMapNotes();
+            if(dlg.ShowDialog()==DialogResult.OK)
+            {
 
+            }
         }
     }
 }

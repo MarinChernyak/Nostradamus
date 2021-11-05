@@ -14,6 +14,7 @@ namespace Nostradamus.AstroMaps
         public NPTypes.tPlanetType PlanetType1 { get; set; }
         public NPTypes.tPlanetType PlanetType2 { get; set; }
         public AspectData _aspect_data { get; set; }
+        public bool IsConvergative { get; set; }
 
         public Aspect()
         {

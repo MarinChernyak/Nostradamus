@@ -28,7 +28,7 @@ namespace Nostradamus.Models
             Data = data;
             Save();
         }
-        //protected abstract void InitDefaults();
+
         public abstract void Save();
         public abstract void GetData();
         protected abstract void UpdateFile();      

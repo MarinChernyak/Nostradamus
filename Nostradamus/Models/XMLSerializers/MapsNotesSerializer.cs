@@ -17,12 +17,13 @@ namespace Nostradamus.Models.XMLSerializers
     {
         public bool FirstLastName { get; set; }
         public bool Houses { get; set; }
+        public bool DOB { get; set; }
     }
     public class MapNotes 
     {
         public StaticMapNotes StaticMapNotes { get; set; }
         public MapNotesBase DynamicMapNotes { get; set; }
-}
+    }
 
 
     public class MapsNotesSerializer : XMLSerializerBase

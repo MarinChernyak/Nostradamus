@@ -14,6 +14,12 @@ namespace Nostradamus.AstroMaps
         private Pen _pforHouses;
         public double GelAlfa() { return _houses.GetCusp(1);  }
         private Dictionary<int, string> _notations;
+
+        public double GetCusp(int icasp)
+        {
+            return _houses.GetCusp(icasp);
+        }
+        public Dictionary<int, string> GetNotations() { return _notations; }
         public Pen PenHouses
         {
             get

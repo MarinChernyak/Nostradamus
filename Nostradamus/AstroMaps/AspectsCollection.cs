@@ -117,11 +117,25 @@ namespace Nostradamus.AstroMaps
 
                     if (at!= AspectType.AT_NONE)
                     {
+
+                        double l10 = so1.Lambda;
+                        double l20 = so2.Lambda;
+                        double[] do1 = so1.GetDynPosition();
+                        double[] do2 = so2.GetDynPosition();
+                        double delta2 = Math.Abs((int)at -  Math.Abs(do1[0] - do2[0]));
+                        double delta1 = Math.Abs((int)at - Math.Abs(l10 - l20));
+                        bool IsConvergative = false;
+                        if(delta2 < delta1)
+                        {
+                            IsConvergative = true;
+                        }
+
                         _aspects.Add(new Aspect()
                         {
                             Angle = Math.Abs(dLambda),
                             PlanetType1 = so1.PlanetType,
                             PlanetType2 = so2.PlanetType,
+                            IsConvergative = IsConvergative,
                             _aspect_data = (AspectData)_AspectsDataCollection.Where(x => x.Angle == ((decimal)at)).FirstOrDefault()
                         }); 
                     }
