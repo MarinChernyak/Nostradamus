@@ -73,48 +73,51 @@ namespace Nostradamus.AstroMaps
         }
         public void DrawHouses(Graphics g)
         {
-            double alfa = _houses.GetCusp(1);
-            _houses_draw = new double[8];
-            _houses_draw[1] = _houses.GetCusp(1) - alfa;
-            _houses_draw[2] = _houses.GetCusp(2) - alfa;
-            _houses_draw[3] =_houses.GetCusp(3) - alfa;
-            _houses_draw[4] =_houses.GetCusp(4) - alfa;
-            _houses_draw[5] = _houses.GetCusp(5) - alfa;
-            _houses_draw[6] = _houses.GetCusp(6) - alfa;
-            //_houses_draw[7] = _houses.GetCusp(7) - alfa;
-            //_houses_draw[8] = _houses.GetCusp(8) - alfa;
-            //_houses_draw[9] = _houses.GetCusp(9) - alfa;
-
-            _houses_draw[7] = _houses.GetCusp(10) - alfa;
-            //_houses_draw[11] = _houses.GetCusp(11) - alfa;
-            //_houses_draw[12] = _houses.GetCusp(12) - alfa;
-
-            PointF ptb = new Point();
-            PointF pte = new Point();
-
-            for (int i = 1; i < 7; ++i)
+            if (_geometry != null)
             {
-                ptb.X = (float)(_geometry.Center.X - (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[i] * Math.PI / 180));
-                ptb.Y = (float)(_geometry.Center.Y + (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[i] * Math.PI / 180)); 
-                pte.X = (float)(_geometry.Center.X + (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[i] * Math.PI / 180));
-                pte.Y = (float)(_geometry.Center.Y - (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[i] * Math.PI / 180));
+                double alfa = _houses.GetCusp(1);
+                _houses_draw = new double[8];
+                _houses_draw[1] = _houses.GetCusp(1) - alfa;
+                _houses_draw[2] = _houses.GetCusp(2) - alfa;
+                _houses_draw[3] = _houses.GetCusp(3) - alfa;
+                _houses_draw[4] = _houses.GetCusp(4) - alfa;
+                _houses_draw[5] = _houses.GetCusp(5) - alfa;
+                _houses_draw[6] = _houses.GetCusp(6) - alfa;
+                //_houses_draw[7] = _houses.GetCusp(7) - alfa;
+                //_houses_draw[8] = _houses.GetCusp(8) - alfa;
+                //_houses_draw[9] = _houses.GetCusp(9) - alfa;
 
-                Pen p = PenHouses;
-                if (i == 1)
+                _houses_draw[7] = _houses.GetCusp(10) - alfa;
+                //_houses_draw[11] = _houses.GetCusp(11) - alfa;
+                //_houses_draw[12] = _houses.GetCusp(12) - alfa;
+
+                PointF ptb = new Point();
+                PointF pte = new Point();
+
+                for (int i = 1; i < 7; ++i)
                 {
-                    p = PenASC;
-                    DrawArrowsAC(g, ptb, pte, i);
+                    ptb.X = (float)(_geometry.Center.X - (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[i] * Math.PI / 180));
+                    ptb.Y = (float)(_geometry.Center.Y + (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[i] * Math.PI / 180));
+                    pte.X = (float)(_geometry.Center.X + (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[i] * Math.PI / 180));
+                    pte.Y = (float)(_geometry.Center.Y - (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[i] * Math.PI / 180));
+
+                    Pen p = PenHouses;
+                    if (i == 1)
+                    {
+                        p = PenASC;
+                        DrawArrowsAC(g, ptb, pte, i);
+                    }
+
+                    g.DrawLine(p, ptb, pte);
+                    DrawNotations(g, ptb, pte, i);
                 }
+                ptb.X = (float)(_geometry.Center.X - (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[7] * Math.PI / 180));
+                ptb.Y = (float)(_geometry.Center.Y + (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[7] * Math.PI / 180));
+                pte.X = (float)(_geometry.Center.X + (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[7] * Math.PI / 180));
+                pte.Y = (float)(_geometry.Center.Y - (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[7] * Math.PI / 180));
 
-                g.DrawLine(p, ptb, pte);
-                DrawNotations(g, ptb, pte, i);
+                DrawArrowsMC(g, ptb, pte, 7);
             }
-            ptb.X = (float)(_geometry.Center.X - (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[7] * Math.PI / 180));
-            ptb.Y = (float)(_geometry.Center.Y + (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[7] * Math.PI / 180));
-            pte.X = (float)(_geometry.Center.X + (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Cos(_houses_draw[7] * Math.PI / 180));
-            pte.Y = (float)(_geometry.Center.Y - (_geometry.GetExternalRadius() + _geometry.GetHouseShift()) * Math.Sin(_houses_draw[7] * Math.PI / 180));
-
-            DrawArrowsMC(g, ptb, pte, 7);
 
         }
         protected void DrawArrowsMC(Graphics g, PointF ptb, PointF pte, int house)

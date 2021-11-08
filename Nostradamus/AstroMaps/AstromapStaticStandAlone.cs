@@ -33,40 +33,40 @@ namespace Nostradamus.AstroMaps
 
         }
         public AstroMapStaticStandAlone(int id)
+            :base(id)
         {
-            if (id > 0)
-            {
-                ID = id;
-                PersonsCollection pc = new PersonsCollection();
-                Person = pc.GetPersonById(id);
-                if (Person != null)
-                {
 
-                    CreateMap();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Unknown error in AstroMapStatic!");
-            }
         }
         public AstroMapStaticStandAlone(MPersonBase person)
+            :base(person)
         {
-            if (person != null)
-            {
-                ID = person.Id;
-                Person = person;
-                
-                CreateMap();
-            }
-            else
-            {
-                MessageBox.Show("Unknown error in AstroMapStatic!");
-            }
-
 
         }
-        protected void CreateHouses()
+        protected void GetJD()
+        {
+            if (Person != null)
+            {
+                int h, m, s;
+                GetMidleValue(Person, out h, out m, out s);
+                JD = new JulianDay(Person.BirthDay, Person.BirthMonth, Person.BirthYear, h, m, s, EventPlace.TimeZoneData.TimeOffset, Person.AdditionalHours).JD;
+            }
+        }
+       
+        protected virtual void CreateGeometry()
+        {
+            _geometry = new AstromapGeometry();
+        }
+        protected override void CreateMap()
+        {
+            GetEventPlace();
+            CreateMapSigns();            
+            GetJD();
+            CreateGeometry();
+            CreateHouses();
+            CreateSOCollection();
+            Createaspects();
+        }
+        protected override void CreateHouses()
         {
             UserPreferncesDataFactory up = new UserPreferncesDataFactory();
             HousesData hd = up.Data.HousesData;
@@ -78,20 +78,6 @@ namespace Nostradamus.AstroMaps
             }
 
             _houses = new AMHouses(JD, EventPlace.Longitude, EventPlace.Latitude, system, _geometry);
-        }
-        protected virtual void CreateGeometry()
-        {
-            _geometry = new AstromapGeometry();
-        }
-        protected virtual void CreateMap()
-        {
-            CreateMapSigns();
-            GetEventPlace();
-            GetJD();
-            CreateGeometry();
-            CreateHouses();
-            CreateSOCollection();
-            Createaspects();
         }
         protected void CreateMapSigns()
         {

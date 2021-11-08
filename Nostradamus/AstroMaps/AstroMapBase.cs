@@ -25,6 +25,7 @@ namespace Nostradamus.AstroMaps
             MapPlanetsVisibility = new MapPlanetsVisibilityCollectionProcessor();
            
         }
+
         protected abstract void CreateSOCollection();
 
 
@@ -51,7 +52,10 @@ namespace Nostradamus.AstroMaps
             }
             return lst_objects;
         }
-
+        protected virtual void GetJD(int day, int month, int year, int hour, int min, double time_offset)
+        {
+            JD = new JulianDay(day, month, year, hour, min, 0, time_offset, 0).JD;
+        }
         protected virtual void GetJD(DateTime dt, double additional_hour=0)
         {
             JD = new JulianDay(dt.Day, dt.Month, dt.Year, dt.Hour, dt.Minute, 0, EventPlace.TimeZoneData.TimeOffset, additional_hour).JD;

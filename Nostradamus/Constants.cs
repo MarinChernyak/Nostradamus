@@ -8,6 +8,7 @@ namespace Nostradamus
 {
     public class Constants
     {
+        public const int CustomIdMap = 300000;
         //public const string ConnectionRemote = "NostradamusRemote";
         public const string ConnectionLocal = "NostradamusLocal";
         //public const string ConnectionGeoRemote = "NostraGeneralRemote";

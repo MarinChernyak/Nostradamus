@@ -21,46 +21,12 @@ namespace Nostradamus.Dialogs
         private Dictionary<string, tAstroMapType> DynMapsTypes;// = new string[] { "Transit", "Progressions", "Directions" };
         private string[] DynStep = new string[] { ds1,ds2,ds3,ds4,ds5 };
         public NostradamusMain MyParent { get; set; }
-        public int Day
-        {
-            get
-            {
-                return (int)numDay.Value;
-            }
-             set
-            {
-                if (ValidateDayValue(value))
-                    numDay.Value = value;
-            }
-                
-         }
-       
-        protected bool ValidateDayValue(int value)
-        {
-            bool isOK = false;
-            DateTime dt = new DateTime((int)numYear.Value, (int)cmbMonths.SelectedValue, value);
 
-            return isOK;
-        }
+       
+
         public dlgDynamicMap()
         {
             InitializeComponent();
-
-            numYear.Maximum = 10000;
-            numYear.Minimum = -5000;
-
-            numDay.Minimum = 1;
-            numDay.Maximum = 31;
-
-            numHour.Minimum = 0;
-            numHour.Maximum = 23;
-
-            numMinutes.Minimum = 0;
-            numMinutes.Maximum = 59;
-
-            cmbMonths.DataSource = new BindingSource( Utilities.GetMonthsData(),null);
-            cmbMonths.DisplayMember = "Value";
-            cmbMonths.ValueMember = "Key";
 
             DynMapsTypes = new Dictionary<string, tAstroMapType>();
             DynMapsTypes["Transit"] = tAstroMapType.TRANSIT;
@@ -71,7 +37,7 @@ namespace Nostradamus.Dialogs
             cmbDynamicMapType.ValueMember = "Value";
 
             cmbDynamicStep.DataSource = DynStep;
-            SetToday();
+            manualDate1.SetToday();
 
 
         }
@@ -107,11 +73,11 @@ namespace Nostradamus.Dialogs
         }
         protected DateTime GetCalculatedData(int step)
         {
-            int Day = (int)numDay.Value;
-            int Month = Convert.ToInt32(cmbMonths.SelectedValue);
-            int Year = (int)numYear.Value;
-            int H = (int)numHour.Value;
-            int M = (int)numMinutes.Value;
+            int Day = manualDate1.Day;
+            int Month = manualDate1.Month;
+            int Year = manualDate1.Year;
+            int H = manualDate1.Hour;
+            int M = manualDate1.Min;
 
             DateTime dt = new DateTime(Year, Month, Day, H, M, 0);
             string factor = cmbDynamicStep.SelectedValue.ToString();
@@ -134,11 +100,11 @@ namespace Nostradamus.Dialogs
                     dt = dt.AddYears(step);
                     break;
             };
-            numDay.Value = dt.Day;
-            cmbMonths.SelectedValue = dt.Month;
-            numYear.Value = dt.Year;
-            numHour.Value = dt.Hour;
-            numMinutes.Value = dt.Minute;
+            manualDate1.Day = dt.Day;
+            manualDate1.Month = dt.Month;
+            manualDate1.Year = dt.Year;
+            manualDate1.Hour = dt.Hour;
+            manualDate1.Min= dt.Minute;
                 
             return dt;
         }
@@ -163,23 +129,6 @@ namespace Nostradamus.Dialogs
 
             DateTime dt = GetCalculatedData(0);
             RecalculateDynamic(dt);
-        }
-
-        private void OnSetToday(object sender, EventArgs e)
-        {
-            SetToday();
-        }
-        protected void SetToday()
-        {
-            DateTime dt = DateTime.Now;
-            numDay.Value = dt.Day;
-            numHour.Value = dt.Hour;
-            numMinutes.Value = dt.Minute;
-            numYear.Value = dt.Year;
-
-            string s = Utilities.GetMonthsData()[dt.Month];
-            int i = cmbMonths.FindString(s);
-            cmbMonths.SelectedIndex = i;
         }
     }
 }

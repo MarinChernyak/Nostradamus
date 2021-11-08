@@ -125,6 +125,31 @@ namespace Nostradamus
         #endregion
 
         #region Maps Creation Dialogs
+        private void OnCreateMapManually(object sender, EventArgs e)
+        {
+            using (dlgCreateMapManually dlg = new dlgCreateMapManually())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {                    
+                    dlg.Close();
+                    Random rnd = new Random();
+                    int id = rnd.Next(Constants.CustomIdMap, Int32.MaxValue);
+
+                    TabPage tp = CreateNewTab(id);
+                    MPersonBase person = new MPersonBase();
+                    person.Id = id;
+                    person.BirthDay = (byte)dlg.Day;
+                    person.BirthHourFrom = person.BirthHourTo = (byte)dlg.Hour;
+                    person.BirthMinFrom = person.BirthMinTo = (byte)dlg.Min;
+                    person.BirthMonth = (byte)dlg.Month;
+                    person.BirthYear = (short)dlg.Year;
+                    person.Place = dlg.PLaceId;
+                    AstroMapStaticStandAlone map = new AstroMapStaticStandAlone(person);
+                    _maps.Add(map);
+                }
+            }
+
+        }
         private void OnCreateMapByLastName(object sender, EventArgs e)
         {
             MPersonBase person = null;
@@ -350,5 +375,7 @@ namespace Nostradamus
 
             }
         }
+
+
     }
 }
