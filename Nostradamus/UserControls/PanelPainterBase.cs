@@ -62,14 +62,14 @@ namespace Nostradamus.UserControls
             {
                 planet = _planets[i];
                 sname = Enum.GetName(typeof(tPlanetType), planet).ToString();
-                PutImage(g, sname, 5, (i + 1) * _Height_Grid_Cell + 5);
+                PutImage(g, $"StaticObjects\\{sname}", 5, (i + 1) * _Height_Grid_Cell + 5);
             }
         }
         protected void PutImage(Graphics g, string name, int X, int Y)
         {
             try
             {
-                string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Resources\\icons\\StaticObjects\\");
+                string path = Directory.GetCurrentDirectory().Replace("bin\\Debug\\netcoreapp3.1", "Resources\\icons\\");
                 string imagepath = $"{path}{name}.png";
                 Image ic = Image.FromFile(imagepath);
                 g.DrawImage(ic, X, Y);

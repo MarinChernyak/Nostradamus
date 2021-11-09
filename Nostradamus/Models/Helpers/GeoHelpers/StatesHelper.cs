@@ -12,12 +12,12 @@ namespace Nostradamus.Models.Helpers.GeoHelpers
     {
         protected int IDCountry { get; }
         public List<MStateRegionData> Data { get; protected set; }
-        public StatesHelper(int idCountry)
+        public StatesHelper(int idCountry, bool withItemselect=true)
         {
             IDCountry = idCountry;
-            GetData();
+            GetData(withItemselect);
         }
-        protected void GetData()
+        protected void GetData(bool withItemselect)
         {
             NostradamusGeoContextFactory factory = new NostradamusGeoContextFactory();
             using (var context = factory.CreateDbContext(new string[] { Constants.ConnectionGeoLocal }))
@@ -26,6 +26,18 @@ namespace Nostradamus.Models.Helpers.GeoHelpers
                 {
                     var data = context.StateRegions.Where(x => x.CountryRef == IDCountry).OrderBy(x=>x.StateRegion1).ToList();
                     Data=ModelsTransformer.TransferModelList<StateRegion,MStateRegionData>(data);
+                    if(withItemselect)
+                    {
+                        MStateRegionData mdata = new MStateRegionData()
+                        {
+                            Acronym = "NO",
+                            CountryRef = 0,
+                            Id = 0,
+                            StateRegion1 = "Please select..."
+
+                        };
+                        Data.Insert(0, mdata);
+                    }
                 }
                 catch (Exception ex)
                 {

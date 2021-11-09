@@ -49,6 +49,7 @@ namespace Nostradamus
             this.tabMapsCollection = new System.Windows.Forms.TabControl();
             this.mnuStatus = new System.Windows.Forms.StatusStrip();
             this.mnuStatusHouses = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mnuItemSysnastry = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             this.mnuStatus.SuspendLayout();
             this.SuspendLayout();
@@ -82,40 +83,40 @@ namespace Nostradamus
             // miByLastName
             // 
             this.miByLastName.Name = "miByLastName";
-            this.miByLastName.Size = new System.Drawing.Size(180, 22);
+            this.miByLastName.Size = new System.Drawing.Size(143, 22);
             this.miByLastName.Text = "By LastName";
             this.miByLastName.Click += new System.EventHandler(this.OnCreateMapByLastName);
             // 
             // miByID
             // 
             this.miByID.Name = "miByID";
-            this.miByID.Size = new System.Drawing.Size(180, 22);
+            this.miByID.Size = new System.Drawing.Size(143, 22);
             this.miByID.Text = "By ID";
             this.miByID.Click += new System.EventHandler(this.OnCreateMapById);
             // 
             // byKeywordsToolStripMenuItem
             // 
             this.byKeywordsToolStripMenuItem.Name = "byKeywordsToolStripMenuItem";
-            this.byKeywordsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.byKeywordsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.byKeywordsToolStripMenuItem.Text = "By Keywords";
             this.byKeywordsToolStripMenuItem.Click += new System.EventHandler(this.OnCreateMapByKeyword);
             // 
             // mnuItemcreateMapManually
             // 
             this.mnuItemcreateMapManually.Name = "mnuItemcreateMapManually";
-            this.mnuItemcreateMapManually.Size = new System.Drawing.Size(180, 22);
+            this.mnuItemcreateMapManually.Size = new System.Drawing.Size(143, 22);
             this.mnuItemcreateMapManually.Text = "Manually";
             this.mnuItemcreateMapManually.Click += new System.EventHandler(this.OnCreateMapManually);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
             // 
             // mnuItemDeleteMap
             // 
             this.mnuItemDeleteMap.Name = "mnuItemDeleteMap";
-            this.mnuItemDeleteMap.Size = new System.Drawing.Size(180, 22);
+            this.mnuItemDeleteMap.Size = new System.Drawing.Size(143, 22);
             this.mnuItemDeleteMap.Text = "Delete map";
             this.mnuItemDeleteMap.Click += new System.EventHandler(this.OnDeleteMap);
             // 
@@ -123,7 +124,8 @@ namespace Nostradamus
             // 
             this.createDynamicMapMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuTransitMap,
-            this.progressiveMapToolStripMenuItem});
+            this.progressiveMapToolStripMenuItem,
+            this.mnuItemSysnastry});
             this.createDynamicMapMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createDynamicMapMenuItem.Image")));
             this.createDynamicMapMenuItem.Name = "createDynamicMapMenuItem";
             this.createDynamicMapMenuItem.Size = new System.Drawing.Size(146, 20);
@@ -132,14 +134,14 @@ namespace Nostradamus
             // mnuTransitMap
             // 
             this.mnuTransitMap.Name = "mnuTransitMap";
-            this.mnuTransitMap.Size = new System.Drawing.Size(161, 22);
+            this.mnuTransitMap.Size = new System.Drawing.Size(180, 22);
             this.mnuTransitMap.Text = "Transit Map";
             this.mnuTransitMap.Click += new System.EventHandler(this.OnCreateTransitMap);
             // 
             // progressiveMapToolStripMenuItem
             // 
             this.progressiveMapToolStripMenuItem.Name = "progressiveMapToolStripMenuItem";
-            this.progressiveMapToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.progressiveMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.progressiveMapToolStripMenuItem.Text = "Progressive Map";
             // 
             // mnuSettings
@@ -206,6 +208,14 @@ namespace Nostradamus
             this.mnuStatusHouses.Size = new System.Drawing.Size(118, 17);
             this.mnuStatusHouses.Text = "toolStripStatusLabel1";
             // 
+            // mnuItemSysnastry
+            // 
+            this.mnuItemSysnastry.Image = ((System.Drawing.Image)(resources.GetObject("mnuItemSysnastry.Image")));
+            this.mnuItemSysnastry.Name = "mnuItemSysnastry";
+            this.mnuItemSysnastry.Size = new System.Drawing.Size(180, 22);
+            this.mnuItemSysnastry.Text = "Synastry";
+            this.mnuItemSysnastry.Click += new System.EventHandler(this.OnCreateSynsatry);
+            // 
             // NostradamusMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -251,6 +261,7 @@ namespace Nostradamus
         private System.Windows.Forms.ToolStripMenuItem mnuItemDeleteMap;
         private System.Windows.Forms.ToolStripMenuItem mnuItemSettingsMapNotes;
         private System.Windows.Forms.ToolStripMenuItem mnuItemcreateMapManually;
+        private System.Windows.Forms.ToolStripMenuItem mnuItemSysnastry;
     }
 }
 

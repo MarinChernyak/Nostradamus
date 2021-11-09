@@ -14,6 +14,11 @@ namespace Nostradamus.AstroMaps
         protected AstroMapDynamic _map_dynamic;
 
         public AstroMapStaticComplex GetStaticMap() { return _map_static; }
+
+        public AstromapComplex()
+        {
+
+        }
         public AstromapComplex(AstroMapStaticComplex mapstatic, MDynamicMapUpdateInfo info)
         {
            

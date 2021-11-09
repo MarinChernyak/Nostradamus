@@ -28,9 +28,6 @@ namespace Nostradamus.AstroMaps
 
         protected abstract void CreateSOCollection();
 
-
-
-
         protected abstract void Createaspects();
         protected virtual List<SpaceObjectData> CreateMainCollection(tAstroMapType at)
         {

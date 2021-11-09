@@ -47,7 +47,7 @@ namespace Nostradamus.AstroMaps
             if (Person != null)
             {
                 int h, m, s;
-                GetMidleValue(Person, out h, out m, out s);
+                Utilities.GetMidleValue(Person, out h, out m, out s);
                 JD = new JulianDay(Person.BirthDay, Person.BirthMonth, Person.BirthYear, h, m, s, EventPlace.TimeZoneData.TimeOffset, Person.AdditionalHours).JD;
             }
         }

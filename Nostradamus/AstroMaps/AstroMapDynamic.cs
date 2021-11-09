@@ -21,6 +21,9 @@ namespace Nostradamus.AstroMaps
         {
             return _geometry as AstromapGeometryDynamic;
         }
+        public AstroMapDynamic()
+        {
+        }
         public AstroMapDynamic(MDynamicMapUpdateInfo info)
         {
             _geometry = new AstromapGeometryDynamic();
@@ -48,7 +51,7 @@ namespace Nostradamus.AstroMaps
         }
         protected override void CreateSOCollection()
         {
-            _space_objects = CreateMainCollection(tAstroMapType.TRANSIT);
+            _space_objects = CreateMainCollection(DynamicType);
         }
 
         protected override void Createaspects()

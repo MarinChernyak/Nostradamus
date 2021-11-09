@@ -1,6 +1,7 @@
 ﻿using Nostradamus.Models;
 using Nostradamus.Models.DataFactories;
 using Nostradamus.Models.GeoModels;
+using Nostradamus.Models.Helpers.GeoHelpers;
 using NostradamusDAL.EntitiesGeo;
 using NostradamusDAL.Factory;
 using NostraPlanetarium;
@@ -85,21 +86,6 @@ namespace Nostradamus.AstroMaps
             _aspects = new AspectsCollection(_space_objects);
         }
 
-        protected void GetMidleValue(MPersonBase person, out int h, out int m, out int s)
-        {
-            h = m = s = 0;
-            if (person != null)
-            {
-                double t1 = person.BirthHourFrom + person.BirthMinFrom / 60 + person.BirthSecFrom / 3600;
-                double t2 = person.BirthHourTo + person.BirthMinTo / 60 + person.BirthSecTo / 3600;
-
-                t1 = t1 + (t2 - t1) / 2;
-                h = (int)t1;
-                m = (int)((t1 - h) * 60);
-                s = (int)((t1 - h - m / 60) * 3600);
-            }
-        }
-
         protected override void CreateSOCollection()
         {
             _space_objects = CreateMainCollection(tAstroMapType.NATAL);
@@ -131,29 +117,8 @@ namespace Nostradamus.AstroMaps
         }
         protected void CalculateEventPlace(int Id)
         {
-            int IDCity = Id;
-            NostradamusGeoContextFactory factory = new NostradamusGeoContextFactory();
-            using (var context = factory.CreateDbContext(new string[] { Constants.ConnectionGeoLocal }))
-            {
-                try
-                {
-                    var data = context.Cities.Where(x => x.Id == IDCity).FirstOrDefault();
-                    var state = context.StateRegions.Where(x => x.Id == data.RegionState).FirstOrDefault();
-                    var country = context.Countries.Where(x => x.Id == data.Country).FirstOrDefault();
-                    var TZ = context.TimeZoneLists.Where(x => x.Idtzone == data.TimeZone).FirstOrDefault();
-
-
-                    EventPlace = ModelsTransformer.TransferModel<City, MCityData>(data);
-                    EventPlace.StateRegionData = ModelsTransformer.TransferModel<StateRegion, MStateRegionData>(state);
-                    EventPlace.CountryData = ModelsTransformer.TransferModel<Country, MCountryData>(country);
-                    EventPlace.TimeZoneData = ModelsTransformer.TransferModel<TimeZoneList, MTimeZoneData>(TZ);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-            }
+            MCityDataHelper mhelper = new MCityDataHelper(Id);
+            EventPlace = mhelper.Data;
         }
     }
 }

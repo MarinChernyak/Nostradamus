@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nostradamus.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -69,6 +70,20 @@ namespace Nostradamus
             data[11]= "Nov";
             data[12] = "Dec";            
             return data;
+        }
+        public static void GetMidleValue(MPersonBase person, out int h, out int m, out int s)
+        {
+            h = m = s = 0;
+            if (person != null)
+            {
+                double t1 = person.BirthHourFrom + person.BirthMinFrom / 60 + person.BirthSecFrom / 3600;
+                double t2 = person.BirthHourTo + person.BirthMinTo / 60 + person.BirthSecTo / 3600;
+
+                t1 = t1 + (t2 - t1) / 2;
+                h = (int)t1;
+                m = (int)((t1 - h) * 60);
+                s = (int)((t1 - h - m / 60) * 3600);
+            }
         }
     }
 }

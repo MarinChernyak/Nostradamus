@@ -34,7 +34,7 @@ namespace Nostradamus.Models.Helpers.GeoHelpers
             {
                 try
                 {
-                    var data = context.Cities.Where(x => x.RegionState == IDState).ToList();
+                    var data = context.Cities.Where(x => x.RegionState == IDState).OrderBy(x=>x.CityName).ToList();
                     Data = ModelsTransformer.TransferModelList<City, MCityData>(data);
                 }
                 catch (Exception ex)
@@ -53,7 +53,7 @@ namespace Nostradamus.Models.Helpers.GeoHelpers
             {
                 try
                 {
-                    var data = context.Cities.Where(x => x.Country == IDCountry).ToList();
+                    var data = context.Cities.Where(x => x.Country == IDCountry).OrderBy(x => x.CityName).ToList();
                     Data = ModelsTransformer.TransferModelList<City,MCityData>(data);
                 }
                 catch (Exception ex)

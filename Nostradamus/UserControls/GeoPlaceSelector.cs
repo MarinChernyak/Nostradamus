@@ -40,15 +40,20 @@ namespace Nostradamus.UserControls
         }
         private void OnCountryChanged(object sender, EventArgs e)
         {
+            UpdateByCountry();
+        }
+        protected void UpdateByCountry()
+        {
             if (cmbCountries.SelectedItem != null)
             {
                 MCountryData mdata = (MCountryData)cmbCountries.SelectedItem;
                 int IDCountry = mdata.Id;
 
                 StatesHelper sth = new StatesHelper(IDCountry);
-                cmbState.DataSource = sth.Data;
+
                 cmbState.ValueMember = "Id";
                 cmbState.DisplayMember = "StateRegion1";
+                cmbState.DataSource = sth.Data;
                 int idstate = 0;
                 if(sth.Data!=null)
                 {
@@ -60,12 +65,22 @@ namespace Nostradamus.UserControls
                 UpdateCityData(IDCountry, idstate);
             }
         }
-
         private void OnStateChanged(object sender, EventArgs e)
         {
-
-            int IdState = Convert.ToInt32(cmbState.SelectedValue);
-            UpdateCityData(0, IdState);
+            if (cmbState.SelectedValue != null)
+            {
+                int IdState = Convert.ToInt32(cmbState.SelectedValue);
+                if(IdState > 0)
+                {
+                    UpdateCityData(0, IdState);
+                }
+                else
+                {
+                    MCountryData mdata = (MCountryData)cmbCountries.SelectedItem;
+                    int IDCountry = mdata.Id;
+                    UpdateCityData(IDCountry, 0);
+                }
+            }
         }
         protected void UpdateCityData(int IdCountry, int IdState)
         {

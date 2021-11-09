@@ -125,6 +125,21 @@ namespace Nostradamus
         #endregion
 
         #region Maps Creation Dialogs
+        private void OnCreateSynsatry(object sender, EventArgs e)
+        {
+            using (dlgSynastry dlg = new dlgSynastry())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    dlg.Close();
+                    MDynamicMapUpdateInfo info = dlg.DynamInfo;
+                    if(info!=null)
+                    {
+                        UpdateMap(info);
+                    }
+                }
+            }
+        }
         private void OnCreateMapManually(object sender, EventArgs e)
         {
             using (dlgCreateMapManually dlg = new dlgCreateMapManually())
