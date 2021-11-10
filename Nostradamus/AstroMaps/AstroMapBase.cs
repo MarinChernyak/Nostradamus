@@ -31,14 +31,21 @@ namespace Nostradamus.AstroMaps
         protected abstract void Createaspects();
         protected virtual List<SpaceObjectData> CreateMainCollection(tAstroMapType at)
         {
-
+            return GreateListSOData(at, tPlanetType.PT_SUN, tPlanetType.PT_PLUTO);
+        }
+        protected virtual List<SpaceObjectData> CreateFictitiousCollection(tAstroMapType at)
+        {
+            return GreateListSOData(at, tPlanetType.PT_TRUE_NODE, tPlanetType.PT_MEAN_APOG);
+        }
+        protected List<SpaceObjectData> GreateListSOData(tAstroMapType at, tPlanetType tFrom, tPlanetType tTo)
+        {
             List<SpaceObjectData> lst_objects = new List<SpaceObjectData>();
 
-            for (int t = (int)NPTypes.tPlanetType.PT_SUN; t <= (int)NPTypes.tPlanetType.PT_TRUE_NODE; ++t)
+            for (int t = (int)tFrom; t <= (int)tTo; ++t)
             {
                 bool isVisible = MapPlanetsVisibility.GetValue(at, (NPTypes.tPlanetType)t);
 
-                if (t == (int)NPTypes.tPlanetType.PT_MEAN_NODE || !isVisible)
+                if (!isVisible)
                     continue;
 
                 SpaceObject so = new BigObject(JD, (tPlanetType)t);

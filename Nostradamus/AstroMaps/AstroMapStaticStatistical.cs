@@ -89,6 +89,7 @@ namespace Nostradamus.AstroMaps
         protected override void CreateSOCollection()
         {
             _space_objects = CreateMainCollection(tAstroMapType.NATAL);
+            _space_objects.AddRange(CreateFictitiousCollection(tAstroMapType.NATAL));
         }
 
         protected void CreateSmallObjectsCollection(tAstroMapType at = tAstroMapType.NATAL)

@@ -29,7 +29,9 @@ namespace Nostradamus.AstroMaps
 
         {
         }
-
+        protected override void Createaspects()
+        {
+        }
         public override void DrawMap(Graphics g)
         {
             DrawCircles(g);

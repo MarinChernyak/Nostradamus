@@ -72,12 +72,22 @@ namespace Nostradamus.Models.DataProcessors
         protected override void GetData()
         {
             PlanetsVisibilityFactory _fact = new PlanetsVisibilityFactory();
-            Data = _fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_MAIN).FirstOrDefault().MapPlanetsVisibilityCollection ;
-            Data.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_FICTITIOUS).FirstOrDefault().MapPlanetsVisibilityCollection);
-            Data.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_SMALL).FirstOrDefault().MapPlanetsVisibilityCollection);
-            //Data.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_CUSTOM).FirstOrDefault().MapPlanetsVisibilityCollection);
-            //Data.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_HAMBURGERS).FirstOrDefault().MapPlanetsVisibilityCollection);
-
+            var dData = _fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_MAIN).FirstOrDefault().MapPlanetsVisibilityCollection ;
+            dData.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_FICTITIOUS).FirstOrDefault().MapPlanetsVisibilityCollection);
+            dData.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_SMALL).FirstOrDefault().MapPlanetsVisibilityCollection);
+            //dData.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_CUSTOM).FirstOrDefault().MapPlanetsVisibilityCollection);
+            //dData.AddRange(_fact.Data.Where(x => x.PlanetGroup == tPlanetsGroup.PG_HAMBURGERS).FirstOrDefault().MapPlanetsVisibilityCollection);
+            Data = new List<MapPlanetsVisibility>();
+            List<PlanetsVisibility> llst = null;
+            for (int imap= (int)tAstroMapType.NATAL; imap<(int)tAstroMapType.NUMBER_DYNAMIC_TYPES; imap++)
+            {
+                llst = dData.Where(z => z.MapType == (tAstroMapType)imap).SelectMany(x => x.PlanetsVisibilityList).ToList();
+                Data.Add(new MapPlanetsVisibility()
+                {
+                    MapType = (tAstroMapType)imap,
+                    PlanetsVisibilityList = llst
+                });
+            }
         }
     }
 }
