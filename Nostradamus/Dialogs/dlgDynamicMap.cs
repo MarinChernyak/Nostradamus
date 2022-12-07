@@ -24,7 +24,7 @@ namespace Nostradamus.Dialogs
 
        
 
-        public dlgDynamicMap()
+        public dlgDynamicMap(tAstroMapType t)
         {
             InitializeComponent();
 
@@ -35,7 +35,8 @@ namespace Nostradamus.Dialogs
             cmbDynamicMapType.DataSource = new BindingSource(DynMapsTypes, null); ;
             cmbDynamicMapType.DisplayMember = "Key";
             cmbDynamicMapType.ValueMember = "Value";
-
+            cmbDynamicMapType.SelectedValue = t;
+            
             cmbDynamicStep.DataSource = DynStep;
             manualDate1.SetToday();
 

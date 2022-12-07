@@ -24,7 +24,15 @@ namespace Nostradamus.AstroMaps
            
             ID = mapstatic.ID;
             _map_static = mapstatic;
-            _map_dynamic = new AstroMapDynamic(info);
+            switch(info.MapType)
+            {
+                case NPTypes.tAstroMapType.TRANSIT:
+                    _map_dynamic = new AstroMapTransit(info);
+                    break;
+                case NPTypes.tAstroMapType.PROGRESSIVE:
+                    _map_dynamic = new AstroMapProgressive(info, mapstatic.JD);
+                    break;
+            }; 
             _map_dynamic._houses = _map_static._houses;
             CreateMap();
         }

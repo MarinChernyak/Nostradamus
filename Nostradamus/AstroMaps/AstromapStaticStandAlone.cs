@@ -42,7 +42,7 @@ namespace Nostradamus.AstroMaps
         {
 
         }
-        protected void GetJD()
+        protected override void GetJD()
         {
             if (Person != null)
             {
@@ -461,7 +461,6 @@ namespace Nostradamus.AstroMaps
             }
 
             #endregion
-
             #endregion
         }
     }

@@ -9,7 +9,7 @@ using static NostraPlanetarium.NPTypes;
 
 namespace Nostradamus.AstroMaps
 {
-    public class AstroMapDynamic : AstroMapBase
+    public abstract class AstroMapDynamic : AstroMapBase
     {
 
         protected AstromapGeometryDynamic _geometry;
@@ -27,12 +27,15 @@ namespace Nostradamus.AstroMaps
         public AstroMapDynamic(MDynamicMapUpdateInfo info)
         {
             _geometry = new AstromapGeometryDynamic();
+            AssignInfo(info);
+
+        }
+        protected virtual void AssignInfo(MDynamicMapUpdateInfo info)
+        {
             DynamicDate = info.DynamicDate;
             DynamicType = info.MapType;
             EventPlace = info.EventPlace;
             AdditionalHour = info.AdditionalHour;
-            GetJD();
-            CreateMap();
         }
         protected void CreateMap()
         {
@@ -42,22 +45,17 @@ namespace Nostradamus.AstroMaps
         public override void DrawMap(Graphics g)
         {
             DrawDynCircles(g);
-            DrawDynamicPlanets(g);
-            
+            DrawDynamicPlanets(g);            
         }
-        protected void GetJD()
+
+
+        protected override void GetJD()
         {
             JD = new JulianDay(DynamicDate.Day, DynamicDate.Month, DynamicDate.Year, DynamicDate.Hour, DynamicDate.Minute, 0, EventPlace.TimeZoneData.TimeOffset, AdditionalHour).JD;
         }
         protected override void CreateSOCollection()
         {
             _space_objects = CreateMainCollection(DynamicType);
-        }
-
-        protected override void Createaspects()
-        {
-            //dynamic-dynamic
-            //_aspects = new AspectsCollection(_space_objects, _space_objects, DynamicType);
         }
         protected void CreateGeometry()
         {

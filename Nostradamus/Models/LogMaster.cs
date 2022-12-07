@@ -19,10 +19,23 @@ namespace Nostradamus.Models
         public void SetLog(string log)
         {
             DateTime dt = DateTime.Now;
-            string filename = $"Nostradamus{dt.ToShortDateString()}.log";
-            if(!File.Exists($"{Path}\\{filename}"))
+            string filename = $"Nostradamus{dt.ToShortDateString()}.log".Replace("/","_");
+            string path = $"{Path}\\{filename}";
+            if(!Directory.Exists(Path))
             {
-                using (StreamWriter sw = File.CreateText($"{Path}\\{filename}"))
+                Directory.CreateDirectory(Path);
+            }
+            if (!File.Exists(path))
+            {
+                using (FileStream fs = File.Create(path))
+                {
+                    byte[] bytes = Encoding.Unicode.GetBytes(log);
+                    fs.Write(bytes);
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = File.CreateText(path))
                 {
                     sw.WriteLine(log);
                 }

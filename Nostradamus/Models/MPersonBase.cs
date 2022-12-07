@@ -30,6 +30,7 @@ namespace Nostradamus.Models
         public DateTime? DateCreated { get; set; }
         public bool? IsAvailable { get; set; }
         public int? Sex { get; set; }
+        public bool IsRealId { get; set; } = true;
 
         public string ToListBox
         {

@@ -153,6 +153,7 @@ namespace Nostradamus
                     TabPage tp = CreateNewTab(id);
                     MPersonBase person = new MPersonBase();
                     person.Id = id;
+                    person.IsRealId = false;
                     person.BirthDay = (byte)dlg.Day;
                     person.BirthHourFrom = person.BirthHourTo = (byte)dlg.Hour;
                     person.BirthMinFrom = person.BirthMinTo = (byte)dlg.Min;
@@ -343,12 +344,7 @@ namespace Nostradamus
                 }
             }
         }
-        private void OnCreateTransitMap(object sender, EventArgs e)
-        {
-            dlgDynamicMap dlg = new dlgDynamicMap();
-            dlg.MyParent = this;
-            dlg.Show();
-        }
+
 
 
 
@@ -391,6 +387,28 @@ namespace Nostradamus
             }
         }
 
+        private void jDTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dlgTest dlg = new dlgTest();
+            if(dlg.ShowDialog()==DialogResult.OK)
+            {
 
+            }
+        }
+
+        #region DynamicMaps
+        private void OnCreateProgressiveMap(object sender, EventArgs e)
+        {
+            dlgDynamicMap dlg = new dlgDynamicMap(tAstroMapType.PROGRESSIVE);
+            dlg.MyParent = this;
+            dlg.Show();
+        }
+        private void OnCreateTransitMap(object sender, EventArgs e)
+        {
+            dlgDynamicMap dlg = new dlgDynamicMap(tAstroMapType.TRANSIT);
+            dlg.MyParent = this;
+            dlg.Show();
+        }
+        #endregion
     }
 }

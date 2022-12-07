@@ -28,16 +28,16 @@ namespace Nostradamus.AstroMaps
 
         protected abstract void CreateSOCollection();
 
-        protected abstract void Createaspects();
+        protected virtual void Createaspects() { }
         protected virtual List<SpaceObjectData> CreateMainCollection(tAstroMapType at)
         {
-            return GreateListSOData(at, tPlanetType.PT_SUN, tPlanetType.PT_PLUTO);
+            return CreateListSOData(at, tPlanetType.PT_SUN, tPlanetType.PT_PLUTO);
         }
         protected virtual List<SpaceObjectData> CreateFictitiousCollection(tAstroMapType at)
         {
-            return GreateListSOData(at, tPlanetType.PT_TRUE_NODE, tPlanetType.PT_MEAN_APOG);
+            return CreateListSOData(at, tPlanetType.PT_TRUE_NODE, tPlanetType.PT_MEAN_APOG);
         }
-        protected List<SpaceObjectData> GreateListSOData(tAstroMapType at, tPlanetType tFrom, tPlanetType tTo)
+        protected List<SpaceObjectData> CreateListSOData(tAstroMapType at, tPlanetType tFrom, tPlanetType tTo)
         {
             List<SpaceObjectData> lst_objects = new List<SpaceObjectData>();
 
@@ -56,7 +56,11 @@ namespace Nostradamus.AstroMaps
             }
             return lst_objects;
         }
-        protected virtual void GetJD(int day, int month, int year, int hour, int min, double time_offset)
+        protected virtual void GetJD()
+        {
+
+        }
+        protected void GetJD(int day, int month, int year, int hour, int min, double time_offset)
         {
             JD = new JulianDay(day, month, year, hour, min, 0, time_offset, 0).JD;
         }
