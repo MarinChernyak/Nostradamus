@@ -32,6 +32,9 @@ namespace Nostradamus.AstroMaps
                 case NPTypes.tAstroMapType.PROGRESSIVE:
                     _map_dynamic = new AstroMapProgressive(info, mapstatic.JD);
                     break;
+                case NPTypes.tAstroMapType.SYNASTRY:
+                    _map_dynamic = new AstroMapSynstry(info);
+                    break;
             }; 
             _map_dynamic._houses = _map_static._houses;
             CreateMap();
